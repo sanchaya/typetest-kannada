@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Type Test — Kannada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="typetest-kannada.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="wordmark">ಟೈಪ್‌ಟೆಸ್ಟ್-ಕನ್ನಡ <span>typetest-kannada</span></div>
+  <div class="tagline">Kannada · Font Inspector</div>
+  <div class="font-badge">
+    <div class="dot" id="live-dot"></div>
+    <div id="font-name-display">No font loaded</div>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside>
+
+  <!-- Upload -->
+  <div>
+    <div class="panel-label">Font</div>
+    <div class="upload-zone" id="drop-zone">
+      <input type="file" id="font-input" accept=".ttf,.otf,.woff,.woff2">
+      <span class="upload-icon">↑</span>
+      <p><strong>Drop font file</strong><br>or click to browse</p>
+      <div class="file-formats">TTF · OTF · WOFF · WOFF2</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div>
+    <div class="panel-label">Controls</div>
+
+    <div class="control-row">
+      <label>Size</label>
+      <span class="val" id="size-val">32px</span>
+      <input type="range" id="size-slider" min="12" max="120" step="1" value="32">
+    </div>
+
+    <div class="control-row">
+      <label>Line Height</label>
+      <span class="val" id="lh-val">1.40</span>
+      <input type="range" id="lh-slider" min="0.8" max="3" step="0.05" value="1.4">
+    </div>
+
+    <div class="control-row">
+      <label>Tracking</label>
+      <span class="val" id="ls-val">0em</span>
+      <input type="range" id="ls-slider" min="-0.1" max="0.3" step="0.005" value="0">
+    </div>
+
+    <div class="control-row">
+      <label>Word Space</label>
+      <span class="val" id="ws-val">1.0</span>
+      <input type="range" id="ws-slider" min="0.5" max="3" step="0.05" value="1">
+    </div>
+  </div>
+
+  <!-- OpenType -->
+  <div>
+    <div class="panel-label">OpenType</div>
+
+    <div class="toggle-row">
+      <label for="lig-toggle">Ligatures</label>
+      <label class="toggle">
+        <input type="checkbox" id="lig-toggle" checked>
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      </label>
+    </div>
+
+    <div class="toggle-row">
+      <label for="kern-toggle">Kerning</label>
+      <label class="toggle">
+        <input type="checkbox" id="kern-toggle" checked>
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      </label>
+    </div>
+
+    <div class="toggle-row">
+      <label for="dark-toggle">Dark bg</label>
+      <label class="toggle">
+        <input type="checkbox" id="dark-toggle">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      </label>
+    </div>
+  </div>
+
+  <!-- Sessions -->
+  <div>
+    <div class="panel-label">Sessions</div>
+    <div class="version-list" id="version-list">
+      <div class="empty-versions">No fonts loaded yet</div>
+    </div>
+  </div>
+
+  <!-- Reset — sticky at the bottom of the sidebar -->
+  <div class="sidebar-actions">
+    <button class="btn danger" id="reset-btn">↺ Reset all</button>
+  </div>
+
+</aside>
+
+<!-- MAIN RENDER AREA -->
+<main id="main-area">
+  <div class="empty-state" id="empty-state">
+    <div class="kannada-hint">ಕ</div>
+    <p>Upload a font to begin testing</p>
+  </div>
+
+  <div class="test-area" id="test-area">
+
+    <!-- 01 Vowels -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">01 · Vowels</span>
+        <span class="section-desc">Swaras — independent vowel forms</span>
+      </div>
+      <div class="alphabet-grid">
+        <span class="test-text" id="render-vowels"></span>
+      </div>
+    </div>
+
+    <!-- 02 Consonants -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">02 · Consonants</span>
+        <span class="section-desc">Vyanjanas — 5 per varga row</span>
+      </div>
+      <div id="render-consonants"></div>
+    </div>
+
+    <!-- 03 Varga Groups -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">03 · Varga Groups</span>
+        <span class="section-desc">Labelled consonant groups by articulation point</span>
+      </div>
+      <div id="render-varga"></div>
+    </div>
+
+    <!-- 04 Gunita -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">04 · Matra / Gunita</span>
+        <span class="section-desc">Consonant + all 16 vowel matras + halant, one row per consonant</span>
+      </div>
+      <div id="render-gunita"></div>
+    </div>
+
+       
+    <!-- 05 Vachana -->
+    <div class="section">
+     <div class="section-meta">
+       <span class="section-tag">5 · Vachana</span>
+       <span class="section-desc">Short description</span>
+     </div>
+     <div class="test-text" id="render-vachana"></div>
+   </div>
+
+    <!-- 05 Conjuncts -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">05 · Conjuncts</span>
+        <span class="section-desc">Ottakshara — half-consonant clusters</span>
+      </div>
+      <div class="test-text" id="render-conjuncts"></div>
+    </div>
+
+    <!-- 06 Numerals -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">06 · Numerals</span>
+        <span class="section-desc">Kannada digits 0–9</span>
+      </div>
+      <div class="test-text" id="render-numbers"></div>
+    </div>
+
+    <!-- 07 Words -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">07 · Words</span>
+        <span class="section-desc">Common vocabulary, texture test</span>
+      </div>
+      <div class="test-text" id="render-words" style="line-height:1.9"></div>
+    </div>
+
+    <!-- 08 Paragraph -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">08 · Paragraph</span>
+        <span class="section-desc">Running text — overall rhythm</span>
+      </div>
+      <div class="test-text" id="render-paragraph"></div>
+    </div>
+
+    <!-- 09 Waterfall -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">09 · Waterfall</span>
+        <span class="section-desc">Size progression</span>
+      </div>
+      <div id="render-waterfall"></div>
+    </div>
+
+    <!-- 10 Custom -->
+    <div class="section">
+      <div class="section-meta">
+        <span class="section-tag">10 · Custom Text</span>
+        <span class="section-desc">Type your own test string</span>
+      </div>
+      <div class="custom-input-area">
+        <span class="custom-input-label">Input</span>
+        <textarea class="custom-input" id="custom-input" placeholder="ನಿಮ್ಮ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..."></textarea>
+        <div class="test-text" id="custom-render" style="margin-top:16px; min-height:40px;"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="status-item">size <span id="st-size">—</span></div>
+  <div class="status-item">leading <span id="st-lh">—</span></div>
+  <div class="status-item">tracking <span id="st-ls">—</span></div>
+  <div class="status-item">ligatures <span id="st-lig">on</span></div>
+  <div class="status-item" style="margin-left:auto;" id="st-font">—</div>
+</div>
+
+<script>
+// ── testContent ───────────────────────────────────────────
+const testSet = {
+  vowels: "ಅ ಆ ಇ ಈ ಉ ಊ ಋ ಎ ಏ ಐ ಒ ಓ ಔ ಅಂ ಅಃ",
+
+  consonantRows: [
+    "ಕ  ಖ  ಗ  ಘ  ಙ",
+    "ಚ  ಛ  ಜ  ಝ  ಞ",
+    "ಟ  ಠ  ಡ  ಢ  ಣ",
+    "ತ  ಥ  ದ  ಧ  ನ",
+    "ಪ  ಫ  ಬ  ಭ  ಮ",
+    "ಯ  ರ  ಲ  ವ  ಶ  ಷ  ಸ  ಹ  ಳ",
+  ],
+
+  vargaRows: [
+    { label: "ಕ-ವರ್ಗ", text: "ಕ  ಖ  ಗ  ಘ  ಙ" },
+    { label: "ಚ-ವರ್ಗ", text: "ಚ  ಛ  ಜ  ಝ  ಞ" },
+    { label: "ಟ-ವರ್ಗ", text: "ಟ  ಠ  ಡ  ಢ  ಣ" },
+    { label: "ತ-ವರ್ಗ", text: "ತ  ಥ  ದ  ಧ  ನ" },
+    { label: "ಪ-ವರ್ಗ", text: "ಪ  ಫ  ಬ  ಭ  ಮ" },
+    { label: "ಅವರ್ಗ",  text: "ಯ  ರ  ಲ  ವ  ಶ  ಷ  ಸ  ಹ  ಳ" },
+  ],
+
+  gunita: [
+    "ಕಕಾಕಿಕೀಕುಕೂಕೃಕೆಕೇಕೈಕೊಕೋಕೌಕಂಕಃಕ್",
+"ಖಖಾಖಿಖೀಖುಖೂಖೃಖೆಖೇಖೈಖೊಖೋಖೌಖಂಖಃಖ್",
+"ಗಗಾಗಿಗೀಗುಗೂಗೃಗೆಗೇಗೈಗೊಗೋಗೌಗಂಗಃಗ್",
+"ಘಘಾಘಿಘೀಘುಘೂಘೃಘೆಘೇಘೈಘೊಘೋಘೌಘಂಘಃಘ್",
+"ಙಙಾಙಿಙೀಙುಙೂಙೃಙೆಙೇಙೈಙೊಙೋಙೌಙಂಙಃಙ್",
+"ಚಚಾಚಿಚೀಚುಚೂಚೃಚೆಚೇಚೈಚೊಚೋಚೌಚಂಚಃಚ್",
+"ಛಛಾಛಿಛೀಛುಛೂಛೃಛೆಛೇಛೈಛೊಛೋಛೌಛಂಛಃಛ್",
+"ಜಜಾಜಿಜೀಜುಜೂಜೃಜೆಜೇಜೈಜೊಜೋಜೌಜಂಜಃಜ್",
+"ಝಝಾಝಿಝೀಝುಝೂಝೃಝೆಝೇಝೈಝೊಝೋಝೌಝಂಝಃಝ್",
+"ಞಞಾಞಿಞೀಞುಞೂಞೃಞೆಞೇಞೈಞೊಞೋಞೌಞಂಞಃಞ್",
+"ಟಟಾಟಿಟೀಟುಟೂಟೃಟೆಟೇಟೈಟೊಟೋಟೌಟಂಟಃಟ್",
+"ಠಠಾಠಿಠೀಠುಠೂಠೃಠೆಠೇಠೈಠೊಠೋಠೌಠಂಠಃಠ್",
+"ಡಡಾಡಿಡೀಡುಡೂಡೃಡೆಡೇಡೈಡೊಡೋಡೌಡಂಡಃಡ್",
+"ಢಢಾಢಿಢೀಢುಢೂಢೃಢೆಢೇಢೈಢೊಢೋಢೌಢಂಢಃಢ್",
+"ಣಣಾಣಿಣೀಣುಣೂಣೃಣೆಣೇಣೈಣೊಣೋಣೌಣಂಣಃಣ್",
+"ತತಾತಿತೀತುತೂತೃತೆತೇತೈತೊತೋತೌತಂತಃತ್",
+"ಥಥಾಥಿಥೀಥುಥೂಥೃಥೆಥೇಥೈಥೊಥೋಥೌಥಂಥಃಥ್",
+"ದದಾದಿದೀದುದೂದೃದೆದೇದೈದೊದೋದೌದಂದಃದ್",
+"ಧಧಾಧಿಧೀಧುಧೂಧೃಧೆಧೇಧೈಧೊಧೋಧೌಧಂಧಃಧ್",
+"ನನಾನಿನೀನುನೂನೃನೆನೇನೈನೊನೋನೌನಂನಃನ್",
+"ಪಪಾಪಿಪೀಪುಪೂಪೃಪೆಪೇಪೈಪೊಪೋಪೌಪಂಪಃಪ್",
+"ಫಫಾಫಿಫೀಫುಫೂಫೃಫೆಫೇಫೈಫೊಫೋಫೌಫಂಫಃಫ್",
+"ಬಬಾಬಿಬೀಬುಬೂಬೃಬೆಬೇಬೈಬೊಬೋಬೌಬಂಬಃಬ್",
+"ಭಭಾಭಿಭೀಭುಭೂಭೃಭೆಭೇಭೈಭೊಭೋಭೌಭಂಭಃಭ್",
+"ಮಮಾಮಿಮೀಮುಮೂಮೃಮೆಮೇಮೈಮೊಮೋಮೌಮಂಮಃಮ್",
+"ಯಯಾಯಿಯೀಯುಯೂಯೃಯೆಯೇಯೈಯೊಯೋಯೌಯಂಯಃಯ್",
+"ರರಾರಿರೀರುರೂರೃರೆರೇರೈರೊರೋರೌರಂರಃರ್",
+"ಲಲಾಲಿಲೀಲುಲೂಲೃಲೆಲೇಲೈಲೊಲೋಲೌಲಂಲಃಲ್",
+"ವವಾವಿವೀವುವೂವೃವೆವೇವೈವೊವೋವೌವಂವಃವ್",
+"ಶಶಾಶಿಶೀಶುಶೂಶೃಶೆಶೇಶೈಶೊಶೋಶೌಶಂಶಃಶ್",
+"ಷಷಾಷಿಷೀಷುಷೂಷೃಷೆಷೇಷೈಷೊಷೋಷೌಷಂಷಃಷ್",
+"ಸಸಾಸಿಸೀಸುಸೂಸೃಸೆಸೇಸೈಸೊಸೋಸೌಸಂಸಃಸ್",
+"ಹಹಾಹಿಹೀಹುಹೂಹೃಹೆಹೇಹೈಹೊಹೋಹೌಹಂಹಃಹ್",
+"ಳಳಾಳಿಳೀಳುಳೂಳೃಳೆಳೇಳೈಳೊಳೋಳೌಳಂಳಃಳ್"
+  ],
+
+vachana: [
+    "ಉಳ್ಳವರು ಶಿವಾಲಯವ ಮಾಡುವರು!",
+    "ನಾನೇನ ಮಾಡುವೆ? ಬಡವನಯ್ಯ!",
+    "ಎನ್ನ ಕಾಲೇ ಕಂಬ, ದೇಹವೇ ದೇಗುಲ,",
+    "ಶಿರವೇ ಹೊನ್ನ ಕಳಶವಯ್ಯ!",
+    "ಕೂಡಲಸಂಗಮದೇವ ಕೇಳಯ್ಯ,",
+    "ಸ್ಥಾವರಕ್ಕಳಿವುಂಟು, ಜಂಗಮಕ್ಕಳಿವಿಲ್ಲ!",
+    ,
+    "Those who have money build temples to Shiva.",
+    "What can a poor man like me build?",
+    "My legs are pillars, my body is the shrine,",
+    "My head is the golden pinnacle!"
+  ],
+
+  
+
+  conjuncts: "ಕ್ಕ ಕ್ತ ಕ್ಷ ಜ್ಞ ತ್ತ ತ್ರ ದ್ದ ದ್ವ ನ್ನ ನ್ತ ಪ್ಪ ಪ್ರ ಸ್ಥ ಸ್ತ ಶ್ರ ಳ್ಳ ರ್ಕ ಂ",
+  numbers: "೦ ೧ ೨ ೩ ೪ ೫ ೬ ೭ ೮ ೯",
+  words: "ಕನ್ನಡ  ಭಾಷೆ  ಸಾಹಿತ್ಯ  ಸಂಸ್ಕೃತಿ  ಶಿಕ್ಷಣ  ಕರ್ನಾಟಕ  ಬೆಂಗಳೂರು  ಮಂಗಳೂರು  ರಾಮಾಯಣ  ಮಹಾಭಾರತ  ಕವಿರಾಜಮಾರ್ಗ  ವಚನ  ಹೊಯ್ಸಳ  ವಿಜಯನಗರ  ಕೃಷ್ಣ  ಗೀತೆ  ನಾಡಗೀತೆ  ಉದಯವಾಗಲಿ",
+  paragraph: "ಕನ್ನಡ ಭಾಷೆಯು ದ್ರಾವಿಡ ಭಾಷಾ ಕುಟುಂಬಕ್ಕೆ ಸೇರಿದ ಒಂದು ಪ್ರಮುಖ ಭಾಷೆ. ಇದು ಕರ್ನಾಟಕ ರಾಜ್ಯದ ಅಧಿಕೃತ ಭಾಷೆಯಾಗಿದ್ದು, ಸರಿಸುಮಾರು ನಾಲ್ಕು ಕೋಟಿ ಜನರು ಈ ಭಾಷೆಯನ್ನು ಮಾತನಾಡುತ್ತಾರೆ. ಕನ್ನಡ ಲಿಪಿಯು ಬ್ರಾಹ್ಮಿ ಲಿಪಿಯಿಂದ ವಿಕಸನಗೊಂಡಿದ್ದು, ಇದರಲ್ಲಿ ೪೯ ಅಕ್ಷರಗಳಿವೆ. ಕನ್ನಡ ಸಾಹಿತ್ಯಕ್ಕೆ ಎಂಟು ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಗಳು ಲಭಿಸಿದ್ದು, ಇದು ಭಾರತದ ಯಾವುದೇ ಭಾಷೆಗೆ ದೊರೆತ ಅತ್ಯಧಿಕ ಸಂಖ್ಯೆ. ಕವಿರಾಜಮಾರ್ಗ ಕನ್ನಡ ಸಾಹಿತ್ಯದ ಮೊದಲ ಲಭ್ಯ ಗ್ರಂಥ."
+};
+
+
+const waterfallSizes = [14];
+const waterfallText = "ಕನ್ನಡ ಭಾಷೆ";
+
+// ── cache ─────────────────────────────────────────────────
+const fontCache = {
+  urls: {},
+  revoke(key) {
+    if (this.urls[key]) { URL.revokeObjectURL(this.urls[key]); delete this.urls[key]; }
+  },
+  revokeAll() { Object.keys(this.urls).forEach(k => this.revoke(k)); },
+  store(key, url) { this.urls[key] = url; }
+};
+
+// ── fontLoader ────────────────────────────────────────────
+function loadFont(file) {
+  const ts = Date.now();
+  const fontFamily = `TestFont_${ts}`;
+  const objectURL = URL.createObjectURL(file);
+  fontCache.store(fontFamily, objectURL);
+  const style = document.createElement('style');
+  style.id = `ff-${fontFamily}`;
+  style.textContent = `@font-face { font-family:'${fontFamily}'; src:url('${objectURL}'); font-display:block; }`;
+  document.head.appendChild(style);
+  return { fontFamily, objectURL, timestamp: ts };
+}
+
+// ── state ─────────────────────────────────────────────────
+const state = {
+  currentFont: null, fontSize: 32, lineHeight: 1.4,
+  letterSpacing: 0, wordSpacing: 1,
+  ligatures: true, kerning: true, darkBg: false, versions: []
+};
+
+const $ = id => document.getElementById(id);
+const allTestTexts = () => document.querySelectorAll('.test-text');
+
+// ── renderer ──────────────────────────────────────────────
+function applyFont(fontFamily) {
+  allTestTexts().forEach(el => { el.style.fontFamily = `'${fontFamily}', sans-serif`; });
+}
+
+function buildFeatureSettings() {
+  return `${state.ligatures ? '"liga" 1' : '"liga" 0'}, ${state.kerning ? '"kern" 1' : '"kern" 0'}`;
+}
+
+function applyControls() {
+  const { fontSize: fs, lineHeight: lh, letterSpacing: ls, wordSpacing: ws } = state;
+  const feat = buildFeatureSettings();
+  allTestTexts().forEach(el => {
+    el.style.fontSize = fs + 'px';
+    el.style.lineHeight = lh;
+    el.style.letterSpacing = ls + 'em';
+    el.style.wordSpacing = ws + 'em';
+    el.style.fontFeatureSettings = feat;
+  });
+  $('st-size').textContent = fs + 'px';
+  $('st-lh').textContent = lh.toFixed(2);
+  $('st-ls').textContent = ls.toFixed(3) + 'em';
+  $('st-lig').textContent = state.ligatures ? 'on' : 'off';
+}
+
+function makeTestEl(tag, text) {
+  const el = document.createElement(tag);
+  el.className = 'test-text';
+  el.textContent = text;
+  if (state.currentFont) el.style.fontFamily = `'${state.currentFont}', sans-serif`;
+  return el;
+}
+
+function renderContent() {
+  $('render-vowels').textContent = testSet.vowels;
+
+  // 02 · Consonants — one div per row
+  const consEl = $('render-consonants');
+  consEl.innerHTML = '';
+  testSet.consonantRows.forEach(row => consEl.appendChild(makeTestEl('div', row)));
+
+  // 03 · Varga — label + text side by side
+  const vargaEl = $('render-varga');
+  vargaEl.innerHTML = '';
+  testSet.vargaRows.forEach(({ label, text }) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:baseline;gap:20px;margin-bottom:6px;';
+    const lbl = document.createElement('span');
+    lbl.style.cssText = 'font-size:10px;color:var(--muted);letter-spacing:0.1em;min-width:64px;flex-shrink:0;';
+    lbl.textContent = label;
+    row.appendChild(lbl);
+    row.appendChild(makeTestEl('span', text));
+    vargaEl.appendChild(row);
+  });
+
+  // 04 · Gunita — one div per consonant row
+  const guEl = $('render-gunita');
+  guEl.innerHTML = '';
+  testSet.gunita.forEach(row => guEl.appendChild(makeTestEl('div', row)));
+
+  $('render-conjuncts').textContent = testSet.conjuncts;
+  $('render-numbers').textContent = testSet.numbers;
+  $('render-words').textContent = testSet.words;
+  $('render-paragraph').textContent = testSet.paragraph;
+
+  // 05 · Vachana — interlinear Kannada + English
+    // 04 · Vachana — one div per line
+  const vaEl = $('render-vachana');
+  vaEl.innerHTML = '';
+  testSet.vachana.forEach(line => vaEl.appendChild(makeTestEl('div', line)));
+
+
+
+  // 09 · Waterfall
+  const wf = $('render-waterfall');
+  wf.innerHTML = '';
+  waterfallSizes.forEach(sz => {
+    const row = document.createElement('div');
+    row.className = 'waterfall-item';
+    const lbl = document.createElement('span');
+    lbl.className = 'waterfall-size';
+    lbl.textContent = sz;
+    const txt = makeTestEl('div', waterfallText);
+    txt.style.fontSize = sz + 'px';
+    txt.style.lineHeight = state.lineHeight;
+    txt.style.letterSpacing = state.letterSpacing + 'em';
+    txt.style.wordSpacing = state.wordSpacing + 'em';
+    txt.style.fontFeatureSettings = buildFeatureSettings();
+    row.appendChild(lbl);
+    row.appendChild(txt);
+    wf.appendChild(row);
+  });
+}
+
+// ── uploader ──────────────────────────────────────────────
+function handleFile(file) {
+  if (!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['ttf','otf','woff','woff2'].includes(ext)) {
+    alert('Unsupported file type. Use TTF, OTF, WOFF, or WOFF2.');
+    return;
+  }
+  const { fontFamily, timestamp } = loadFont(file);
+  state.currentFont = fontFamily;
+  state.versions.unshift({ fontFamily, name: file.name, timestamp });
+  if (state.versions.length > 8) state.versions.pop();
+  renderVersionList();
+  $('empty-state').style.display = 'none';
+  $('test-area').classList.add('visible');
+  renderContent();
+  applyFont(fontFamily);
+  applyControls();
+  $('font-name-display').textContent = file.name;
+  $('live-dot').classList.add('active');
+  $('st-font').textContent = file.name;
+}
+
+// ── version list ──────────────────────────────────────────
+function renderVersionList() {
+  const list = $('version-list');
+  list.innerHTML = '';
+  if (state.versions.length === 0) {
+    list.innerHTML = '<div class="empty-versions">No fonts loaded yet</div>';
+    return;
+  }
+  state.versions.forEach(v => {
+    const item = document.createElement('div');
+    item.className = 'version-item' + (v.fontFamily === state.currentFont ? ' active' : '');
+    const time = new Date(v.timestamp).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    item.innerHTML = `<span>${v.name.replace(/\.[^.]+$/, '')}</span><span class="v-label">${time}</span>`;
+    item.addEventListener('click', () => {
+      state.currentFont = v.fontFamily;
+      applyFont(v.fontFamily);
+      $('font-name-display').textContent = v.name;
+      $('st-font').textContent = v.name;
+      renderVersionList();
+    });
+    list.appendChild(item);
+  });
+}
+
+// ── controls ──────────────────────────────────────────────
+$('size-slider').addEventListener('input', e => {
+  state.fontSize = +e.target.value;
+  $('size-val').textContent = state.fontSize + 'px';
+  applyControls();
+});
+$('lh-slider').addEventListener('input', e => {
+  state.lineHeight = +e.target.value;
+  $('lh-val').textContent = state.lineHeight.toFixed(2);
+  applyControls();
+});
+$('ls-slider').addEventListener('input', e => {
+  state.letterSpacing = +e.target.value;
+  $('ls-val').textContent = state.letterSpacing.toFixed(3) + 'em';
+  applyControls();
+});
+$('ws-slider').addEventListener('input', e => {
+  state.wordSpacing = +e.target.value;
+  $('ws-val').textContent = state.wordSpacing.toFixed(1);
+  applyControls();
+});
+$('lig-toggle').addEventListener('change', e => { state.ligatures = e.target.checked; applyControls(); });
+$('kern-toggle').addEventListener('change', e => { state.kerning = e.target.checked; applyControls(); });
+$('dark-toggle').addEventListener('change', e => {
+  state.darkBg = e.target.checked;
+  const main = document.getElementById('main-area');
+  if (state.darkBg) {
+    main.style.background = '#0f0e0c';
+    allTestTexts().forEach(el => el.style.color = '#f5f2ec');
+  } else {
+    main.style.background = '';
+    allTestTexts().forEach(el => el.style.color = '');
+  }
+});
+
+$('custom-input').addEventListener('input', e => {
+  const cr = $('custom-render');
+  cr.textContent = e.target.value;
+  if (state.currentFont) {
+    cr.style.fontFamily = `'${state.currentFont}', sans-serif`;
+    cr.style.fontSize = state.fontSize + 'px';
+    cr.style.lineHeight = state.lineHeight;
+    cr.style.letterSpacing = state.letterSpacing + 'em';
+    cr.style.fontFeatureSettings = buildFeatureSettings();
+  }
+});
+
+// ── reset ─────────────────────────────────────────────────
+$('reset-btn').addEventListener('click', () => {
+  if (!confirm('Reset all fonts and settings?')) return;
+  fontCache.revokeAll();
+  Object.assign(state, {
+    currentFont: null, versions: [],
+    fontSize: 32, lineHeight: 1.4, letterSpacing: 0, wordSpacing: 1,
+    ligatures: true, kerning: true
+  });
+  $('size-slider').value = 32;   $('size-val').textContent = '32px';
+  $('lh-slider').value = 1.4;    $('lh-val').textContent = '1.40';
+  $('ls-slider').value = 0;      $('ls-val').textContent = '0em';
+  $('ws-slider').value = 1;      $('ws-val').textContent = '1.0';
+  $('lig-toggle').checked = true;
+  $('kern-toggle').checked = true;
+  $('test-area').classList.remove('visible');
+  $('empty-state').style.display = '';
+  $('font-name-display').textContent = 'No font loaded';
+  $('live-dot').classList.remove('active');
+  $('st-font').textContent = '—';
+  $('st-size').textContent = '—';
+  $('st-lh').textContent = '—';
+  $('st-ls').textContent = '—';
+  renderVersionList();
+  document.querySelectorAll('style[id^="ff-TestFont_"]').forEach(s => s.remove());
+});
+
+// ── drag & drop ───────────────────────────────────────────
+const dropZone = $('drop-zone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+$('font-input').addEventListener('change', e => {
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+  e.target.value = '';
+});
+</script>
+</body>
+</html>
