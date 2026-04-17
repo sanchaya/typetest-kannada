@@ -26,7 +26,7 @@
       <div class="dot" id="live-dot"></div>
       <div id="font-name-display">No font loaded</div>
     </div>
-    <a href="https://fonts.sanchaya.org" target="_blank" class="sanchaya-link">
+    <a href="https://fonts.sanchaya.net" target="_blank" class="sanchaya-link">
       <img src="img/sanchaya-logo.png" alt="Sanchaya" class="sanchaya-logo">
     </a>
   </div>
@@ -128,109 +128,136 @@
 
   <div class="test-area" id="test-area">
 
-    <!-- 01 Vowels -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">01 · Vowels</span>
-        <span class="section-desc">Swaras — independent vowel forms</span>
-      </div>
-      <div class="alphabet-grid">
-        <span class="test-text" id="render-vowels"></span>
+    <!-- Tab Navigation -->
+    <div class="tab-nav" id="tab-nav">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="vowels">Vowels</button>
+      <button class="tab-btn" data-tab="consonants">Consonants</button>
+      <button class="tab-btn" data-tab="matra">Matra</button>
+      <button class="tab-btn" data-tab="conjuncts">Conjuncts</button>
+      <button class="tab-btn" data-tab="vachana">Vachana</button>
+      <button class="tab-btn" data-tab="words">Words</button>
+      <button class="tab-btn" data-tab="custom">Custom</button>
+    </div>
+
+    <!-- Tab Panels -->
+    <div class="tab-panel active" id="panel-overview">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Quick Overview</span>
+          <span class="section-desc">All key character sets at a glance</span>
+        </div>
+        <div class="overview-grid">
+          <div class="overview-item">
+            <span class="overview-label">Vowels</span>
+            <span class="test-text overview-text" id="overview-vowels"></span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Numbers</span>
+            <span class="test-text overview-text" id="overview-numbers"></span>
+          </div>
+          <div class="overview-item overview-full">
+            <span class="overview-label">Sample Text</span>
+            <span class="test-text overview-text" id="overview-paragraph"></span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- 02 Consonants -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">02 · Consonants</span>
-        <span class="section-desc">Vyanjanas — 5 per varga row</span>
+    <div class="tab-panel" id="panel-vowels">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">01 · Vowels</span>
+          <span class="section-desc">Swaras — independent vowel forms</span>
+        </div>
+        <div class="alphabet-grid">
+          <span class="test-text" id="render-vowels"></span>
+        </div>
       </div>
-      <div id="render-consonants"></div>
     </div>
 
-    <!-- 03 Varga Groups -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">03 · Varga Groups</span>
-        <span class="section-desc">Labelled consonant groups by articulation point</span>
+    <div class="tab-panel" id="panel-consonants">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">02 · Consonants</span>
+          <span class="section-desc">Vyanjanas — 5 per varga row</span>
+        </div>
+        <div id="render-consonants"></div>
       </div>
-      <div id="render-varga"></div>
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">03 · Varga Groups</span>
+          <span class="section-desc">Labelled consonant groups by articulation point</span>
+        </div>
+        <div id="render-varga"></div>
+      </div>
     </div>
 
-    <!-- 04 Gunita -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">04 · Matra / Gunita</span>
-        <span class="section-desc">Consonant + all 16 vowel matras + halant, one row per consonant</span>
+    <div class="tab-panel" id="panel-matra">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">04 · Matra / Gunita</span>
+          <span class="section-desc">Consonant + all 16 vowel matras + halant</span>
+        </div>
+        <div id="render-gunita"></div>
       </div>
-      <div id="render-gunita"></div>
     </div>
 
-       
-    <!-- 05 Vachana -->
-    <div class="section">
-     <div class="section-meta">
-       <span class="section-tag">5 · Vachana</span>
-       <span class="section-desc">Short description</span>
-     </div>
-     <div class="test-text" id="render-vachana"></div>
-   </div>
-
-    <!-- 05 Conjuncts -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">05 · Conjuncts</span>
-        <span class="section-desc">Ottakshara — half-consonant clusters</span>
+    <div class="tab-panel" id="panel-conjuncts">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">05 · Conjuncts</span>
+          <span class="section-desc">Ottakshara — half-consonant clusters</span>
+        </div>
+        <div class="test-text" id="render-conjuncts"></div>
       </div>
-      <div class="test-text" id="render-conjuncts"></div>
     </div>
 
-    <!-- 06 Numerals -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">06 · Numerals</span>
-        <span class="section-desc">Kannada digits 0–9</span>
+    <div class="tab-panel" id="panel-vachana">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">06 · Vachana</span>
+          <span class="section-desc">Vachana literature — texture test</span>
+        </div>
+        <div id="render-vachana"></div>
       </div>
-      <div class="test-text" id="render-numbers"></div>
     </div>
 
-    <!-- 07 Words -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">07 · Words</span>
-        <span class="section-desc">Common vocabulary, texture test</span>
+    <div class="tab-panel" id="panel-words">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">07 · Words</span>
+          <span class="section-desc">Common vocabulary</span>
+        </div>
+        <div class="test-text" id="render-words" style="line-height:1.9"></div>
       </div>
-      <div class="test-text" id="render-words" style="line-height:1.9"></div>
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">08 · Paragraph</span>
+          <span class="section-desc">Running text — overall rhythm</span>
+        </div>
+        <div class="test-text" id="render-paragraph"></div>
+      </div>
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">09 · Waterfall</span>
+          <span class="section-desc">Size progression</span>
+        </div>
+        <div id="render-waterfall"></div>
+      </div>
     </div>
 
-    <!-- 08 Paragraph -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">08 · Paragraph</span>
-        <span class="section-desc">Running text — overall rhythm</span>
-      </div>
-      <div class="test-text" id="render-paragraph"></div>
-    </div>
-
-    <!-- 09 Waterfall -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">09 · Waterfall</span>
-        <span class="section-desc">Size progression</span>
-      </div>
-      <div id="render-waterfall"></div>
-    </div>
-
-    <!-- 10 Custom -->
-    <div class="section">
-      <div class="section-meta">
-        <span class="section-tag">10 · Custom Text</span>
-        <span class="section-desc">Type your own test string</span>
-      </div>
-      <div class="custom-input-area">
-        <span class="custom-input-label">Input</span>
-        <textarea class="custom-input" id="custom-input" placeholder="ನಿಮ್ಮ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..."></textarea>
-        <div class="test-text" id="custom-render" style="margin-top:16px; min-height:40px;"></div>
+    <div class="tab-panel" id="panel-custom">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">10 · Custom Text</span>
+          <span class="section-desc">Type your own test string</span>
+        </div>
+        <div class="custom-input-area">
+          <span class="custom-input-label">Input</span>
+          <textarea class="custom-input" id="custom-input" placeholder="ನಿಮ್ಮ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..."></textarea>
+          <div class="test-text" id="custom-render" style="margin-top:16px; min-height:40px;"></div>
+        </div>
       </div>
     </div>
 
@@ -271,63 +298,59 @@ const testSet = {
 
   gunita: [
     "ಕಕಾಕಿಕೀಕುಕೂಕೃಕೆಕೇಕೈಕೊಕೋಕೌಕಂಕಃಕ್",
-"ಖಖಾಖಿಖೀಖುಖೂಖೃಖೆಖೇಖೈಖೊಖೋಖೌಖಂಖಃಖ್",
-"ಗಗಾಗಿಗೀಗುಗೂಗೃಗೆಗೇಗೈಗೊಗೋಗೌಗಂಗಃಗ್",
-"ಘಘಾಘಿಘೀಘುಘೂಘೃಘೆಘೇಘೈಘೊಘೋಘೌಘಂಘಃಘ್",
-"ಙಙಾಙಿಙೀಙುಙೂಙೃಙೆಙೇಙೈಙೊಙೋಙೌಙಂಙಃಙ್",
-"ಚಚಾಚಿಚೀಚುಚೂಚೃಚೆಚೇಚೈಚೊಚೋಚೌಚಂಚಃಚ್",
-"ಛಛಾಛಿಛೀಛುಛೂಛೃಛೆಛೇಛೈಛೊಛೋಛೌಛಂಛಃಛ್",
-"ಜಜಾಜಿಜೀಜುಜೂಜೃಜೆಜೇಜೈಜೊಜೋಜೌಜಂಜಃಜ್",
-"ಝಝಾಝಿಝೀಝುಝೂಝೃಝೆಝೇಝೈಝೊಝೋಝೌಝಂಝಃಝ್",
-"ಞಞಾಞಿಞೀಞುಞೂಞೃಞೆಞೇಞೈಞೊಞೋಞೌಞಂಞಃಞ್",
-"ಟಟಾಟಿಟೀಟುಟೂಟೃಟೆಟೇಟೈಟೊಟೋಟೌಟಂಟಃಟ್",
-"ಠಠಾಠಿಠೀಠುಠೂಠೃಠೆಠೇಠೈಠೊಠೋಠೌಠಂಠಃಠ್",
-"ಡಡಾಡಿಡೀಡುಡೂಡೃಡೆಡೇಡೈಡೊಡೋಡೌಡಂಡಃಡ್",
-"ಢಢಾಢಿಢೀಢುಢೂಢೃಢೆಢೇಢೈಢೊಢೋಢೌಢಂಢಃಢ್",
-"ಣಣಾಣಿಣೀಣುಣೂಣೃಣೆಣೇಣೈಣೊಣೋಣೌಣಂಣಃಣ್",
-"ತತಾತಿತೀತುತೂತೃತೆತೇತೈತೊತೋತೌತಂತಃತ್",
-"ಥಥಾಥಿಥೀಥುಥೂಥೃಥೆಥೇಥೈಥೊಥೋಥೌಥಂಥಃಥ್",
-"ದದಾದಿದೀದುದೂದೃದೆದೇದೈದೊದೋದೌದಂದಃದ್",
-"ಧಧಾಧಿಧೀಧುಧೂಧೃಧೆಧೇಧೈಧೊಧೋಧೌಧಂಧಃಧ್",
-"ನನಾನಿನೀನುನೂನೃನೆನೇನೈನೊನೋನೌನಂನಃನ್",
-"ಪಪಾಪಿಪೀಪುಪೂಪೃಪೆಪೇಪೈಪೊಪೋಪೌಪಂಪಃಪ್",
-"ಫಫಾಫಿಫೀಫುಫೂಫೃಫೆಫೇಫೈಫೊಫೋಫೌಫಂಫಃಫ್",
-"ಬಬಾಬಿಬೀಬುಬೂಬೃಬೆಬೇಬೈಬೊಬೋಬೌಬಂಬಃಬ್",
-"ಭಭಾಭಿಭೀಭುಭೂಭೃಭೆಭೇಭೈಭೊಭೋಭೌಭಂಭಃಭ್",
-"ಮಮಾಮಿಮೀಮುಮೂಮೃಮೆಮೇಮೈಮೊಮೋಮೌಮಂಮಃಮ್",
-"ಯಯಾಯಿಯೀಯುಯೂಯೃಯೆಯೇಯೈಯೊಯೋಯೌಯಂಯಃಯ್",
-"ರರಾರಿರೀರುರೂರೃರೆರೇರೈರೊರೋರೌರಂರಃರ್",
-"ಲಲಾಲಿಲೀಲುಲೂಲೃಲೆಲೇಲೈಲೊಲೋಲೌಲಂಲಃಲ್",
-"ವವಾವಿವೀವುವೂವೃವೆವೇವೈವೊವೋವೌವಂವಃವ್",
-"ಶಶಾಶಿಶೀಶುಶೂಶೃಶೆಶೇಶೈಶೊಶೋಶೌಶಂಶಃಶ್",
-"ಷಷಾಷಿಷೀಷುಷೂಷೃಷೆಷೇಷೈಷೊಷೋಷೌಷಂಷಃಷ್",
-"ಸಸಾಸಿಸೀಸುಸೂಸೃಸೆಸೇಸೈಸೊಸೋಸೌಸಂಸಃಸ್",
-"ಹಹಾಹಿಹೀಹುಹೂಹೃಹೆಹೇಹೈಹೊಹೋಹೌಹಂಹಃಹ್",
-"ಳಳಾಳಿಳೀಳುಳೂಳೃಳೆಳೇಳೈಳೊಳೋಳೌಳಂಳಃಳ್"
+    "ಖಖಾಖಿಖೀಖುಖೂಖೃಖೆಖೇಖೈಖೊಖೋಖೌಖಂಖಃಖ್",
+    "ಗಗಾಗಿಗೀಗುಗೂಗೃಗೆಗೇಗೈಗೊಗೋಗೌಗಂಗಃಗ್",
+    "ಘಘಾಘಿಘೀಘುಘೂಘೃಘೆಘೇಘೈಘೊಘೋಘೌಘಂಘಃಘ್",
+    "ಙಙಾಙಿಙೀಙುಙೂಙೃಙೆಙೇಙೈಙೊಙೋಙೌಙಂಙಃಙ್",
+    "ಚಚಾಚಿಚೀಚುಚೂಚೃಚೆಚೇಚೈಚೊಚೋಚೌಚಂಚಃಚ್",
+    "ಛಛಾಛಿಛೀಛುಛೂಛೃಛೆಛೇಛೈಛೊಛೋಛೌಛಂಛಃಛ್",
+    "ಜಜಾಜಿಜೀಜುಜೂಜೃಜೆಜೇಜೈಜೊಜೋಜೌಜಂಜಃಜ್",
+    "ಝಝಾಝಿಝೀಝುಝೂಝೃಝೆಝೇಝೈಝೊಝೋಝೌಝಂಝಃಝ್",
+    "ಞಞಾಞಿಞೀಞುಞೂಞೃಞೆಞೇಞೈಞೊಞೋಞೌಞಂಞಃಞ್",
+    "ಟಟಾಟಿಟೀಟುಟೂಟೃಟೆಟೇಟೈಟೊಟೋಟೌಟಂಟಃಟ್",
+    "ಠಠಾಠಿಠೀಠುಠೂಠೃಠೆಠೇಠೈಠೊಠೋಠೌಠಂಠಃಠ್",
+    "ಡಡಾಡಿಡೀಡುಡೂಡೃಡೆಡೇಡೈಡೊಡೋಡೌಡಂಡಃಡ್",
+    "ಢಢಾಢಿಢೀಢುಢೂಢೃಢೆಢೇಢೈಢೊಢೋಢೌಢಂಢಃಢ್",
+    "ಣಣಾಣಿಣೀಣುಣೂಣೃಣೆಣೇಣೈಣೊಣೋಣೌಣಂಣಃಣ್",
+    "ತತಾತಿತೀತುತೂತೃತೆತೇತೈತೊತೋತೌತಂತಃತ್",
+    "ಥಥಾಥಿಥೀಥುಥೂಥೃಥೆಥೇಥೈಥೊಥೋಥೌಥಂಥಃಥ್",
+    "ದದಾದಿದೀದುದೂದೃದೆದೇದೈದೊದೋದೌದಂದಃದ್",
+    "ಧಧಾಧಿಧೀಧುಧೂಧೃಧೆಧೇಧೈಧೊಧೋಧೌಧಂಧಃಧ್",
+    "ನನಾನಿನೀನುನೂನೃನೆನೇನೈನೊನೋನೌನಂನಃನ್",
+    "ಪಪಾಪಿಪೀಪುಪೂಪೃಪೆಪೇಪೈಪೊಪೋಪೌಪಂಪಃಪ್",
+    "ಫಫಾಫಿಫೀಫುಫೂಫೃಫೆಫೇಫೈಫೊಫೋಫೌಫಂಫಃಫ್",
+    "ಬಬಾಬಿಬೀಬುಬೂಬೃಬೆಬೇಬೈಬೊಬೋಬೌಬಂಬಃಬ್",
+    "ಭಭಾಭಿಭೀಭುಭೂಭೃಭೆಭೇಭೈಭೊಭೋಭೌಭಂಭಃಭ್",
+    "ಮಮಾಮಿಮೀಮುಮೂಮೃಮೆಮೇಮೈಮೊಮೋಮೌಮಂಮಃಮ್",
+    "ಯಯಾಯಿಯೀಯುಯೂಯೃಯೆಯೇಯೈಯೊಯೋಯೌಯಂಯಃಯ್",
+    "ರರಾರಿರೀರುರೂರೃರೆರೇರೈರೊರೋರೌರಂರಃರ್",
+    "ಲಲಾಲಿಲೀಲುಲೂಲೃಲೆಲೇಲೈಲೊಲೋಲೌಲಂಲಃಲ್",
+    "ವವಾವಿವೀವುವೂವೃವೆವೇವೈವೊವೋವೌವಂವಃವ್",
+    "ಶಶಾಶಿಶೀಶುಶೂಶೃಶೆಶೇಶೈಶೊಶೋಶೌಶಂಶಃಶ್",
+    "ಷಷಾಷಿಷೀಷುಷೂಷೃಷೆಷೇಷೈಷೊಷೋಷೌಷಂಷಃಷ್",
+    "ಸಸಾಸಿಸೀಸುಸೂಸೃಸೆಸೇಸೈಸೊಸೋಸೌಸಂಸಃಸ್",
+    "ಹಹಾಹಿಹೀಹುಹೂಹೃಹೆಹೇಹೈಹೊಹೋಹೌಹಂಹಃಹ್",
+    "ಳಳಾಳಿಳೀಳುಳೂಳೃಳೆಳೇಳೈಳೊಳೋಳೌಳಂಳಃಳ್"
   ],
 
-vachana: [
+  vachana: [
     "ಉಳ್ಳವರು ಶಿವಾಲಯವ ಮಾಡುವರು!",
     "ನಾನೇನ ಮಾಡುವೆ? ಬಡವನಯ್ಯ!",
     "ಎನ್ನ ಕಾಲೇ ಕಂಬ, ದೇಹವೇ ದೇಗುಲ,",
     "ಶಿರವೇ ಹೊನ್ನ ಕಳಶವಯ್ಯ!",
     "ಕೂಡಲಸಂಗಮದೇವ ಕೇಳಯ್ಯ,",
     "ಸ್ಥಾವರಕ್ಕಳಿವುಂಟು, ಜಂಗಮಕ್ಕಳಿವಿಲ್ಲ!",
-    ,
     "Those who have money build temples to Shiva.",
     "What can a poor man like me build?",
     "My legs are pillars, my body is the shrine,",
     "My head is the golden pinnacle!"
   ],
 
-  
-
   conjuncts: "ಕ್ಕ ಕ್ತ ಕ್ಷ ಜ್ಞ ತ್ತ ತ್ರ ದ್ದ ದ್ವ ನ್ನ ನ್ತ ಪ್ಪ ಪ್ರ ಸ್ಥ ಸ್ತ ಶ್ರ ಳ್ಳ ರ್ಕ ಂ",
   numbers: "೦ ೧ ೨ ೩ ೪ ೫ ೬ ೭ ೮ ೯",
   words: "ಕನ್ನಡ  ಭಾಷೆ  ಸಾಹಿತ್ಯ  ಸಂಸ್ಕೃತಿ  ಶಿಕ್ಷಣ  ಕರ್ನಾಟಕ  ಬೆಂಗಳೂರು  ಮಂಗಳೂರು  ರಾಮಾಯಣ  ಮಹಾಭಾರತ  ಕವಿರಾಜಮಾರ್ಗ  ವಚನ  ಹೊಯ್ಸಳ  ವಿಜಯನಗರ  ಕೃಷ್ಣ  ಗೀತೆ  ನಾಡಗೀತೆ  ಉದಯವಾಗಲಿ",
   paragraph: "ಕನ್ನಡ ಭಾಷೆಯು ದ್ರಾವಿಡ ಭಾಷಾ ಕುಟುಂಬಕ್ಕೆ ಸೇರಿದ ಒಂದು ಪ್ರಮುಖ ಭಾಷೆ. ಇದು ಕರ್ನಾಟಕ ರಾಜ್ಯದ ಅಧಿಕೃತ ಭಾಷೆಯಾಗಿದ್ದು, ಸರಿಸುಮಾರು ನಾಲ್ಕು ಕೋಟಿ ಜನರು ಈ ಭಾಷೆಯನ್ನು ಮಾತನಾಡುತ್ತಾರೆ. ಕನ್ನಡ ಲಿಪಿಯು ಬ್ರಾಹ್ಮಿ ಲಿಪಿಯಿಂದ ವಿಕಸನಗೊಂಡಿದ್ದು, ಇದರಲ್ಲಿ ೪೯ ಅಕ್ಷರಗಳಿವೆ. ಕನ್ನಡ ಸಾಹಿತ್ಯಕ್ಕೆ ಎಂಟು ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಗಳು ಲಭಿಸಿದ್ದು, ಇದು ಭಾರತದ ಯಾವುದೇ ಭಾಷೆಗೆ ದೊರೆತ ಅತ್ಯಧಿಕ ಸಂಖ್ಯೆ. ಕವಿರಾಜಮಾರ್ಗ ಕನ್ನಡ ಸಾಹಿತ್ಯದ ಮೊದಲ ಲಭ್ಯ ಗ್ರಂಥ."
 };
-
 
 const waterfallSizes = [14];
 const waterfallText = "ಕನ್ನಡ ಭಾಷೆ";
@@ -401,12 +424,14 @@ function makeTestEl(tag, text) {
 function renderContent() {
   $('render-vowels').textContent = testSet.vowels;
 
-  // 02 · Consonants — one div per row
+  $('overview-vowels').textContent = testSet.vowels;
+  $('overview-numbers').textContent = testSet.numbers;
+  $('overview-paragraph').textContent = testSet.words;
+
   const consEl = $('render-consonants');
   consEl.innerHTML = '';
   testSet.consonantRows.forEach(row => consEl.appendChild(makeTestEl('div', row)));
 
-  // 03 · Varga — label + text side by side
   const vargaEl = $('render-varga');
   vargaEl.innerHTML = '';
   testSet.vargaRows.forEach(({ label, text }) => {
@@ -420,25 +445,18 @@ function renderContent() {
     vargaEl.appendChild(row);
   });
 
-  // 04 · Gunita — one div per consonant row
   const guEl = $('render-gunita');
   guEl.innerHTML = '';
   testSet.gunita.forEach(row => guEl.appendChild(makeTestEl('div', row)));
 
   $('render-conjuncts').textContent = testSet.conjuncts;
-  $('render-numbers').textContent = testSet.numbers;
   $('render-words').textContent = testSet.words;
   $('render-paragraph').textContent = testSet.paragraph;
 
-  // 05 · Vachana — interlinear Kannada + English
-    // 04 · Vachana — one div per line
   const vaEl = $('render-vachana');
   vaEl.innerHTML = '';
   testSet.vachana.forEach(line => vaEl.appendChild(makeTestEl('div', line)));
 
-
-
-  // 09 · Waterfall
   const wf = $('render-waterfall');
   wf.innerHTML = '';
   waterfallSizes.forEach(sz => {
@@ -593,6 +611,22 @@ dropZone.addEventListener('drop', e => {
 $('font-input').addEventListener('change', e => {
   if (e.target.files[0]) handleFile(e.target.files[0]);
   e.target.value = '';
+});
+
+// ── Tab Navigation ───────────────────────────────────────
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabId = btn.dataset.tab;
+
+    tabButtons.forEach(b => b.classList.remove('active'));
+    tabPanels.forEach(p => p.classList.remove('active'));
+
+    btn.classList.add('active');
+    document.getElementById(`panel-${tabId}`).classList.add('active');
+  });
 });
 </script>
 </body>
