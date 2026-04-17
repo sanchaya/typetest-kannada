@@ -499,7 +499,22 @@ function applyFont(fontFamily) {
   allTestTexts().forEach(el => {
     el.style.fontFamily = `'${fontFamily}', sans-serif`;
     if (state.isVariable) {
-      el.style.fontVariationSettings = `"wght" ${state.fontWeight}`;
+      el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+    }
+  });
+  // Also apply to direct textContent elements
+  applyFontToAll();
+}
+
+function applyFontToAll() {
+  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-conjuncts', 'render-words', 'render-paragraph', 'custom-render'];
+  directElements.forEach(id => {
+    const el = $(id);
+    if (el && state.currentFont) {
+      el.style.fontFamily = `'${state.currentFont}', sans-serif`;
+      if (state.isVariable) {
+        el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+      }
     }
   });
 }
@@ -518,7 +533,17 @@ function applyControls() {
     el.style.wordSpacing = ws + 'em';
     el.style.fontFeatureSettings = feat;
     if (state.isVariable) {
-      el.style.fontVariationSettings = `"wght" ${state.fontWeight}`;
+      el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+    }
+  });
+  // Also update direct elements
+  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-conjuncts', 'render-words', 'render-paragraph', 'custom-render'];
+  directElements.forEach(id => {
+    const el = $(id);
+    if (el) {
+      if (state.isVariable) {
+        el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+      }
     }
   });
   $('st-size').textContent = fs + 'px';
@@ -534,7 +559,7 @@ function makeTestEl(tag, text) {
   if (state.currentFont) {
     el.style.fontFamily = `'${state.currentFont}', sans-serif`;
     if (state.isVariable) {
-      el.style.fontVariationSettings = `"wght" ${state.fontWeight}`;
+      el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
     }
   }
   return el;
@@ -575,6 +600,9 @@ function renderContent() {
   const vaEl = $('render-vachana');
   vaEl.innerHTML = '';
   testSet.vachana.forEach(line => vaEl.appendChild(makeTestEl('div', line)));
+
+  // Apply font settings to all elements including direct textContent ones
+  applyFontToAll();
 
   const wf = $('render-waterfall');
   wf.innerHTML = '';
@@ -705,6 +733,9 @@ $('custom-input').addEventListener('input', e => {
     cr.style.lineHeight = state.lineHeight;
     cr.style.letterSpacing = state.letterSpacing + 'em';
     cr.style.fontFeatureSettings = buildFeatureSettings();
+    if (state.isVariable) {
+      cr.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+    }
   }
 });
 
