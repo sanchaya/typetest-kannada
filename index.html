@@ -75,6 +75,27 @@
     </div>
   </div>
 
+  <!-- Variable Font Controls -->
+  <div id="variable-controls" style="display: none;">
+    <div class="panel-label">Variable Font</div>
+
+    <div class="control-row">
+      <label>Weight</label>
+      <span class="val" id="weight-val">400</span>
+      <input type="range" id="weight-slider" min="100" max="900" step="1" value="400">
+    </div>
+
+    <div class="weight-presets">
+      <button class="weight-preset" data-weight="100">Thin</button>
+      <button class="weight-preset" data-weight="300">Light</button>
+      <button class="weight-preset" data-weight="400">Regular</button>
+      <button class="weight-preset" data-weight="500">Medium</button>
+      <button class="weight-preset" data-weight="600">SemiBold</button>
+      <button class="weight-preset" data-weight="700">Bold</button>
+      <button class="weight-preset" data-weight="900">Black</button>
+    </div>
+  </div>
+
   <!-- OpenType -->
   <div>
     <div class="panel-label">OpenType</div>
@@ -284,24 +305,33 @@
 <script>
 // ── Load Random Default Font from fonts.sanchaya.net ────────
 const availableFonts = [
-  { name: 'Kedage Bold', url: 'https://fonts.sanchaya.net/Fonts/Kedage/Kedage-b.ttf', family: 'KedageBold' },
-  { name: 'Lohit Kannada', url: 'https://fonts.sanchaya.net/Fonts/Lohit-Kannada/Lohit-Kannada.ttf', family: 'LohitKannada' },
-  { name: 'Benne Regular', url: 'https://fonts.sanchaya.net/Fonts/Benne/Benne-Regular.ttf', family: 'BenneRegular' },
-  { name: 'Gubbi', url: 'https://fonts.sanchaya.net/Fonts/Gubbi/Gubbi.ttf', family: 'Gubbi' },
-  { name: 'Hoysala Regular', url: 'https://fonts.sanchaya.net/Fonts/Hoysala/Hoysala-Regular.ttf', family: 'HoysalaRegular' },
-  { name: 'Hubballi Regular', url: 'https://fonts.sanchaya.net/Fonts/Hubballi/Hubballi-Regular.ttf', family: 'HubballiRegular' },
-  { name: 'Inchara', url: 'https://fonts.sanchaya.net/Fonts/Inchara/inchara.ttf', family: 'Inchara' },
-  { name: 'Navilu', url: 'https://fonts.sanchaya.net/Fonts/Navilu/Navilu.ttf', family: 'Navilu' },
-  { name: 'Kadamba Kakusthavarman', url: 'https://fonts.sanchaya.net/Fonts/Kadamba/Kadamba-Kakusthavarman.ttf', family: 'Kadamba' },
-  { name: 'Kanishka', url: 'https://fonts.sanchaya.net/Fonts/Kanishka/Kanishka.ttf', family: 'Kanishka' },
-  { name: 'Cheluvi', url: 'https://fonts.sanchaya.net/Fonts/Cheluvi/Cheluvi.ttf', family: 'Cheluvi' },
-  { name: 'Chalukya Vijayaditya', url: 'https://fonts.sanchaya.net/Fonts/Chalukya/Chalukya-Vijayaditya.ttf', family: 'Chalukya' },
-  { name: 'BelurKannada Regular', url: 'https://fonts.sanchaya.net/Fonts/BelurKannada/BelurKannada-Regular.ttf', family: 'BelurKannadaRegular' },
-  { name: 'Kolar Bold', url: 'https://fonts.sanchaya.net/Fonts/Kolar/Kolar-Bold.ttf', family: 'KolarBold' },
-  { name: 'BandipurOne', url: 'https://fonts.sanchaya.net/Fonts/BandipurOne/BandipurOne.ttf', family: 'BandipurOne' },
-  { name: 'Ganga Marasimha', url: 'https://fonts.sanchaya.net/Fonts/Ganga/Gangga-Marasimha.ttf', family: 'Ganga' },
-  { name: 'Gajamukha Full', url: 'https://fonts.sanchaya.net/Fonts/Gajamukha/Gajamukha-Full.ttf', family: 'Gajamukha' },
-  { name: 'Akaya Kanadaka', url: 'https://fonts.sanchaya.net/Fonts/Akaya-Kanadaka/AkayaKanadaka-Regular.ttf', family: 'AkayaKanadaka' }
+  { name: 'Kedage Bold', url: 'https://fonts.sanchaya.net/Fonts/Kedage/Kedage-b.ttf', family: 'KedageBold', isVariable: false },
+  { name: 'Lohit Kannada', url: 'https://fonts.sanchaya.net/Fonts/Lohit-Kannada/Lohit-Kannada.ttf', family: 'LohitKannada', isVariable: false },
+  { name: 'Benne Regular', url: 'https://fonts.sanchaya.net/Fonts/Benne/Benne-Regular.ttf', family: 'BenneRegular', isVariable: false },
+  { name: 'Gubbi', url: 'https://fonts.sanchaya.net/Fonts/Gubbi/Gubbi.ttf', family: 'Gubbi', isVariable: false },
+  { name: 'Hoysala Regular', url: 'https://fonts.sanchaya.net/Fonts/Hoysala/Hoysala-Regular.ttf', family: 'HoysalaRegular', isVariable: false },
+  { name: 'Hubballi Regular', url: 'https://fonts.sanchaya.net/Fonts/Hubballi/Hubballi-Regular.ttf', family: 'HubballiRegular', isVariable: false },
+  { name: 'Inchara', url: 'https://fonts.sanchaya.net/Fonts/Inchara/inchara.ttf', family: 'Inchara', isVariable: false },
+  { name: 'Navilu', url: 'https://fonts.sanchaya.net/Fonts/Navilu/Navilu.ttf', family: 'Navilu', isVariable: false },
+  { name: 'Kadamba Kakusthavarman', url: 'https://fonts.sanchaya.net/Fonts/Kadamba/Kadamba-Kakusthavarman.ttf', family: 'Kadamba', isVariable: false },
+  { name: 'Kanishka', url: 'https://fonts.sanchaya.net/Fonts/Kanishka/Kanishka.ttf', family: 'Kanishka', isVariable: false },
+  { name: 'Cheluvi', url: 'https://fonts.sanchaya.net/Fonts/Cheluvi/Cheluvi.ttf', family: 'Cheluvi', isVariable: false },
+  { name: 'Chalukya Vijayaditya', url: 'https://fonts.sanchaya.net/Fonts/Chalukya/Chalukya-Vijayaditya.ttf', family: 'Chalukya', isVariable: false },
+  { name: 'BelurKannada Regular', url: 'https://fonts.sanchaya.net/Fonts/BelurKannada/BelurKannada-Regular.ttf', family: 'BelurKannadaRegular', isVariable: false },
+  { name: 'Kolar Bold', url: 'https://fonts.sanchaya.net/Fonts/Kolar/Kolar-Bold.ttf', family: 'KolarBold', isVariable: false },
+  { name: 'BandipurOne', url: 'https://fonts.sanchaya.net/Fonts/BandipurOne/BandipurOne.ttf', family: 'BandipurOne', isVariable: false },
+  { name: 'Ganga Marasimha', url: 'https://fonts.sanchaya.net/Fonts/Ganga/Gangga-Marasimha.ttf', family: 'Ganga', isVariable: false },
+  { name: 'Gajamukha Full', url: 'https://fonts.sanchaya.net/Fonts/Gajamukha/Gajamukha-Full.ttf', family: 'Gajamukha', isVariable: false },
+  { name: 'Akaya Kanadaka', url: 'https://fonts.sanchaya.net/Fonts/Akaya-Kanadaka/AkayaKanadaka-Regular.ttf', family: 'AkayaKanadaka', isVariable: false },
+  { name: 'Anek Kannada Variable', url: 'https://fonts.sanchaya.net/Fonts/Anek-Kannada/AnekKannada-VariableFont-wdth,wght.ttf', family: 'AnekKannadaVariable', isVariable: true },
+  { name: 'KarnataGTN Variable', url: 'https://fonts.sanchaya.net/Fonts/KarnataGTN/KarnataGTN-Variable.ttf', family: 'KarnataGTNVariable', isVariable: true },
+  { name: 'October Kannada Variable', url: 'https://fonts.sanchaya.net/Fonts/October-Kannada/OctoberKnLVariable-Regular.ttf', family: 'OctoberKannadaVariable', isVariable: true },
+  { name: 'November Kannada Variable', url: 'https://fonts.sanchaya.net/Fonts/November-Kannada/NovemberKnLVariable-Regular.ttf', family: 'NovemberKannadaVariable', isVariable: true },
+  { name: 'November Stencil Variable', url: 'https://fonts.sanchaya.net/Fonts/NovemberStencil-Kannada/NovemberStencilKnLVariable-Rg.ttf', family: 'NovemberStencilVariable', isVariable: true },
+  { name: 'Lava Kannada', url: 'https://fonts.sanchaya.net/Fonts/Lava-Kannada/LavaKannada-Regular.ttf', family: 'LavaKannada', isVariable: true },
+  { name: 'Ek Kannada', url: 'https://fonts.sanchaya.net/Fonts/Ek-Kannada/EkKannada-Regular.ttf', family: 'EkKannada', isVariable: true },
+  { name: 'Kohinoor Kannada', url: 'https://fonts.sanchaya.net/Fonts/KohinoorKannada/KohinoorKannada-Regular.ttf', family: 'KohinoorKannada', isVariable: true },
+  { name: 'Akhand Kannada', url: 'https://fonts.sanchaya.net/Fonts/AkhandKannada/AkhandKannada-Regular.ttf', family: 'AkhandKannada', isVariable: true }
 ];
 
 function getRandomFont() {
@@ -322,6 +352,8 @@ function loadDefaultFont() {
   document.head.appendChild(style);
 
   state.currentFont = fontConfig.family;
+  state.isVariable = fontConfig.isVariable || false;
+  state.fontWeight = 400;
   state.versions.unshift({
     fontFamily: fontConfig.family,
     name: fontConfig.name,
@@ -330,6 +362,14 @@ function loadDefaultFont() {
 
   $('empty-state').style.display = 'none';
   $('test-area').classList.add('visible');
+
+  const varControls = $('variable-controls');
+  if (state.isVariable) {
+    varControls.style.display = 'block';
+  } else {
+    varControls.style.display = 'none';
+  }
+
   renderContent();
   applyFont(fontConfig.family);
   applyControls();
@@ -447,6 +487,7 @@ function loadFont(file) {
 const state = {
   currentFont: null, fontSize: 32, lineHeight: 1.4,
   letterSpacing: 0, wordSpacing: 1,
+  fontWeight: 400, isVariable: false,
   ligatures: true, kerning: true, darkBg: false, versions: []
 };
 
@@ -455,7 +496,12 @@ const allTestTexts = () => document.querySelectorAll('.test-text');
 
 // ── renderer ──────────────────────────────────────────────
 function applyFont(fontFamily) {
-  allTestTexts().forEach(el => { el.style.fontFamily = `'${fontFamily}', sans-serif`; });
+  allTestTexts().forEach(el => {
+    el.style.fontFamily = `'${fontFamily}', sans-serif`;
+    if (state.isVariable) {
+      el.style.fontVariationSettings = `"wght" ${state.fontWeight}`;
+    }
+  });
 }
 
 function buildFeatureSettings() {
@@ -471,6 +517,9 @@ function applyControls() {
     el.style.letterSpacing = ls + 'em';
     el.style.wordSpacing = ws + 'em';
     el.style.fontFeatureSettings = feat;
+    if (state.isVariable) {
+      el.style.fontVariationSettings = `"wght" ${state.fontWeight}`;
+    }
   });
   $('st-size').textContent = fs + 'px';
   $('st-lh').textContent = lh.toFixed(2);
@@ -482,7 +531,12 @@ function makeTestEl(tag, text) {
   const el = document.createElement(tag);
   el.className = 'test-text';
   el.textContent = text;
-  if (state.currentFont) el.style.fontFamily = `'${state.currentFont}', sans-serif`;
+  if (state.currentFont) {
+    el.style.fontFamily = `'${state.currentFont}', sans-serif`;
+    if (state.isVariable) {
+      el.style.fontVariationSettings = `"wght" ${state.fontWeight}`;
+    }
+  }
   return el;
 }
 
@@ -622,6 +676,24 @@ $('dark-toggle').addEventListener('change', e => {
     main.style.background = '';
     allTestTexts().forEach(el => el.style.color = '');
   }
+});
+
+// Weight slider for variable fonts
+$('weight-slider').addEventListener('input', e => {
+  state.fontWeight = +e.target.value;
+  $('weight-val').textContent = state.fontWeight;
+  applyControls();
+});
+
+// Weight preset buttons
+document.querySelectorAll('.weight-preset').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const weight = +btn.dataset.weight;
+    state.fontWeight = weight;
+    $('weight-slider').value = weight;
+    $('weight-val').textContent = weight;
+    applyControls();
+  });
 });
 
 $('custom-input').addEventListener('input', e => {
