@@ -623,31 +623,43 @@ function renderContent() {
   waterfallSizes.forEach(sz => {
     const row = document.createElement('div');
     row.className = 'waterfall-item';
+    
     const lbl = document.createElement('span');
     lbl.className = 'waterfall-size';
-    lbl.textContent = sz;
-    const txt = makeTestEl('div', waterfallText);
+    lbl.textContent = sz + 'px';
+    
+    const txt = document.createElement('span');
+    txt.className = 'test-text';
+    txt.textContent = waterfallText;
     txt.style.fontSize = sz + 'px';
-    txt.style.lineHeight = state.lineHeight;
-    txt.style.letterSpacing = state.letterSpacing + 'em';
-    txt.style.wordSpacing = state.wordSpacing + 'em';
-    txt.style.fontFeatureSettings = buildFeatureSettings();
+    txt.style.lineHeight = 1.2;
+    txt.style.letterSpacing = '0.02em';
+    txt.style.display = 'inline-block';
+    
     row.appendChild(lbl);
     row.appendChild(txt);
     wf.appendChild(row);
     waterfallItems.push(txt);
   });
+  updateWaterfall();
 }
 
 function updateWaterfall() {
   if (waterfallItems.length === 0) return;
+  const feat = buildFeatureSettings();
   waterfallItems.forEach(txt => {
+    txt.style.fontSize = txt.style.fontSize;
+    txt.style.lineHeight = 1.2;
+    txt.style.letterSpacing = '0.02em';
+    txt.style.fontFeatureSettings = feat;
     if (state.currentFont) {
       txt.style.fontFamily = `'${state.currentFont}', sans-serif`;
     }
     if (state.isVariable) {
       txt.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
       txt.style.fontWeight = state.fontWeight;
+    } else {
+      txt.style.fontWeight = '';
     }
   });
 }
