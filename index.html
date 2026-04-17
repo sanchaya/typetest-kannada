@@ -494,6 +494,8 @@ const $ = id => document.getElementById(id);
 const allTestTexts = () => document.querySelectorAll('.test-text');
 
 // ── renderer ──────────────────────────────────────────────
+let waterfallItems = [];
+
 function applyFont(fontFamily) {
   allTestTexts().forEach(el => {
     el.style.fontFamily = `'${fontFamily}', sans-serif`;
@@ -504,6 +506,8 @@ function applyFont(fontFamily) {
   });
   // Also apply to direct textContent elements
   applyFontToAll();
+  // Update waterfall items
+  updateWaterfall();
 }
 
 function applyFontToAll() {
@@ -557,6 +561,7 @@ function applyControls() {
   $('st-lh').textContent = lh.toFixed(2);
   $('st-ls').textContent = ls.toFixed(3) + 'em';
   $('st-lig').textContent = state.ligatures ? 'on' : 'off';
+  updateWaterfall();
 }
 
 function makeTestEl(tag, text) {
@@ -614,6 +619,7 @@ function renderContent() {
 
   const wf = $('render-waterfall');
   wf.innerHTML = '';
+  waterfallItems = [];
   waterfallSizes.forEach(sz => {
     const row = document.createElement('div');
     row.className = 'waterfall-item';
@@ -629,6 +635,20 @@ function renderContent() {
     row.appendChild(lbl);
     row.appendChild(txt);
     wf.appendChild(row);
+    waterfallItems.push(txt);
+  });
+}
+
+function updateWaterfall() {
+  if (waterfallItems.length === 0) return;
+  waterfallItems.forEach(txt => {
+    if (state.currentFont) {
+      txt.style.fontFamily = `'${state.currentFont}', sans-serif`;
+    }
+    if (state.isVariable) {
+      txt.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+      txt.style.fontWeight = state.fontWeight;
+    }
   });
 }
 
