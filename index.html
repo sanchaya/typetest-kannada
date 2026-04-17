@@ -327,7 +327,6 @@ const availableFonts = [
   { name: 'KarnataGTN Variable', url: 'https://fonts.sanchaya.net/Fonts/KarnataGTN/KarnataGTN-Variable.ttf', family: 'KarnataGTNVariable', isVariable: true },
   { name: 'October Kannada Variable', url: 'https://fonts.sanchaya.net/Fonts/October-Kannada/OctoberKnLVariable-Regular.ttf', family: 'OctoberKannadaVariable', isVariable: true },
   { name: 'November Kannada Variable', url: 'https://fonts.sanchaya.net/Fonts/November-Kannada/NovemberKnLVariable-Regular.ttf', family: 'NovemberKannadaVariable', isVariable: true },
-  { name: 'November Stencil Variable', url: 'https://fonts.sanchaya.net/Fonts/NovemberStencil-Kannada/NovemberStencilKnLVariable-Rg.ttf', family: 'NovemberStencilVariable', isVariable: true },
   { name: 'Lava Kannada', url: 'https://fonts.sanchaya.net/Fonts/Lava-Kannada/LavaKannada-Regular.ttf', family: 'LavaKannada', isVariable: true },
   { name: 'Ek Kannada', url: 'https://fonts.sanchaya.net/Fonts/Ek-Kannada/EkKannada-Regular.ttf', family: 'EkKannada', isVariable: true },
   { name: 'Kohinoor Kannada', url: 'https://fonts.sanchaya.net/Fonts/KohinoorKannada/KohinoorKannada-Regular.ttf', family: 'KohinoorKannada', isVariable: true },
@@ -500,6 +499,7 @@ function applyFont(fontFamily) {
     el.style.fontFamily = `'${fontFamily}', sans-serif`;
     if (state.isVariable) {
       el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+      el.style.fontWeight = state.fontWeight;
     }
   });
   // Also apply to direct textContent elements
@@ -514,6 +514,9 @@ function applyFontToAll() {
       el.style.fontFamily = `'${state.currentFont}', sans-serif`;
       if (state.isVariable) {
         el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+        el.style.fontWeight = state.fontWeight;
+      } else {
+        el.style.fontWeight = '';
       }
     }
   });
@@ -534,6 +537,7 @@ function applyControls() {
     el.style.fontFeatureSettings = feat;
     if (state.isVariable) {
       el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+      el.style.fontWeight = state.fontWeight;
     }
   });
   // Also update direct elements
@@ -543,6 +547,9 @@ function applyControls() {
     if (el) {
       if (state.isVariable) {
         el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+        el.style.fontWeight = state.fontWeight;
+      } else {
+        el.style.fontWeight = '';
       }
     }
   });
@@ -560,6 +567,7 @@ function makeTestEl(tag, text) {
     el.style.fontFamily = `'${state.currentFont}', sans-serif`;
     if (state.isVariable) {
       el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+      el.style.fontWeight = state.fontWeight;
     }
   }
   return el;
@@ -735,6 +743,7 @@ $('custom-input').addEventListener('input', e => {
     cr.style.fontFeatureSettings = buildFeatureSettings();
     if (state.isVariable) {
       cr.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+      cr.style.fontWeight = state.fontWeight;
     }
   }
 });
