@@ -773,6 +773,17 @@ main {
   border: 1px solid var(--border-color);
 }
 
+/* ── PARAGRAPH ──────────────────────────────────────────── */
+
+#render-paragraph {
+  font-size: 18px;
+  line-height: 1.8;
+  padding: 16px;
+  background: var(--paper);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
 /* ── WATERFALL ──────────────────────────────────────────── */
 
 .waterfall-item {

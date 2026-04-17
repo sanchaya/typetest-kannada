@@ -137,6 +137,8 @@
       <button class="tab-btn" data-tab="conjuncts">Conjuncts</button>
       <button class="tab-btn" data-tab="vachana">Vachana</button>
       <button class="tab-btn" data-tab="words">Words</button>
+      <button class="tab-btn" data-tab="paragraph">Paragraph</button>
+      <button class="tab-btn" data-tab="waterfall">Waterfall</button>
       <button class="tab-btn" data-tab="custom">Custom</button>
     </div>
 
@@ -231,13 +233,19 @@
         </div>
         <div class="test-text" id="render-words" style="line-height:1.9"></div>
       </div>
+    </div>
+
+    <div class="tab-panel" id="panel-paragraph">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">08 · Paragraph</span>
           <span class="section-desc">Running text — overall rhythm</span>
         </div>
-        <div class="test-text" id="render-paragraph"></div>
+        <div class="test-text paragraph-text" id="render-paragraph"></div>
       </div>
+    </div>
+
+    <div class="tab-panel" id="panel-waterfall">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">09 · Waterfall</span>
@@ -274,6 +282,43 @@
 </div>
 
 <script>
+// ── Load Default Font from fonts.sanchaya.net ──────────────
+const defaultFontConfig = {
+  name: 'Kedage Bold',
+  url: 'https://fonts.sanchaya.net/Fonts/Kedage/Kedage-b.ttf',
+  family: 'KedageBold'
+};
+
+function loadDefaultFont() {
+  const style = document.createElement('style');
+  style.id = `ff-${defaultFontConfig.family}`;
+  style.textContent = `
+    @font-face {
+      font-family: '${defaultFontConfig.family}';
+      src: url('${defaultFontConfig.url}') format('truetype');
+      font-display: block;
+    }
+  `;
+  document.head.appendChild(style);
+
+  state.currentFont = defaultFontConfig.family;
+  state.versions.unshift({
+    fontFamily: defaultFontConfig.family,
+    name: defaultFontConfig.name,
+    timestamp: Date.now()
+  });
+
+  $('empty-state').style.display = 'none';
+  $('test-area').classList.add('visible');
+  renderContent();
+  applyFont(defaultFontConfig.family);
+  applyControls();
+  $('font-name-display').textContent = defaultFontConfig.name;
+  $('live-dot').classList.add('active');
+  $('st-font').textContent = defaultFontConfig.name;
+  renderVersionList();
+}
+
 // ── testContent ───────────────────────────────────────────
 const testSet = {
   vowels: "ಅ ಆ ಇ ಈ ಉ ಊ ಋ ಎ ಏ ಐ ಒ ಓ ಔ ಅಂ ಅಃ",
@@ -627,6 +672,11 @@ tabButtons.forEach(btn => {
     btn.classList.add('active');
     document.getElementById(`panel-${tabId}`).classList.add('active');
   });
+});
+
+// ── Initialize with default font ──────────────────────────
+window.addEventListener('load', () => {
+  loadDefaultFont();
 });
 </script>
 </body>
