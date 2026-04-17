@@ -282,40 +282,60 @@
 </div>
 
 <script>
-// ── Load Default Font from fonts.sanchaya.net ──────────────
-const defaultFontConfig = {
-  name: 'Kedage Bold',
-  url: 'https://fonts.sanchaya.net/Fonts/Kedage/Kedage-b.ttf',
-  family: 'KedageBold'
-};
+// ── Load Random Default Font from fonts.sanchaya.net ────────
+const availableFonts = [
+  { name: 'Kedage Bold', url: 'https://fonts.sanchaya.net/Fonts/Kedage/Kedage-b.ttf', family: 'KedageBold' },
+  { name: 'Lohit Kannada', url: 'https://fonts.sanchaya.net/Fonts/Lohit-Kannada/Lohit-Kannada.ttf', family: 'LohitKannada' },
+  { name: 'Benne Regular', url: 'https://fonts.sanchaya.net/Fonts/Benne/Benne-Regular.ttf', family: 'BenneRegular' },
+  { name: 'Gubbi', url: 'https://fonts.sanchaya.net/Fonts/Gubbi/Gubbi.ttf', family: 'Gubbi' },
+  { name: 'Hoysala Regular', url: 'https://fonts.sanchaya.net/Fonts/Hoysala/Hoysala-Regular.ttf', family: 'HoysalaRegular' },
+  { name: 'Hubballi Regular', url: 'https://fonts.sanchaya.net/Fonts/Hubballi/Hubballi-Regular.ttf', family: 'HubballiRegular' },
+  { name: 'Inchara', url: 'https://fonts.sanchaya.net/Fonts/Inchara/inchara.ttf', family: 'Inchara' },
+  { name: 'Navilu', url: 'https://fonts.sanchaya.net/Fonts/Navilu/Navilu.ttf', family: 'Navilu' },
+  { name: 'Kadamba Kakusthavarman', url: 'https://fonts.sanchaya.net/Fonts/Kadamba/Kadamba-Kakusthavarman.ttf', family: 'Kadamba' },
+  { name: 'Kanishka', url: 'https://fonts.sanchaya.net/Fonts/Kanishka/Kanishka.ttf', family: 'Kanishka' },
+  { name: 'Cheluvi', url: 'https://fonts.sanchaya.net/Fonts/Cheluvi/Cheluvi.ttf', family: 'Cheluvi' },
+  { name: 'Chalukya Vijayaditya', url: 'https://fonts.sanchaya.net/Fonts/Chalukya/Chalukya-Vijayaditya.ttf', family: 'Chalukya' },
+  { name: 'BelurKannada Regular', url: 'https://fonts.sanchaya.net/Fonts/BelurKannada/BelurKannada-Regular.ttf', family: 'BelurKannadaRegular' },
+  { name: 'Kolar Bold', url: 'https://fonts.sanchaya.net/Fonts/Kolar/Kolar-Bold.ttf', family: 'KolarBold' },
+  { name: 'BandipurOne', url: 'https://fonts.sanchaya.net/Fonts/BandipurOne/BandipurOne.ttf', family: 'BandipurOne' },
+  { name: 'Ganga Marasimha', url: 'https://fonts.sanchaya.net/Fonts/Ganga/Gangga-Marasimha.ttf', family: 'Ganga' },
+  { name: 'Gajamukha Full', url: 'https://fonts.sanchaya.net/Fonts/Gajamukha/Gajamukha-Full.ttf', family: 'Gajamukha' },
+  { name: 'Akaya Kanadaka', url: 'https://fonts.sanchaya.net/Fonts/Akaya-Kanadaka/AkayaKanadaka-Regular.ttf', family: 'AkayaKanadaka' }
+];
+
+function getRandomFont() {
+  return availableFonts[Math.floor(Math.random() * availableFonts.length)];
+}
 
 function loadDefaultFont() {
+  const fontConfig = getRandomFont();
   const style = document.createElement('style');
-  style.id = `ff-${defaultFontConfig.family}`;
+  style.id = `ff-${fontConfig.family}`;
   style.textContent = `
     @font-face {
-      font-family: '${defaultFontConfig.family}';
-      src: url('${defaultFontConfig.url}') format('truetype');
+      font-family: '${fontConfig.family}';
+      src: url('${fontConfig.url}') format('truetype');
       font-display: block;
     }
   `;
   document.head.appendChild(style);
 
-  state.currentFont = defaultFontConfig.family;
+  state.currentFont = fontConfig.family;
   state.versions.unshift({
-    fontFamily: defaultFontConfig.family,
-    name: defaultFontConfig.name,
+    fontFamily: fontConfig.family,
+    name: fontConfig.name,
     timestamp: Date.now()
   });
 
   $('empty-state').style.display = 'none';
   $('test-area').classList.add('visible');
   renderContent();
-  applyFont(defaultFontConfig.family);
+  applyFont(fontConfig.family);
   applyControls();
-  $('font-name-display').textContent = defaultFontConfig.name;
+  $('font-name-display').textContent = fontConfig.name;
   $('live-dot').classList.add('active');
-  $('st-font').textContent = defaultFontConfig.name;
+  $('st-font').textContent = fontConfig.name;
   renderVersionList();
 }
 
