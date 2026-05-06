@@ -437,10 +437,11 @@ function loadDefaultFont() {
   const fontConfig = getRandomFont();
   const style = document.createElement('style');
   style.id = `ff-${fontConfig.family}`;
+  const formatStr = fontConfig.isVariable ? 'truetype-variations' : 'truetype';
   style.textContent = `
     @font-face {
       font-family: '${fontConfig.family}';
-      src: url('${fontConfig.url}') format('truetype');
+      src: url('${fontConfig.url}') format('${formatStr}');
       font-display: block;
     }
   `;
