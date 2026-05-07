@@ -367,7 +367,7 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Glyph Coverage</span>
-          <span class="section-desc">Kannada Unicode block (U+0C80–U+0CFF) — 128 code points</span>
+          <span class="section-desc">Kannada Unicode block (U+0C80–U+0CFF) — 128 code points, 91 assigned</span>
         </div>
         <div class="coverage-summary" id="coverage-summary"></div>
         <div class="coverage-bar" id="coverage-bar"></div>
@@ -946,7 +946,7 @@ function makeTestEl(tag, text) {
   return el;
 }
 
-async function renderContent() {
+function renderContent() {
   $('render-vowels').textContent = testSet.vowels;
 
   $('overview-vowels').textContent = testSet.vowels;
@@ -1080,36 +1080,9 @@ function updateWaterfall() {
 }
 
 // ── Glyph Coverage ────────────────────────────────────────
-let coverageFont = null;
+let coverageShowReserved = false;
 
-async function getCoverageFont(fontFamily) {
-  if (coverageFont && coverageFont.family === fontFamily) {
-    if (coverageFont.status === 'loaded') return coverageFont;
-    if (coverageFont.status === 'error') coverageFont = null;
-  }
-
-  const styleEl = document.querySelector(`style[id="ff-${fontFamily}"]`);
-  if (!styleEl) return null;
-
-  const match = styleEl.textContent.match(/url\(['"]?([^'")\s]+)['"]?\)/);
-  if (!match) return null;
-
-  try {
-    const ff = new FontFace(fontFamily, `url('${match[1]}')`);
-    await ff.load();
-    document.fonts.add(ff);
-    coverageFont = ff;
-    return ff;
-  } catch {
-    return null;
-  }
-}
-
-function detectGlyphSupport(charCode, fontFamily) {
-  return document.fonts.check(`72px '${fontFamily}'`, String.fromCodePoint(charCode));
-}
-
-async function renderCoverage() {
+function renderCoverage() {
   const grid = $('coverage-grid');
   const summary = $('coverage-summary');
   const bar = $('coverage-bar');
@@ -1124,22 +1097,14 @@ async function renderCoverage() {
     return;
   }
 
-  const ff = await getCoverageFont(state.currentFont);
-  if (!ff) {
-    summary.innerHTML = '<span class="coverage-note">Could not load font for coverage check</span>';
-    return;
-  }
+  const chars = coverageShowReserved ? kannadaUnicode : assignedKannada;
+  let total = chars.length;
 
-  let supported = 0;
-  let total = assignedKannada.length;
-
-  assignedKannada.forEach(({ cp, name }) => {
-    const hasGlyph = detectGlyphSupport(cp, state.currentFont);
-    if (hasGlyph) supported++;
-
+  chars.forEach(({ cp, name }) => {
+    const isReserved = name.startsWith("RESERVED");
     const cell = document.createElement('div');
-    cell.className = 'coverage-cell' + (hasGlyph ? ' supported' : ' missing');
-    cell.title = `U+${cp.toString(16).toUpperCase().padStart(4, '0')} — ${name}${hasGlyph ? '' : ' (not in font)'}`;
+    cell.className = 'coverage-cell' + (isReserved ? ' reserved' : ' assigned');
+    cell.title = `U+${cp.toString(16).toUpperCase().padStart(4, '0')} — ${name}`;
 
     const charSpan = document.createElement('span');
     charSpan.className = 'coverage-char';
@@ -1156,16 +1121,13 @@ async function renderCoverage() {
     grid.appendChild(cell);
   });
 
-  const pct = ((supported / total) * 100).toFixed(1);
+  const toggleLabel = coverageShowReserved ? 'Hide reserved' : 'Show reserved';
   summary.innerHTML = `
     <span class="coverage-stats">
-      <span class="stat-label">${supported} / ${total} assigned code points</span>
-      <span class="stat-pct">${pct}% coverage</span>
+      <span class="stat-label">Kannada Unicode Block — U+0C80 to U+0CFF</span>
+      <button class="coverage-toggle" onclick="coverageShowReserved=!coverageShowReserved;renderCoverage();">${toggleLabel}</button>
     </span>
-  `;
-
-  bar.innerHTML = `
-    <div class="coverage-bar-fill" style="width: ${pct}%"></div>
+    <span class="coverage-note" style="font-size:11px;color:var(--muted);">Characters showing as □ or missing glyphs are not in the loaded font</span>
   `;
 }
 

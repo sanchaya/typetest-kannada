@@ -1084,15 +1084,15 @@ main {
   min-height: 72px;
 }
 
-.coverage-cell.supported {
-  border-color: #d1fae5;
-  background: #f0fdf4;
+.coverage-cell.assigned {
+  border-color: var(--border-color);
+  background: var(--paper);
 }
 
-.coverage-cell.missing {
-  border-color: #fecaca;
-  background: #fef2f2;
-  opacity: 0.6;
+.coverage-cell.reserved {
+  border-color: #e5e7eb;
+  background: #f9fafb;
+  opacity: 0.4;
 }
 
 .coverage-cell:hover {
@@ -1112,10 +1112,19 @@ main {
   letter-spacing: 0.05em;
 }
 
-.coverage-cell.missing .coverage-code {
-  color: #dc2626;
+.coverage-toggle {
+  padding: 6px 14px;
+  border: 1px solid var(--border-color);
+  background: var(--text-background);
+  color: var(--text-color3);
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.coverage-cell.supported .coverage-code {
-  color: #059669;
+.coverage-toggle:hover {
+  border-color: var(--text-color3);
+  background: var(--hover-color);
 }
