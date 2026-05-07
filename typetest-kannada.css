@@ -843,6 +843,7 @@ main {
 /* ── CUSTOM INPUT ────────────────────────────────────────── */
 
 .custom-input-area {
+  margin-top: 16px;
   padding: 8px 0;
 }
 
@@ -993,6 +994,9 @@ main {
   }
 }
 
+/* ── SMALL SCREENS ─────────────────────────────────────── */
+
+@media (max-width: 480px) {
   header {
     flex-direction: column;
     gap: 12px;

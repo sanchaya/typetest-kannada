@@ -536,44 +536,52 @@ function getRandomFont() {
 
 function loadDefaultFont() {
   const fontConfig = getRandomFont();
-  const style = document.createElement('style');
-  style.id = `ff-${fontConfig.family}`;
-  const formatStr = fontConfig.isVariable ? 'truetype-variations' : 'truetype';
-  style.textContent = `
-    @font-face {
-      font-family: '${fontConfig.family}';
-      src: url('${fontConfig.url}') format('${formatStr}');
-      font-display: block;
+
+  const ff = new FontFace(fontConfig.family, `url('${fontConfig.url}')`);
+
+  ff.load().then(loadedFace => {
+    document.fonts.add(loadedFace);
+
+    const style = document.createElement('style');
+    style.id = `ff-${fontConfig.family}`;
+    style.textContent = `
+      @font-face {
+        font-family: '${fontConfig.family}';
+        src: local('${fontConfig.family}'), url('${fontConfig.url}');
+        font-display: block;
+      }
+    `;
+    document.head.appendChild(style);
+
+    state.currentFont = fontConfig.family;
+    state.isVariable = fontConfig.isVariable || false;
+    state.fontWeight = 400;
+    state.versions.unshift({
+      fontFamily: fontConfig.family,
+      name: fontConfig.name,
+      timestamp: Date.now()
+    });
+
+    $('empty-state').style.display = 'none';
+    $('test-area').classList.add('visible');
+
+    const varControls = $('variable-controls');
+    if (state.isVariable) {
+      varControls.style.display = 'block';
+    } else {
+      varControls.style.display = 'none';
     }
-  `;
-  document.head.appendChild(style);
 
-  state.currentFont = fontConfig.family;
-  state.isVariable = fontConfig.isVariable || false;
-  state.fontWeight = 400;
-  state.versions.unshift({
-    fontFamily: fontConfig.family,
-    name: fontConfig.name,
-    timestamp: Date.now()
+    renderContent();
+    applyFont(fontConfig.family);
+    applyControls();
+    $('font-name-display').textContent = fontConfig.name;
+    $('live-dot').classList.add('active');
+    $('st-font').textContent = fontConfig.name;
+    renderVersionList();
+  }).catch(e => {
+    console.warn('Failed to load default font:', fontConfig.name, e);
   });
-
-  $('empty-state').style.display = 'none';
-  $('test-area').classList.add('visible');
-
-  const varControls = $('variable-controls');
-  if (state.isVariable) {
-    varControls.style.display = 'block';
-  } else {
-    varControls.style.display = 'none';
-  }
-
-  renderContent();
-  applyFont(fontConfig.family);
-  applyControls();
-  $('font-name-display').textContent = fontConfig.name;
-  $('live-dot').classList.add('active');
-  $('st-font').textContent = fontConfig.name;
-  renderVersionList();
 }
 
 // ── testContent ───────────────────────────────────────────
@@ -941,6 +949,14 @@ function loadFont(file) {
   const fontFamily = `TestFont_${ts}`;
   const objectURL = URL.createObjectURL(file);
   fontCache.store(fontFamily, objectURL);
+
+  const ff = new FontFace(fontFamily, `url('${objectURL}')`);
+  ff.load().then(loadedFace => {
+    document.fonts.add(loadedFace);
+  }).catch(e => {
+    console.warn('Failed to load uploaded font:', e);
+  });
+
   const style = document.createElement('style');
   style.id = `ff-${fontFamily}`;
   style.textContent = `@font-face { font-family:'${fontFamily}'; src:url('${objectURL}'); font-display:block; }`;
@@ -1020,15 +1036,11 @@ function applyFontToAll() {
 
 function buildFeatureSettings() {
   const feats = [];
-  allTestTexts().forEach(el => {
-    const hasLiga = state.ligatures || activeOtFeatures.has('liga');
-    const hasKern = state.kerning || activeOtFeatures.has('kern');
-    if (hasLiga) feats.push('"liga" 1');
-    if (hasKern) feats.push('"kern" 1');
-  });
-  const allFeatures = ['liga','kern','ccmp','locl','nukt','akhn','rphf','pref','blwf','pstf','vatu','cjct','haln','pres','abvs','blws','psts','dlig','hlig','clig','calt','salt','swsh','cswh'];
+  if (state.ligatures || activeOtFeatures.has('liga')) feats.push('"liga" 1');
+  if (state.kerning || activeOtFeatures.has('kern')) feats.push('"kern" 1');
+  const allFeatures = ['ccmp','locl','nukt','akhn','rphf','pref','blwf','pstf','vatu','cjct','haln','pres','abvs','blws','psts','dlig','hlig','clig','calt','salt','swsh','cswh'];
   allFeatures.forEach(f => {
-    if (activeOtFeatures.has(f) && !['liga','kern'].includes(f)) {
+    if (activeOtFeatures.has(f)) {
       feats.push(`"${f}" 1`);
     }
   });
@@ -1666,50 +1678,39 @@ function parseFontMetadata(fontFamily) {
   const fontConfig = availableFonts.find(f => f.url === fontUrl);
 
   if (fontConfig && fontConfig.url.includes('sanchaya.net')) {
-    fetchSanchayaMetadata(fontConfig.name, fontFamily, meta, otSection, fontUrl);
+    displaySanchayaMetadata(fontConfig, fontFamily, meta, otSection, fontUrl);
   } else {
-    parseLocalFontMetadata(fontFamily, meta, otSection, fontUrl);
+    parseFontWithOpentype(fontUrl, fontFamily, meta, otSection);
   }
 }
 
-async function fetchSanchayaMetadata(fontName, fontFamily, metaEl, otSection, fontUrl) {
-  try {
-    const searchName = fontName.replace(/\s+/g, '-').toLowerCase();
-    const resp = await fetch(`https://fonts.sanchaya.net/api/fonts/${searchName}`, { mode: 'cors' });
-    if (!resp.ok) throw new Error('Not found');
-    const data = await resp.json();
+function displaySanchayaMetadata(fontConfig, fontFamily, metaEl, otSection, fontUrl) {
+  metaEl.innerHTML = '';
+  const info = [
+    { label: 'Font Family', value: fontConfig.name },
+    { label: 'Source', value: '<span style="color:var(--text-color3)">ಫಾಂಟ್ಸ್ ಸಂಚಯ</span>' },
+    { label: 'URL', value: `<a href="${fontConfig.url}" target="_blank" style="color:var(--text-color3);text-decoration:none;font-size:11px;">${fontConfig.url}</a>` },
+    { label: 'Type', value: fontConfig.isVariable ? 'Variable Font' : 'Static Font' },
+    { label: 'Glyphs', value: '—' },
+    { label: 'Note', value: '<span style="color:var(--muted);font-size:12px;">Upload font locally to view full metadata and rules</span>' },
+  ];
+  info.forEach(({ label, value }) => {
+    const card = document.createElement('div');
+    card.className = 'metadata-card';
+    card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
+    metaEl.appendChild(card);
+  });
 
-    if (data) {
-      const info = [
-        { label: 'Font Family', value: data.family || fontName },
-        { label: 'Designer', value: data.designer || '—' },
-        { label: 'Foundry', value: data.foundry || 'ಫಾಂಟ್ಸ್ ಸಂಚಯ' },
-        { label: 'Designer URL', value: data.designer_url ? `<a href="${data.designer_url}" target="_blank" style="color:var(--text-color3);text-decoration:none;">${data.designer_url}</a>` : '—' },
-        { label: 'License', value: data.license || '—' },
-        { label: 'Description', value: data.description || '—' },
-      ];
-
-      metaEl.innerHTML = '';
-      info.forEach(({ label, value }) => {
-        const card = document.createElement('div');
-        card.className = 'metadata-card';
-        card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
-        metaEl.appendChild(card);
-      });
-    }
-
-    parseLocalFontMetadata(fontFamily, metaEl, otSection, fontUrl, true);
-  } catch (e) {
-    parseLocalFontMetadata(fontFamily, metaEl, otSection, fontUrl);
+  if (otSection) {
+    otSection.style.display = 'none';
+    otSection.innerHTML = '<div class="metadata-empty">OpenType rules require local font file. Download from ಸಂಚಯ and upload to view GSUB/GPOS data.</div>';
   }
 }
 
-function parseLocalFontMetadata(fontFamily, metaEl, otSection, fontUrl, sanchayaFallback = false) {
+function parseFontWithOpentype(fontUrl, fontFamily, metaEl, otSection) {
   opentype.load(fontUrl, (err, font) => {
     if (err) {
-      if (!sanchayaFallback) {
-        metaEl.innerHTML = `<div class="metadata-empty">Could not parse font: ${err.message}</div>`;
-      }
+      metaEl.innerHTML = `<div class="metadata-empty">Could not parse font: ${err.message}</div>`;
       return;
     }
 
@@ -1718,32 +1719,29 @@ function parseLocalFontMetadata(fontFamily, metaEl, otSection, fontUrl, sanchaya
     const head = font.tables.head;
     const hhea = font.tables.hhea;
 
-    if (!sanchayaFallback) {
-      const info = [
-        { label: 'Font Family', value: names?.fontFamily?.en || fontFamily },
-        { label: 'Designer', value: names?.designer?.en || '—' },
-        { label: 'Designer URL', value: names?.designerURL?.en ? `<a href="${names.designerURL.en}" target="_blank" style="color:var(--text-color3);text-decoration:none;">${names.designerURL.en}</a>` : '—' },
-        { label: 'Manufacturer', value: names?.manufacturer?.en || '—' },
-        { label: 'License', value: names?.license?.en || '—' },
-        { label: 'Version', value: names?.version?.en || '—' },
-        { label: 'Description', value: names?.description?.en || '—' },
-        { label: 'Copyright', value: names?.copyright?.en || '—' },
-        { label: 'Glyphs', value: font.numGlyphs },
-        { label: 'Units/Em', value: head?.unitsPerEm || '—' },
-        { label: 'Ascender', value: hhea?.ascender || '—' },
-        { label: 'Descender', value: hhea?.descender || '—' },
-      ];
+    const info = [
+      { label: 'Font Family', value: names?.fontFamily?.en || fontFamily },
+      { label: 'Designer', value: names?.designer?.en || '—' },
+      { label: 'Designer URL', value: names?.designerURL?.en ? `<a href="${names.designerURL.en}" target="_blank" style="color:var(--text-color3);text-decoration:none;">${names.designerURL.en}</a>` : '—' },
+      { label: 'Manufacturer', value: names?.manufacturer?.en || '—' },
+      { label: 'License', value: names?.license?.en || '—' },
+      { label: 'Version', value: names?.version?.en || '—' },
+      { label: 'Description', value: names?.description?.en || '—' },
+      { label: 'Copyright', value: names?.copyright?.en || '—' },
+      { label: 'Glyphs', value: font.numGlyphs },
+      { label: 'Units/Em', value: head?.unitsPerEm || '—' },
+      { label: 'Ascender', value: hhea?.ascender || '—' },
+      { label: 'Descender', value: hhea?.descender || '—' },
+    ];
 
-      metaEl.innerHTML = '';
-      info.forEach(({ label, value }) => {
-        const card = document.createElement('div');
-        card.className = 'metadata-card';
-        card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
-        metaEl.appendChild(card);
-      });
-    }
+    metaEl.innerHTML = '';
+    info.forEach(({ label, value }) => {
+      const card = document.createElement('div');
+      card.className = 'metadata-card';
+      card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
+      metaEl.appendChild(card);
+    });
 
-    // OpenType features
     const gsub = font.tables.gsub;
     const otGrid = $('ot-features-grid');
     if (gsub && gsub.features && otGrid) {
@@ -1795,7 +1793,7 @@ let allFontFeatures = [];
 function renderFontRules() {
   const container = $('font-rules-content');
   if (!container || !parsedFontData) {
-    if (container) container.innerHTML = '<div class="metadata-empty">Load a font to view embedded rules</div>';
+    if (container) container.innerHTML = '<div class="metadata-empty">Upload a local font file (.ttf/.otf) to view embedded OpenType rules.<br><span style="font-size:12px;color:var(--muted);margin-top:8px;display:block;">Remote fonts from ಸಂಚಯ cannot be fully parsed due to browser restrictions.</span></div>';
     return;
   }
 
