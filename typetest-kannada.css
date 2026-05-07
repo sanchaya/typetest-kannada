@@ -71,7 +71,7 @@ body {
 header {
   grid-column: 1 / -1;
   border-bottom: 1px solid var(--border-color);
-  padding: 8px 20px;
+  padding: 6px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -80,12 +80,12 @@ header {
 
 .header-brand {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .header-logo {
-  height: 32px;
+  height: 28px;
   width: auto;
 }
 
@@ -93,19 +93,19 @@ header {
   display: flex;
   flex-direction: column;
   gap: 0;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 .wordmark {
   font-family: var(--serif);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-color1);
   letter-spacing: -0.01em;
 }
 
 .tagline {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--span-color);
   letter-spacing: 0.02em;
 }
@@ -113,7 +113,7 @@ header {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .font-badge {
@@ -129,7 +129,7 @@ header {
   color: var(--text-color3);
   font-size: 11px;
   font-weight: 500;
-  max-width: 180px;
+  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -156,7 +156,7 @@ header {
 }
 
 .sanchaya-logo {
-  height: 22px;
+  height: 20px;
   width: auto;
 }
 
@@ -164,10 +164,10 @@ header {
 
 aside {
   border-right: 1px solid var(--border-color);
-  padding: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   overflow-y: auto;
   min-height: 0;
   background: var(--paper);
@@ -191,7 +191,7 @@ aside .sidebar-actions {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--span-color);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -208,8 +208,8 @@ aside .sidebar-actions {
 
 .upload-zone {
   border: 2px dashed var(--border-color);
-  border-radius: 10px;
-  padding: 16px 12px;
+  border-radius: 8px;
+  padding: 12px 10px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -233,8 +233,8 @@ aside .sidebar-actions {
 }
 
 .upload-icon {
-  font-size: 22px;
-  margin-bottom: 6px;
+  font-size: 20px;
+  margin-bottom: 4px;
   display: block;
   color: var(--text-color3);
 }
@@ -263,8 +263,8 @@ aside .sidebar-actions {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 .control-row label {
@@ -329,7 +329,7 @@ input[type=range]::-moz-range-thumb {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .toggle-row label {
@@ -460,7 +460,7 @@ input[type=range]::-moz-range-thumb {
 /* ── MAIN RENDER AREA ────────────────────────────────────── */
 
 main {
-  padding: 24px 32px;
+  padding: 20px 28px;
   overflow-y: auto;
   min-height: 0;
   background: var(--paper);
