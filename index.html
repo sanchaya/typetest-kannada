@@ -1081,6 +1081,35 @@ function updateWaterfall() {
 
 // ── Glyph Coverage ────────────────────────────────────────
 let coverageShowReserved = false;
+let coverageSupported = 0;
+let coverageTotal = assignedKannada.length;
+
+function detectGlyphInFont(char, fontFamily) {
+  const testSpan = document.createElement('span');
+  testSpan.style.cssText = 'position:absolute;left:-9999px;top:-9999px;font-size:80px;line-height:1;white-space:nowrap;';
+  testSpan.style.fontFamily = `'${fontFamily}'`;
+  testSpan.textContent = char;
+
+  const refSpan = document.createElement('span');
+  refSpan.style.cssText = 'position:absolute;left:-9999px;top:-9999px;font-size:80px;line-height:1;white-space:nowrap;';
+  refSpan.style.fontFamily = "'Apple Color Emoji','Segoe UI Emoji','Noto Sans',Arial,sans-serif";
+  refSpan.textContent = char;
+
+  document.body.appendChild(testSpan);
+  document.body.appendChild(refSpan);
+
+  const tW = testSpan.getBoundingClientRect().width;
+  const tH = testSpan.getBoundingClientRect().height;
+  const rW = refSpan.getBoundingClientRect().width;
+  const rH = refSpan.getBoundingClientRect().height;
+
+  document.body.removeChild(testSpan);
+  document.body.removeChild(refSpan);
+
+  if (tW === 0 && rW > 0) return false;
+  if (Math.abs(tW - rW) < 1 && Math.abs(tH - rH) < 1) return false;
+  return true;
+}
 
 function renderCoverage() {
   const grid = $('coverage-grid');
@@ -1098,17 +1127,29 @@ function renderCoverage() {
   }
 
   const chars = coverageShowReserved ? kannadaUnicode : assignedKannada;
-  let total = chars.length;
+  let supported = 0;
+  let total = assignedKannada.length;
+
+  assignedKannada.forEach(({ cp, name }) => {
+    const char = String.fromCodePoint(cp);
+    if (detectGlyphInFont(char, state.currentFont)) supported++;
+  });
+
+  coverageSupported = supported;
+  coverageTotal = total;
 
   chars.forEach(({ cp, name }) => {
     const isReserved = name.startsWith("RESERVED");
+    const char = String.fromCodePoint(cp);
+    const inFont = detectGlyphInFont(char, state.currentFont);
+
     const cell = document.createElement('div');
-    cell.className = 'coverage-cell' + (isReserved ? ' reserved' : ' assigned');
-    cell.title = `U+${cp.toString(16).toUpperCase().padStart(4, '0')} — ${name}`;
+    cell.className = 'coverage-cell' + (isReserved ? ' reserved' : (inFont ? ' supported' : ' fallback'));
+    cell.title = `U+${cp.toString(16).toUpperCase().padStart(4, '0')} — ${name}${inFont ? '' : ' (system fallback)'}`;
 
     const charSpan = document.createElement('span');
     charSpan.className = 'coverage-char';
-    charSpan.textContent = String.fromCodePoint(cp);
+    charSpan.textContent = char;
     charSpan.style.fontFamily = `'${state.currentFont}', sans-serif`;
     charSpan.style.fontSize = '28px';
 
@@ -1121,13 +1162,27 @@ function renderCoverage() {
     grid.appendChild(cell);
   });
 
-  const toggleLabel = coverageShowReserved ? 'Hide reserved' : 'Show reserved';
+  const pctSupported = ((supported / total) * 100).toFixed(1);
+  const pctFallback = ((100 - pctSupported)).toFixed(1);
+
   summary.innerHTML = `
     <span class="coverage-stats">
-      <span class="stat-label">Kannada Unicode Block — U+0C80 to U+0CFF</span>
-      <button class="coverage-toggle" onclick="coverageShowReserved=!coverageShowReserved;renderCoverage();">${toggleLabel}</button>
+      <span class="stat-label">Font: <strong>${state.currentFont}</strong></span>
+      <span class="stat-pct" style="color:#059669;">${supported} in font</span>
+      <span class="stat-pct" style="color:#dc2626;">${total - supported} fallback</span>
+      <span class="stat-pct">${total} assigned</span>
+      <button class="coverage-toggle" onclick="coverageShowReserved=!coverageShowReserved;renderCoverage();">${coverageShowReserved ? 'Hide reserved' : 'Show reserved'}</button>
     </span>
-    <span class="coverage-note" style="font-size:11px;color:var(--muted);">Characters showing as □ or missing glyphs are not in the loaded font</span>
+    <span class="coverage-note">
+      <span class="pct-supported">${pctSupported}% coverage</span> ·
+      <span class="pct-fallback">${pctFallback}% system fallback</span> ·
+      Hover characters for Unicode details
+    </span>
+  `;
+
+  bar.innerHTML = `
+    <div class="coverage-bar-segment supported" style="width: ${pctSupported}%"></div>
+    <div class="coverage-bar-segment fallback" style="width: ${pctFallback}%"></div>
   `;
 }
 
