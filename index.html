@@ -16,7 +16,9 @@
 <!-- HEADER -->
 <header>
   <div class="header-brand">
-    <img src="img/app-icon-light.png" alt="ಫಾಂಟ್ಸ್ ಸಂಚಯ" class="header-logo">
+    <a href="https://fonts.sanchaya.net" target="_blank" class="header-logo-link">
+      <img src="img/app-icon-light.png" alt="ಫಾಂಟ್ಸ್ ಸಂಚಯ" class="header-logo">
+    </a>
     <div class="header-text">
       <div class="wordmark">ಟೈಪ್‌ಟೆಸ್ಟ್-ಕನ್ನಡ</div>
       <div class="tagline">ಫಾಂಟ್ಸ್ ಸಂಚಯ · Kannada Font Inspector</div>
@@ -536,52 +538,45 @@ function getRandomFont() {
 
 function loadDefaultFont() {
   const fontConfig = getRandomFont();
-
-  const ff = new FontFace(fontConfig.family, `url('${fontConfig.url}')`);
-
-  ff.load().then(loadedFace => {
-    document.fonts.add(loadedFace);
-
-    const style = document.createElement('style');
-    style.id = `ff-${fontConfig.family}`;
-    style.textContent = `
-      @font-face {
-        font-family: '${fontConfig.family}';
-        src: local('${fontConfig.family}'), url('${fontConfig.url}');
-        font-display: block;
-      }
-    `;
-    document.head.appendChild(style);
-
-    state.currentFont = fontConfig.family;
-    state.isVariable = fontConfig.isVariable || false;
-    state.fontWeight = 400;
-    state.versions.unshift({
-      fontFamily: fontConfig.family,
-      name: fontConfig.name,
-      timestamp: Date.now()
-    });
-
-    $('empty-state').style.display = 'none';
-    $('test-area').classList.add('visible');
-
-    const varControls = $('variable-controls');
-    if (state.isVariable) {
-      varControls.style.display = 'block';
-    } else {
-      varControls.style.display = 'none';
+  const style = document.createElement('style');
+  style.id = `ff-${fontConfig.family}`;
+  style.textContent = `
+    @font-face {
+      font-family: '${fontConfig.family}';
+      src: url('${fontConfig.url}');
+      font-display: swap;
     }
+  `;
+  document.head.appendChild(style);
 
-    renderContent();
-    applyFont(fontConfig.family);
-    applyControls();
-    $('font-name-display').textContent = fontConfig.name;
-    $('live-dot').classList.add('active');
-    $('st-font').textContent = fontConfig.name;
-    renderVersionList();
-  }).catch(e => {
-    console.warn('Failed to load default font:', fontConfig.name, e);
+  state.currentFont = fontConfig.family;
+  state.isVariable = fontConfig.isVariable || false;
+  state.fontWeight = 400;
+  state.versions.unshift({
+    fontFamily: fontConfig.family,
+    name: fontConfig.name,
+    timestamp: Date.now()
   });
+
+  $('empty-state').style.display = 'none';
+  $('test-area').classList.add('visible');
+
+  const varControls = $('variable-controls');
+  if (state.isVariable) {
+    varControls.style.display = 'block';
+  } else {
+    varControls.style.display = 'none';
+  }
+
+  renderContent();
+  applyFont(fontConfig.family);
+  applyControls();
+  $('font-name-display').textContent = fontConfig.name;
+  $('live-dot').classList.add('active');
+  $('st-font').textContent = fontConfig.name;
+  renderVersionList();
+
+  document.fonts.load(`16px '${fontConfig.family}'`).catch(() => {});
 }
 
 // ── testContent ───────────────────────────────────────────
@@ -950,17 +945,13 @@ function loadFont(file) {
   const objectURL = URL.createObjectURL(file);
   fontCache.store(fontFamily, objectURL);
 
-  const ff = new FontFace(fontFamily, `url('${objectURL}')`);
-  ff.load().then(loadedFace => {
-    document.fonts.add(loadedFace);
-  }).catch(e => {
-    console.warn('Failed to load uploaded font:', e);
-  });
-
   const style = document.createElement('style');
   style.id = `ff-${fontFamily}`;
-  style.textContent = `@font-face { font-family:'${fontFamily}'; src:url('${objectURL}'); font-display:block; }`;
+  style.textContent = `@font-face { font-family:'${fontFamily}'; src:url('${objectURL}'); font-display:swap; }`;
   document.head.appendChild(style);
+
+  document.fonts.load(`16px '${fontFamily}'`).catch(() => {});
+
   return { fontFamily, objectURL, timestamp: ts };
 }
 
@@ -1971,24 +1962,25 @@ function updateCompareSelects() {
 
 const loadedCompareFonts = new Set();
 
-async function loadCompareFont(family) {
-  if (loadedCompareFonts.has(family)) return;
-  if (document.querySelector(`style[id="ff-${family}"]`)) {
-    loadedCompareFonts.add(family);
-    return;
-  }
+function loadCompareFont(family) {
+  return new Promise((resolve) => {
+    if (loadedCompareFonts.has(family)) return resolve();
+    if (document.querySelector(`style[id="ff-${family}"]`)) {
+      loadedCompareFonts.add(family);
+      return resolve();
+    }
 
-  const config = availableFonts.find(f => f.family === family);
-  if (!config) return;
+    const config = availableFonts.find(f => f.family === family);
+    if (!config) return resolve();
 
-  try {
-    const ff = new FontFace(family, `url('${config.url}')`, { crossOrigin: 'anonymous' });
-    await ff.load();
-    document.fonts.add(ff);
+    const style = document.createElement('style');
+    style.id = `ff-${family}`;
+    style.textContent = `@font-face { font-family:'${family}'; src:url('${config.url}'); font-display:swap; }`;
+    document.head.appendChild(style);
     loadedCompareFonts.add(family);
-  } catch (e) {
-    console.warn('Failed to load compare font:', family, e);
-  }
+
+    document.fonts.load(`16px '${family}'`).then(() => resolve()).catch(() => resolve());
+  });
 }
 
 async function renderCompare() {

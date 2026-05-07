@@ -84,6 +84,17 @@ header {
   gap: 8px;
 }
 
+.header-logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.header-logo-link:hover {
+  opacity: 0.8;
+}
+
 .header-logo {
   height: 28px;
   width: auto;
