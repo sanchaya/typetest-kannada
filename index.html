@@ -164,6 +164,7 @@
       <button class="tab-btn" data-tab="english">English</button>
       <button class="tab-btn" data-tab="symbols">Symbols</button>
       <button class="tab-btn" data-tab="kerning">Kerning</button>
+      <button class="tab-btn" data-tab="coverage">Glyph Coverage</button>
       <button class="tab-btn" data-tab="waterfall">Waterfall</button>
       <button class="tab-btn" data-tab="custom">Custom</button>
     </div>
@@ -359,6 +360,18 @@
           <span class="section-desc">Kerning test strings</span>
         </div>
         <div class="test-text" id="render-kerning" style="line-height: 2;"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-coverage">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Glyph Coverage</span>
+          <span class="section-desc">Kannada Unicode block (U+0C80–U+0CFF) — 128 code points</span>
+        </div>
+        <div class="coverage-summary" id="coverage-summary"></div>
+        <div class="coverage-bar" id="coverage-bar"></div>
+        <div class="coverage-grid" id="coverage-grid"></div>
       </div>
     </div>
 
@@ -678,6 +691,141 @@ const testSet = {
 const waterfallSizes = [12, 14, 18, 24, 32, 48, 64];
 const waterfallText = "ಕನ್ನಡ ಭಾಷೆ";
 
+// ── Kannada Unicode Block (U+0C80–U+0CFF) ──────────────────
+const kannadaUnicode = [
+  { cp: 0x0C80, name: "KANNADA SIGN SPACING CANDRABINDU" },
+  { cp: 0x0C81, name: "KANNADA SIGN CANDRABINDU" },
+  { cp: 0x0C82, name: "KANNADA SIGN ANUSVARA" },
+  { cp: 0x0C83, name: "KANNADA SIGN VISARGA" },
+  { cp: 0x0C84, name: "KANNADA SIGN SIDDHAM" },
+  { cp: 0x0C85, name: "KANNADA LETTER A" },
+  { cp: 0x0C86, name: "KANNADA LETTER AA" },
+  { cp: 0x0C87, name: "KANNADA LETTER I" },
+  { cp: 0x0C88, name: "KANNADA LETTER II" },
+  { cp: 0x0C89, name: "KANNADA LETTER U" },
+  { cp: 0x0C8A, name: "KANNADA LETTER UU" },
+  { cp: 0x0C8B, name: "KANNADA LETTER VOCALIC R" },
+  { cp: 0x0C8C, name: "KANNADA LETTER VOCALIC L" },
+  { cp: 0x0C8D, name: "RESERVED" },
+  { cp: 0x0C8E, name: "KANNADA LETTER E" },
+  { cp: 0x0C8F, name: "KANNADA LETTER EE" },
+  { cp: 0x0C90, name: "KANNADA LETTER AI" },
+  { cp: 0x0C91, name: "RESERVED" },
+  { cp: 0x0C92, name: "KANNADA LETTER O" },
+  { cp: 0x0C93, name: "KANNADA LETTER OO" },
+  { cp: 0x0C94, name: "KANNADA LETTER AU" },
+  { cp: 0x0C95, name: "KANNADA LETTER KA" },
+  { cp: 0x0C96, name: "KANNADA LETTER KHA" },
+  { cp: 0x0C97, name: "KANNADA LETTER GA" },
+  { cp: 0x0C98, name: "KANNADA LETTER GHA" },
+  { cp: 0x0C99, name: "KANNADA LETTER NGA" },
+  { cp: 0x0C9A, name: "KANNADA LETTER CA" },
+  { cp: 0x0C9B, name: "KANNADA LETTER CHA" },
+  { cp: 0x0C9C, name: "KANNADA LETTER JA" },
+  { cp: 0x0C9D, name: "KANNADA LETTER JHA" },
+  { cp: 0x0C9E, name: "KANNADA LETTER NYA" },
+  { cp: 0x0C9F, name: "KANNADA LETTER TTA" },
+  { cp: 0x0CA0, name: "KANNADA LETTER TTHA" },
+  { cp: 0x0CA1, name: "KANNADA LETTER DDA" },
+  { cp: 0x0CA2, name: "KANNADA LETTER DDHA" },
+  { cp: 0x0CA3, name: "KANNADA LETTER NNA" },
+  { cp: 0x0CA4, name: "KANNADA LETTER TA" },
+  { cp: 0x0CA5, name: "KANNADA LETTER THA" },
+  { cp: 0x0CA6, name: "KANNADA LETTER DA" },
+  { cp: 0x0CA7, name: "KANNADA LETTER DHA" },
+  { cp: 0x0CA8, name: "KANNADA LETTER NA" },
+  { cp: 0x0CA9, name: "RESERVED" },
+  { cp: 0x0CAA, name: "KANNADA LETTER PA" },
+  { cp: 0x0CAB, name: "KANNADA LETTER PHA" },
+  { cp: 0x0CAC, name: "KANNADA LETTER BA" },
+  { cp: 0x0CAD, name: "KANNADA LETTER BHA" },
+  { cp: 0x0CAE, name: "KANNADA LETTER MA" },
+  { cp: 0x0CAF, name: "KANNADA LETTER YA" },
+  { cp: 0x0CB0, name: "KANNADA LETTER RA" },
+  { cp: 0x0CB1, name: "KANNADA LETTER RRA" },
+  { cp: 0x0CB2, name: "KANNADA LETTER LA" },
+  { cp: 0x0CB3, name: "KANNADA LETTER LLA" },
+  { cp: 0x0CB4, name: "RESERVED" },
+  { cp: 0x0CB5, name: "KANNADA LETTER VA" },
+  { cp: 0x0CB6, name: "KANNADA LETTER SHA" },
+  { cp: 0x0CB7, name: "KANNADA LETTER SSA" },
+  { cp: 0x0CB8, name: "KANNADA LETTER SA" },
+  { cp: 0x0CB9, name: "KANNADA LETTER HA" },
+  { cp: 0x0CBA, name: "RESERVED" },
+  { cp: 0x0CBB, name: "RESERVED" },
+  { cp: 0x0CBC, name: "KANNADA SIGN NUKTA" },
+  { cp: 0x0CBD, name: "KANNADA SIGN AVAGRAHA" },
+  { cp: 0x0CBE, name: "KANNADA VOWEL SIGN AA" },
+  { cp: 0x0CBF, name: "KANNADA VOWEL SIGN I" },
+  { cp: 0x0CC0, name: "KANNADA VOWEL SIGN II" },
+  { cp: 0x0CC1, name: "KANNADA VOWEL SIGN U" },
+  { cp: 0x0CC2, name: "KANNADA VOWEL SIGN UU" },
+  { cp: 0x0CC3, name: "KANNADA VOWEL SIGN VOCALIC R" },
+  { cp: 0x0CC4, name: "KANNADA VOWEL SIGN VOCALIC RR" },
+  { cp: 0x0CC5, name: "RESERVED" },
+  { cp: 0x0CC6, name: "KANNADA VOWEL SIGN E" },
+  { cp: 0x0CC7, name: "KANNADA VOWEL SIGN EE" },
+  { cp: 0x0CC8, name: "KANNADA VOWEL SIGN AI" },
+  { cp: 0x0CC9, name: "RESERVED" },
+  { cp: 0x0CCA, name: "KANNADA VOWEL SIGN O" },
+  { cp: 0x0CCB, name: "KANNADA VOWEL SIGN OO" },
+  { cp: 0x0CCC, name: "KANNADA VOWEL SIGN AU" },
+  { cp: 0x0CCD, name: "KANNADA SIGN VIRAMA" },
+  { cp: 0x0CCE, name: "RESERVED" },
+  { cp: 0x0CCF, name: "RESERVED" },
+  { cp: 0x0CD0, name: "RESERVED" },
+  { cp: 0x0CD1, name: "RESERVED" },
+  { cp: 0x0CD2, name: "RESERVED" },
+  { cp: 0x0CD3, name: "RESERVED" },
+  { cp: 0x0CD4, name: "RESERVED" },
+  { cp: 0x0CD5, name: "KANNADA LENGTH MARK" },
+  { cp: 0x0CD6, name: "KANNADA AI LENGTH MARK" },
+  { cp: 0x0CD7, name: "RESERVED" },
+  { cp: 0x0CD8, name: "RESERVED" },
+  { cp: 0x0CD9, name: "RESERVED" },
+  { cp: 0x0CDA, name: "RESERVED" },
+  { cp: 0x0CDB, name: "RESERVED" },
+  { cp: 0x0CDC, name: "RESERVED" },
+  { cp: 0x0CDD, name: "KANNADA SIGN NAKARA POLLU" },
+  { cp: 0x0CDE, name: "KANNADA LETTER FA" },
+  { cp: 0x0CDF, name: "RESERVED" },
+  { cp: 0x0CE0, name: "KANNADA LETTER VOCALIC RR" },
+  { cp: 0x0CE1, name: "KANNADA LETTER VOCALIC LL" },
+  { cp: 0x0CE2, name: "KANNADA VOWEL SIGN VOCALIC L" },
+  { cp: 0x0CE3, name: "KANNADA VOWEL SIGN VOCALIC LL" },
+  { cp: 0x0CE4, name: "RESERVED" },
+  { cp: 0x0CE5, name: "RESERVED" },
+  { cp: 0x0CE6, name: "KANNADA DIGIT ZERO" },
+  { cp: 0x0CE7, name: "KANNADA DIGIT ONE" },
+  { cp: 0x0CE8, name: "KANNADA DIGIT TWO" },
+  { cp: 0x0CE9, name: "KANNADA DIGIT THREE" },
+  { cp: 0x0CEA, name: "KANNADA DIGIT FOUR" },
+  { cp: 0x0CEB, name: "KANNADA DIGIT FIVE" },
+  { cp: 0x0CEC, name: "KANNADA DIGIT SIX" },
+  { cp: 0x0CED, name: "KANNADA DIGIT SEVEN" },
+  { cp: 0x0CEE, name: "KANNADA DIGIT EIGHT" },
+  { cp: 0x0CEF, name: "KANNADA DIGIT NINE" },
+  { cp: 0x0CF0, name: "RESERVED" },
+  { cp: 0x0CF1, name: "KANNADA SIGN JIHVAMULIYA" },
+  { cp: 0x0CF2, name: "KANNADA SIGN UPADHMANIYA" },
+  { cp: 0x0CF3, name: "KANNADA SIGN COMBINING ANUSVARA ABOVE RIGHT" },
+  { cp: 0x0CF4, name: "RESERVED" },
+  { cp: 0x0CF5, name: "RESERVED" },
+  { cp: 0x0CF6, name: "RESERVED" },
+  { cp: 0x0CF7, name: "RESERVED" },
+  { cp: 0x0CF8, name: "RESERVED" },
+  { cp: 0x0CF9, name: "RESERVED" },
+  { cp: 0x0CFA, name: "RESERVED" },
+  { cp: 0x0CFB, name: "RESERVED" },
+  { cp: 0x0CFC, name: "RESERVED" },
+  { cp: 0x0CFD, name: "RESERVED" },
+  { cp: 0x0CFE, name: "RESERVED" },
+  { cp: 0x0CFF, name: "RESERVED" },
+];
+
+const assignedKannada = kannadaUnicode.filter(c => !c.name.startsWith("RESERVED"));
+const reservedKannada = kannadaUnicode.filter(c => c.name.startsWith("RESERVED"));
+
 // ── cache ─────────────────────────────────────────────────
 const fontCache = {
   urls: {},
@@ -879,6 +1027,8 @@ function renderContent() {
   $('render-symbols').textContent = testSet.symbols;
   $('render-kerning').textContent = testSet.kerning;
 
+  renderCoverage();
+
   // Apply font settings to all elements including direct textContent ones
   applyFontToAll();
 
@@ -927,6 +1077,90 @@ function updateWaterfall() {
       txt.style.fontWeight = '';
     }
   });
+}
+
+// ── Glyph Coverage ────────────────────────────────────────
+function detectGlyphSupport(charCode, fontFamily) {
+  const char = String.fromCodePoint(charCode);
+  const size = 24;
+  const canvas = document.createElement('canvas');
+  canvas.width = size * 2;
+  canvas.height = size * 2;
+  const ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#000';
+  ctx.font = `${size}px '${fontFamily}', sans-serif`;
+  ctx.textBaseline = 'top';
+  ctx.fillText(char, size * 0.5, 0);
+
+  const targetData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.font = `${size}px sans-serif`;
+  ctx.fillText(char, size * 0.5, 0);
+
+  const fallbackData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+  for (let i = 0; i < targetData.length; i += 4) {
+    if (targetData[i + 3] !== fallbackData[i + 3]) return true;
+    if (targetData[i + 3] > 0 && targetData[i] !== fallbackData[i]) return true;
+  }
+
+  return false;
+}
+
+function renderCoverage() {
+  const grid = $('coverage-grid');
+  const summary = $('coverage-summary');
+  const bar = $('coverage-bar');
+  if (!grid || !summary || !bar) return;
+
+  grid.innerHTML = '';
+  summary.innerHTML = '';
+  bar.innerHTML = '';
+
+  if (!state.currentFont) {
+    summary.innerHTML = '<span class="coverage-note">Load a font to check glyph coverage</span>';
+    return;
+  }
+
+  let supported = 0;
+  let total = assignedKannada.length;
+
+  assignedKannada.forEach(({ cp, name }) => {
+    const hasGlyph = detectGlyphSupport(cp, state.currentFont);
+    if (hasGlyph) supported++;
+
+    const cell = document.createElement('div');
+    cell.className = 'coverage-cell' + (hasGlyph ? ' supported' : ' missing');
+    cell.title = `U+${cp.toString(16).toUpperCase().padStart(4, '0')} — ${name}${hasGlyph ? '' : ' (not in font)'}`;
+
+    const charSpan = document.createElement('span');
+    charSpan.className = 'coverage-char';
+    charSpan.textContent = String.fromCodePoint(cp);
+    charSpan.style.fontFamily = `'${state.currentFont}', sans-serif`;
+    charSpan.style.fontSize = '28px';
+
+    const codeSpan = document.createElement('span');
+    codeSpan.className = 'coverage-code';
+    codeSpan.textContent = cp.toString(16).toUpperCase().padStart(4, '0');
+
+    cell.appendChild(charSpan);
+    cell.appendChild(codeSpan);
+    grid.appendChild(cell);
+  });
+
+  const pct = ((supported / total) * 100).toFixed(1);
+  summary.innerHTML = `
+    <span class="coverage-stats">
+      <span class="stat-label">${supported} / ${total} assigned code points</span>
+      <span class="stat-pct">${pct}% coverage</span>
+    </span>
+  `;
+
+  bar.innerHTML = `
+    <div class="coverage-bar-fill" style="width: ${pct}%"></div>
+  `;
 }
 
 // ── uploader ──────────────────────────────────────────────

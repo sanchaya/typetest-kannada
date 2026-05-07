@@ -975,6 +975,10 @@ main {
   .tab-panel .section .test-text {
     font-size: 24px;
   }
+
+  .coverage-grid {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  }
 }
 
 /* ── WEIGHT PRESETS ─────────────────────────────────────── */
@@ -1009,4 +1013,109 @@ main {
   background: var(--text-color3);
   color: white;
   border-color: var(--text-color3);
+}
+
+/* ── GLYPH COVERAGE ────────────────────────────────────── */
+
+.coverage-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.coverage-stats {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.stat-pct {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-color3);
+}
+
+.coverage-note {
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.coverage-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--text-background);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.coverage-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--text-color3), #7c3aed);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.coverage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 6px;
+}
+
+.coverage-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--paper);
+  transition: all 0.2s ease;
+  cursor: default;
+  min-height: 72px;
+}
+
+.coverage-cell.supported {
+  border-color: #d1fae5;
+  background: #f0fdf4;
+}
+
+.coverage-cell.missing {
+  border-color: #fecaca;
+  background: #fef2f2;
+  opacity: 0.6;
+}
+
+.coverage-cell:hover {
+  transform: scale(1.05);
+  box-shadow: var(--card-shadow);
+}
+
+.coverage-char {
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.coverage-code {
+  font-size: 9px;
+  color: var(--muted);
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+}
+
+.coverage-cell.missing .coverage-code {
+  color: #dc2626;
+}
+
+.coverage-cell.supported .coverage-code {
+  color: #059669;
 }
