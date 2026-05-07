@@ -71,41 +71,41 @@ body {
 header {
   grid-column: 1 / -1;
   border-bottom: 1px solid var(--border-color);
-  padding: 12px 24px;
+  padding: 8px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: var(--paper);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
 .header-logo {
-  height: 42px;
+  height: 32px;
   width: auto;
 }
 
 .header-text {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
+  line-height: 1.1;
 }
 
 .wordmark {
   font-family: var(--serif);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-color1);
   letter-spacing: -0.01em;
 }
 
 .tagline {
-  font-size: var(--fs-xs);
+  font-size: 10px;
   color: var(--span-color);
   letter-spacing: 0.02em;
 }
@@ -113,30 +113,30 @@ header {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 14px;
 }
 
 .font-badge {
-  font-size: var(--fs-xs);
+  font-size: 10px;
   color: var(--span-color);
   letter-spacing: 0.08em;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 #font-name-display {
   color: var(--text-color3);
-  font-size: var(--fs-sm);
+  font-size: 11px;
   font-weight: 500;
-  max-width: 220px;
+  max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .dot {
-  width: 8px; height: 8px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--text-color3);
   animation: pulse 2s ease-in-out infinite;
@@ -156,7 +156,7 @@ header {
 }
 
 .sanchaya-logo {
-  height: 28px;
+  height: 22px;
   width: auto;
 }
 
@@ -164,10 +164,10 @@ header {
 
 aside {
   border-right: 1px solid var(--border-color);
-  padding: 20px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   overflow-y: auto;
   min-height: 0;
   background: var(--paper);
@@ -191,7 +191,7 @@ aside .sidebar-actions {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--span-color);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -208,8 +208,8 @@ aside .sidebar-actions {
 
 .upload-zone {
   border: 2px dashed var(--border-color);
-  border-radius: 12px;
-  padding: 24px 16px;
+  border-radius: 10px;
+  padding: 16px 12px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -233,8 +233,8 @@ aside .sidebar-actions {
 }
 
 .upload-icon {
-  font-size: 28px;
-  margin-bottom: 10px;
+  font-size: 22px;
+  margin-bottom: 6px;
   display: block;
   color: var(--text-color3);
 }
@@ -264,7 +264,7 @@ aside .sidebar-actions {
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .control-row label {
@@ -329,7 +329,7 @@ input[type=range]::-moz-range-thumb {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .toggle-row label {
@@ -460,7 +460,7 @@ input[type=range]::-moz-range-thumb {
 /* ── MAIN RENDER AREA ────────────────────────────────────── */
 
 main {
-  padding: 32px 40px;
+  padding: 24px 32px;
   overflow-y: auto;
   min-height: 0;
   background: var(--paper);
@@ -494,8 +494,8 @@ main {
 /* ── SECTIONS ────────────────────────────────────────────── */
 
 .section {
-  margin-bottom: 40px;
-  padding-bottom: 32px;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -628,24 +628,24 @@ main {
 .tab-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid var(--border-color);
+  gap: 4px;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  border-bottom: none;
   background: var(--text-background);
-  padding: 16px 20px;
-  border-radius: 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
   box-shadow: var(--card-shadow);
 }
 
 .tab-btn {
-  padding: 12px 24px;
+  padding: 8px 16px;
   border: none;
   background: transparent;
   color: var(--span-color);
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   transition: all 0.2s ease;
   border: 1px solid transparent;
@@ -1496,4 +1496,139 @@ main {
 .decompose-arrow {
   font-size: 18px;
   color: var(--text-color3);
+}
+
+/* ── FONT RULES ─────────────────────────────────────── */
+
+.font-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rules-section {
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.rules-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.rules-table {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rules-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 50px 1fr 50px;
+  gap: 12px;
+  padding: 8px 12px;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.rules-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 50px 1fr 50px;
+  gap: 12px;
+  padding: 10px 12px;
+  align-items: center;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.rules-row:hover {
+  background: var(--hover-color);
+}
+
+.rules-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-color3);
+}
+
+.rules-tag.indic-tag {
+  color: #f59e0b;
+}
+
+.rules-tag.kern-tag {
+  color: #10b981;
+}
+
+.rules-name {
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.rules-lookups {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 600;
+}
+
+.rules-type {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.rules-toggle {
+  display: flex;
+  justify-content: center;
+}
+
+.mini-toggle {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.mini-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.mini-track {
+  position: absolute;
+  inset: 0;
+  background: var(--border-color);
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.mini-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mini-toggle input:checked ~ .mini-track {
+  background: var(--text-color3);
+}
+
+.mini-toggle input:checked ~ .mini-track .mini-thumb {
+  transform: translateX(16px);
 }

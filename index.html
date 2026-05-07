@@ -169,7 +169,8 @@
       <button class="tab-btn" data-tab="coverage">Glyph Coverage</button>
       <button class="tab-btn" data-tab="glyph-picker">Glyph Map</button>
       <button class="tab-btn" data-tab="compare">Compare</button>
-      <button class="tab-btn" data-tab="decompose">Conjuncts</button>
+      <button class="tab-btn" data-tab="decompose">Decompose</button>
+      <button class="tab-btn" data-tab="font-rules">Font Rules</button>
       <button class="tab-btn" data-tab="waterfall">Waterfall</button>
       <button class="tab-btn" data-tab="custom">Custom</button>
     </div>
@@ -296,6 +297,13 @@
           <span class="section-desc">Secondary conjunct examples</span>
         </div>
         <div id="render-second-conjuncts"></div>
+      </div>
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Complex Conjunct Groups</span>
+          <span class="section-desc">Consonant + tr, jña, kr, pr, shr, sn, dr, dhr conjunct series</span>
+        </div>
+        <div id="render-complex-conjuncts"></div>
       </div>
     </div>
 
@@ -440,6 +448,18 @@
           <span class="section-desc">How conjuncts break down into half-forms and full forms</span>
         </div>
         <div class="decompose-grid" id="decompose-grid"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-font-rules">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Font Rules</span>
+          <span class="section-desc">OpenType shaping rules, GSUB/GPOS lookups, and feature definitions</span>
+        </div>
+        <div id="font-rules-content" class="font-rules">
+          <div class="metadata-empty">Load a font to view embedded rules</div>
+        </div>
       </div>
     </div>
 
@@ -670,7 +690,7 @@ const testSet = {
     "ಳ್ಕ ಳ್ಖ ಳ್ಗ ಳ್ಘ ಳ್ಙ ಳ್ಚ ಳ್ಛ ಳ್ಜ ಳ್ಝ ಳ್ಞ ಳ್ಟ ಳ್ಠ ಳ್ಡ ಳ್ಢ ಳ್ಣ ಳ್ತ ಳ್ಥ ಳ್ದ ಳ್ಧ ಳ್ನ ಳ್ಪ ಳ್ಫ ಳ್ಬ ಳ್ಭ ಳ್ಮ ಳ್ಯ ಳ್ರ ಳ್ಲ ಳ್ವ ಳ್ಶ ಳ್ಷ ಳ್ಸ ಳ್ಹ ಳ್ಳ",
   ],
 
-  specialConjuncts: "ಸ್ಮ ಸ್ಕೃತಿ ಸ್ಮೃತಿ ತ್ಕೃ ಕ್ಕೃ ತ್ತೃ ಟ್ಟ್ಯ ತತ್ತ್ವ ಸ್ತ್ಯ ಟ್ಟ್ಟ ಹ್ರ್ಯ ರ್ಮ್ಯ ತ್ರ್ಯ ರ್ಥ್ಯ ರ್ಘ್ಯ ರ್ಢ್ಯ ಢ್ರ",
+  specialConjuncts: "ಸ್ಮ ಸ್ಕೃತಿ ಸ್ಮೃತಿ ತ್ಕೃ ಕ್ಕೃ ತ್ತೃ ಟ್ಟ್ಯ ತತ್ತ್ವ ಸ್ತ್ಯ ಟ್ಟ್ಟ ಹ್ರ್ಯ ರ್ಮ್ಯ ತ್ರ್ಯ ರ್ಥ್ಯ ರ್ಘ್ಯ ರ್ಢ್ಯ ಢ್ರ ಕ್ತ್ರ ಗ್ತ್ರ ಜ್ತ್ರ ದ್ತ್ರ ನ್ತ್ರ ಬ್ತ್ರ ಮ್ತ್ರ ಯ್ತ್ರ ಶ್ತ್ರ ಸ್ತ್ರ ಹ್ತ್ರ ಜ್ಞ ಕ್ಜ್ಞ ಟ್ಜ್ಞ ದ್ಜ್ಞ ನ್ಜ್ಞ ಬ್ಜ್ಞ ಮ್ಜ್ಞ ಯ್ಜ್ಞ ರ್ಜ್ಞ ಲ್ಜ್ಞ ವ್ಜ್ಞ ಶ್ಜ್ಞ ಸ್ಜ್ಞ ಹ್ಜ್ಞ",
 
   words: [
     "ಕರ್ನಾಟಕ ಅಕ್ಕ ಹಕ್ಕಿ ಸಕ್ಕರೆ ಮಗ್ಗ ಅಜ್ಜ ಮಜ್ಜಿಗೆ ಕಚ್ಚು ಲಡ್ಡು ಅಣ್ಣ ಹತ್ತಿ ಯುದ್ಧ ಅನ್ನ ಅಪ್ಪ ಕಪ್ಪು ಅಬ್ಬರ ಅಮ್ಮ ಕಮ್ಮಿ ಕಲ್ಲು ಹಳ್ಳಿ ತೊಳಲು ಹವ್ವು ನುಗ್ಗೆ ಸುಮ್ಮನೆ ಬೆಣ್ಣೆ ಸಣ್ಣ ತೊಪ್ಪಲು ತಪ್ಪು ಗದ್ದೆ ಒಕ್ಕಲಿಗ ಕಬ್ಬಿಣ ಪ್ರೀತಿ ವ್ಯಕ್ತಿ ಪುಸ್ತಕ ಶ್ವಾಸ ಧ್ವನಿ ರತ್ನ ಪದ್ಮ ಸತ್ಯ ಅರಣ್ಯ ಮಿತ್ರ ಅಕ್ಷರ ಸಮುದ್ರ ಯೋಗ್ಯ ವಿಘ್ನ ಭ್ರಮೆ ಶ್ರಮ ತ್ವರಿತ ಭಕ್ತಿ ವ್ಯಯ ಉಗ್ರ ಜ್ಞಾನ ಆಶ್ರಯ ಚಿಹ್ನೆ ಸ್ಪಷ್ಟ ಕಷ್ಟ ಇಷ್ಟ ಉಷ್ಣ ಉತ್ಪತ್ತಿ ಸ್ವರ್ಗ ಸಿದ್ಧಾಂತ ದಕ್ಷಿಣ ಸ್ವರ ದ್ರವ್ಯ ಧೈರ್ಯ ಮೃದು ಶಕ್ಯ ನಿಶ್ಚಿತ ಸಾರ್ವತ್ರಿಕ ಕೃತ್ರಿಮ ತ್ರಾಣ ಅಪ್ಪು ಪೃಥ್ವಿ ಪರಮಾತ್ಮ",
@@ -679,6 +699,17 @@ const testSet = {
 
   secondConjuncts: [
     "ಉತ್ರುಕ್ಷ್ಟ ರಾಷ್ಟ್ರ ಭ್ರಷ್ಟ ಕರ್ತೃ ಸ್ತ್ರೀಭಕ್ಷಕ ತಿಮ್ಮಣ್ಣ ಅಶ್ವತ್ಥಾಮ ಅಷ್ಟೈಶ್ವರ್ಯ",
+  ],
+
+  complexConjuncts: [
+    "ತ್ರ ಕ್ತ್ರ ಗ್ತ್ರ ಜ್ತ್ರ ದ್ತ್ರ ಧ್ತ್ರ ನ್ತ್ರ ಬ್ತ್ರ ಮ್ತ್ರ ಯ್ತ್ರ ರ್ತ್ರ ಲ್ತ್ರ ವ್ತ್ರ ಶ್ತ್ರ ಷ್ತ್ರ ಸ್ತ್ರ ಹ್ತ್ರ",
+    "ಜ್ಞ ಕ್ಜ್ಞ ಗ್ಜ್ಞ ಜ್ಜ್ಞ ಟ್ಜ್ಞ ದ್ಜ್ಞ ನ್ಜ್ಞ ಬ್ಜ್ಞ ಮ್ಜ್ಞ ಯ್ಜ್ಞ ರ್ಜ್ಞ ಲ್ಜ್ಞ ವ್ಜ್ಞ ಶ್ಜ್ಞ ಸ್ಜ್ಞ ಹ್ಜ್ಞ",
+    "ಕ್ರ ಕ್ಕ್ರ ಖ್ಕ್ರ ಗ್ಕ್ರ ಘ್ಕ್ರ ಙ್ಕ್ರ ಚ್ಕ್ರ ಛ್ಕ್ರ ಜ್ಕ್ರ ಝ್ಕ್ರ ಞ್ಕ್ರ ಟ್ಕ್ರ ಠ್ಕ್ರ ಡ್ಕ್ರ ಢ್ಕ್ರ ಣ್ಕ್ರ ತ್ಕ್ರ ಥ್ಕ್ರ ದ್ಕ್ರ ಧ್ಕ್ರ ನ್ಕ್ರ ಪ್ಕ್ರ ಫ್ಕ್ರ ಬ್ಕ್ರ ಭ್ಕ್ರ ಮ್ಕ್ರ ಯ್ಕ್ರ ರ್ಕ್ರ ಲ್ಕ್ರ ವ್ಕ್ರ ಶ್ಕ್ರ ಷ್ಕ್ರ ಸ್ಕ್ರ ಹ್ಕ್ರ",
+    "ಪ್ರ ಕ್ಪ್ರ ಖ್ಪ್ರ ಗ್ಪ್ರ ಘ್ಪ್ರ ಙ್ಪ್ರ ಚ್ಪ್ರ ಛ್ಪ್ರ ಜ್ಪ್ರ ಝ್ಪ್ರ ಞ್ಪ್ರ ಟ್ಪ್ರ ಠ್ಪ್ರ ಡ್ಪ್ರ ಢ್ಪ್ರ ಣ್ಪ್ರ ತ್ಪ್ರ ಥ್ಪ್ರ ದ್ಪ್ರ ಧ್ಪ್ರ ನ್ಪ್ರ ಪ್ಪ್ರ ಫ್ಪ್ರ ಬ್ಪ್ರ ಭ್ಪ್ರ ಮ್ಪ್ರ ಯ್ಪ್ರ ರ್ಪ್ರ ಲ್ಪ್ರ ವ್ಪ್ರ ಶ್ಪ್ರ ಷ್ಪ್ರ ಸ್ಪ್ರ ಹ್ಪ್ರ",
+    "ಶ್ರ ಕ್ಶ್ರ ಖ್ಶ್ರ ಗ್ಶ್ರ ಘ್ಶ್ರ ಙ್ಶ್ರ ಚ್ಶ್ರ ಛ್ಶ್ರ ಜ್ಶ್ರ ಝ್ಶ್ರ ಞ್ಶ್ರ ಟ್ಶ್ರ ಠ್ಶ್ರ ಡ್ಶ್ರ ಢ್ಶ್ರ ಣ್ಶ್ರ ತ್ಶ್ರ ಥ್ಶ್ರ ದ್ಶ್ರ ಧ್ಶ್ರ ನ್ಶ್ರ ಪ್ಶ್ರ ಫ್ಶ್ರ ಬ್ಶ್ರ ಭ್ಶ್ರ ಮ್ಶ್ರ ಯ್ಶ್ರ ರ್ಶ್ರ ಲ್ಶ್ರ ವ್ಶ್ರ ಶ್ಶ್ರ ಷ್ಶ್ರ ಸ್ಶ್ರ ಹ್ಶ್ರ",
+    "ಸ್ನ ಕ್ಸ್ನ ಖ್ಸ್ನ ಗ್ಸ್ನ ಘ್ಸ್ನ ಙ್ಸ್ನ ಚ್ಸ್ನ ಛ್ಸ್ನ ಜ್ಸ್ನ ಝ್ಸ್ನ ಞ್ಸ್ನ ಟ್ಸ್ನ ಠ್ಸ್ನ ಡ್ಸ್ನ ಢ್ಸ್ನ ಣ್ಸ್ನ ತ್ಸ್ನ ಥ್ಸ್ನ ದ್ಸ್ನ ಧ್ಸ್ನ ನ್ಸ್ನ ಪ್ಸ್ನ ಫ್ಸ್ನ ಬ್ಸ್ನ ಭ್ಸ್ನ ಮ್ಸ್ನ ಯ್ಸ್ನ ರ್ಸ್ನ ಲ್ಸ್ನ ವ್ಸ್ನ ಶ್ಸ್ನ ಷ್ಸ್ನ ಸ್ಸ್ನ ಹ್ಸ್ನ",
+    "ದ್ರ ಕ್ದ್ರ ಖ್ದ್ರ ಗ್ದ್ರ ಘ್ದ್ರ ಙ್ದ್ರ ಚ್ದ್ರ ಛ್ದ್ರ ಜ್ದ್ರ ಝ್ದ್ರ ಞ್ದ್ರ ಟ್ದ್ರ ಠ್ದ್ರ ಡ್ದ್ರ ಢ್ದ್ರ ಣ್ದ್ರ ತ್ದ್ರ ಥ್ದ್ರ ದ್ದ್ರ ಧ್ದ್ರ ನ್ದ್ರ ಪ್ದ್ರ ಫ್ದ್ರ ಬ್ದ್ರ ಭ್ದ್ರ ಮ್ದ್ರ ಯ್ದ್ರ ರ್ದ್ರ ಲ್ದ್ರ ವ್ದ್ರ ಶ್ದ್ರ ಷ್ದ್ರ ಸ್ದ್ರ ಹ್ದ್ರ",
+    "ಧ್ರ ಕ್ಧ್ರ ಖ್ಧ್ರ ಗ್ಧ್ರ ಘ್ಧ್ರ ಙ್ಧ್ರ ಚ್ಧ್ರ ಛ್ಧ್ರ ಜ್ಧ್ರ ಝ್ಧ್ರ ಞ್ಧ್ರ ಟ್ಧ್ರ ಠ್ಧ್ರ ಡ್ಧ್ರ ಢ್ಧ್ರ ಣ್ಧ್ರ ತ್ಧ್ರ ಥ್ಧ್ರ ದ್ಧ್ರ ಧ್ಧ್ರ ನ್ಧ್ರ ಪ್ಧ್ರ ಫ್ಧ್ರ ಬ್ಧ್ರ ಭ್ಧ್ರ ಮ್ಧ್ರ ಯ್ಧ್ರ ರ್ಧ್ರ ಲ್ಧ್ರ ವ್ಧ್ರ ಶ್ಧ್ರ ಷ್ಧ್ರ ಸ್ಧ್ರ ಹ್ಧ್ರ",
   ],
 
   vachana: [
@@ -931,6 +962,32 @@ const allTestTexts = () => document.querySelectorAll('.test-text');
 // ── renderer ──────────────────────────────────────────────
 let waterfallItems = [];
 
+function renderWaterfall() {
+  const container = $('render-waterfall');
+  if (!container) return;
+  container.innerHTML = '';
+  waterfallItems = [];
+
+  waterfallSizes.forEach(size => {
+    const row = document.createElement('div');
+    row.className = 'waterfall-item';
+
+    const sizeLabel = document.createElement('span');
+    sizeLabel.className = 'waterfall-size';
+    sizeLabel.textContent = size + 'px';
+
+    const textEl = makeTestEl('span', waterfallText);
+    textEl.style.fontSize = size + 'px';
+
+    row.appendChild(sizeLabel);
+    row.appendChild(textEl);
+    container.appendChild(row);
+    waterfallItems.push(textEl);
+  });
+
+  updateWaterfall();
+}
+
 function applyFont(fontFamily) {
   allTestTexts().forEach(el => {
     el.style.fontFamily = `'${fontFamily}', sans-serif`;
@@ -962,7 +1019,20 @@ function applyFontToAll() {
 }
 
 function buildFeatureSettings() {
-  return `${state.ligatures ? '"liga" 1' : '"liga" 0'}, ${state.kerning ? '"kern" 1' : '"kern" 0'}`;
+  const feats = [];
+  allTestTexts().forEach(el => {
+    const hasLiga = state.ligatures || activeOtFeatures.has('liga');
+    const hasKern = state.kerning || activeOtFeatures.has('kern');
+    if (hasLiga) feats.push('"liga" 1');
+    if (hasKern) feats.push('"kern" 1');
+  });
+  const allFeatures = ['liga','kern','ccmp','locl','nukt','akhn','rphf','pref','blwf','pstf','vatu','cjct','haln','pres','abvs','blws','psts','dlig','hlig','clig','calt','salt','swsh','cswh'];
+  allFeatures.forEach(f => {
+    if (activeOtFeatures.has(f) && !['liga','kern'].includes(f)) {
+      feats.push(`"${f}" 1`);
+    }
+  });
+  return feats.join(', ') || '"liga" 1, "kern" 1';
 }
 
 function applyControls() {
@@ -1059,6 +1129,10 @@ function renderContent() {
   secondConjEl.innerHTML = '';
   testSet.secondConjuncts.forEach(row => secondConjEl.appendChild(makeTestEl('div', row)));
 
+  const complexConjEl = $('render-complex-conjuncts');
+  complexConjEl.innerHTML = '';
+  testSet.complexConjuncts.forEach(row => complexConjEl.appendChild(makeTestEl('div', row)));
+
   $('render-words').textContent = testSet.words[0];
   $('render-words2').textContent = testSet.words[1];
 
@@ -1100,6 +1174,8 @@ function renderContent() {
   renderGlyphMap();
   parseFontMetadata(state.currentFont);
   renderDecompose();
+  renderWaterfall();
+  renderFontRules();
   updateCompareSelects();
 }
 
@@ -1576,15 +1652,64 @@ function parseFontMetadata(fontFamily) {
   const match = styleEl.textContent.match(/url\(['"]?([^'")\s]+)['"]?\)/);
   if (!match) return;
 
+  activeOtFeatures.clear();
+  activeOtFeatures.add('liga');
+  activeOtFeatures.add('kern');
+
   const meta = $('font-metadata');
   const otSection = $('ot-features-section');
   if (!meta) return;
 
   meta.innerHTML = '<div class="metadata-empty">Loading font data...</div>';
 
-  opentype.load(match[1], (err, font) => {
+  const fontUrl = match[1];
+  const fontConfig = availableFonts.find(f => f.url === fontUrl);
+
+  if (fontConfig && fontConfig.url.includes('sanchaya.net')) {
+    fetchSanchayaMetadata(fontConfig.name, fontFamily, meta, otSection, fontUrl);
+  } else {
+    parseLocalFontMetadata(fontFamily, meta, otSection, fontUrl);
+  }
+}
+
+async function fetchSanchayaMetadata(fontName, fontFamily, metaEl, otSection, fontUrl) {
+  try {
+    const searchName = fontName.replace(/\s+/g, '-').toLowerCase();
+    const resp = await fetch(`https://fonts.sanchaya.net/api/fonts/${searchName}`, { mode: 'cors' });
+    if (!resp.ok) throw new Error('Not found');
+    const data = await resp.json();
+
+    if (data) {
+      const info = [
+        { label: 'Font Family', value: data.family || fontName },
+        { label: 'Designer', value: data.designer || '—' },
+        { label: 'Foundry', value: data.foundry || 'ಫಾಂಟ್ಸ್ ಸಂಚಯ' },
+        { label: 'Designer URL', value: data.designer_url ? `<a href="${data.designer_url}" target="_blank" style="color:var(--text-color3);text-decoration:none;">${data.designer_url}</a>` : '—' },
+        { label: 'License', value: data.license || '—' },
+        { label: 'Description', value: data.description || '—' },
+      ];
+
+      metaEl.innerHTML = '';
+      info.forEach(({ label, value }) => {
+        const card = document.createElement('div');
+        card.className = 'metadata-card';
+        card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
+        metaEl.appendChild(card);
+      });
+    }
+
+    parseLocalFontMetadata(fontFamily, metaEl, otSection, fontUrl, true);
+  } catch (e) {
+    parseLocalFontMetadata(fontFamily, metaEl, otSection, fontUrl);
+  }
+}
+
+function parseLocalFontMetadata(fontFamily, metaEl, otSection, fontUrl, sanchayaFallback = false) {
+  opentype.load(fontUrl, (err, font) => {
     if (err) {
-      meta.innerHTML = `<div class="metadata-empty">Could not parse font: ${err.message}</div>`;
+      if (!sanchayaFallback) {
+        metaEl.innerHTML = `<div class="metadata-empty">Could not parse font: ${err.message}</div>`;
+      }
       return;
     }
 
@@ -1593,28 +1718,30 @@ function parseFontMetadata(fontFamily) {
     const head = font.tables.head;
     const hhea = font.tables.hhea;
 
-    const info = [
-      { label: 'Font Family', value: names?.fontFamily?.en || fontFamily },
-      { label: 'Designer', value: names?.designer?.en || '—' },
-      { label: 'Designer URL', value: names?.designerURL?.en ? `<a href="${names.designerURL.en}" target="_blank" style="color:var(--text-color3);text-decoration:none;">${names.designerURL.en}</a>` : '—' },
-      { label: 'Manufacturer', value: names?.manufacturer?.en || '—' },
-      { label: 'License', value: names?.license?.en || '—' },
-      { label: 'Version', value: names?.version?.en || '—' },
-      { label: 'Description', value: names?.description?.en || '—' },
-      { label: 'Copyright', value: names?.copyright?.en || '—' },
-      { label: 'Glyphs', value: font.numGlyphs },
-      { label: 'Units/Em', value: head?.unitsPerEm || '—' },
-      { label: 'Ascender', value: hhea?.ascender || '—' },
-      { label: 'Descender', value: hhea?.descender || '—' },
-    ];
+    if (!sanchayaFallback) {
+      const info = [
+        { label: 'Font Family', value: names?.fontFamily?.en || fontFamily },
+        { label: 'Designer', value: names?.designer?.en || '—' },
+        { label: 'Designer URL', value: names?.designerURL?.en ? `<a href="${names.designerURL.en}" target="_blank" style="color:var(--text-color3);text-decoration:none;">${names.designerURL.en}</a>` : '—' },
+        { label: 'Manufacturer', value: names?.manufacturer?.en || '—' },
+        { label: 'License', value: names?.license?.en || '—' },
+        { label: 'Version', value: names?.version?.en || '—' },
+        { label: 'Description', value: names?.description?.en || '—' },
+        { label: 'Copyright', value: names?.copyright?.en || '—' },
+        { label: 'Glyphs', value: font.numGlyphs },
+        { label: 'Units/Em', value: head?.unitsPerEm || '—' },
+        { label: 'Ascender', value: hhea?.ascender || '—' },
+        { label: 'Descender', value: hhea?.descender || '—' },
+      ];
 
-    meta.innerHTML = '';
-    info.forEach(({ label, value }) => {
-      const card = document.createElement('div');
-      card.className = 'metadata-card';
-      card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
-      meta.appendChild(card);
-    });
+      metaEl.innerHTML = '';
+      info.forEach(({ label, value }) => {
+        const card = document.createElement('div');
+        card.className = 'metadata-card';
+        card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
+        metaEl.appendChild(card);
+      });
+    }
 
     // OpenType features
     const gsub = font.tables.gsub;
@@ -1657,7 +1784,170 @@ function parseFontMetadata(fontFamily) {
         otGrid.appendChild(feat);
       });
     }
+    renderFontRules();
   });
+}
+
+// ── Font Rules ────────────────────────────────────────────
+const activeOtFeatures = new Set();
+let allFontFeatures = [];
+
+function renderFontRules() {
+  const container = $('font-rules-content');
+  if (!container || !parsedFontData) {
+    if (container) container.innerHTML = '<div class="metadata-empty">Load a font to view embedded rules</div>';
+    return;
+  }
+
+  const font = parsedFontData;
+  container.innerHTML = '';
+
+  const gsub = font.tables.gsub;
+  const gpos = font.tables.gpos;
+
+  if (!gsub && !gpos) {
+    container.innerHTML = '<div class="metadata-empty">No OpenType rules found in this font</div>';
+    return;
+  }
+
+  const featureNames = {
+    locl: 'Localized Forms', ccmp: 'Glyph Composition/Decomposition', nukt: 'Nukta Forms',
+    akhn: 'Akhands', rphf: 'Reph Forms', pref: 'Pre-base Forms',
+    blwf: 'Below-base Forms', pstf: 'Post-base Forms', vatu: 'Vattu Variants',
+    cjct: 'Conjunct Forms', haln: 'Halant Forms', init: 'Initial Forms',
+    pres: 'Pre-base Substitutions', abvs: 'Above-base Forms', blws: 'Below-base Substitutions',
+    psts: 'Post-base Substitutions', liga: 'Standard Ligatures', dlig: 'Discretionary Ligatures',
+    hlig: 'Historical Ligatures', clig: 'Contextual Ligatures', calt: 'Contextual Alternates',
+    salt: 'Stylistic Alternates', swsh: 'Swash', cswh: 'Contextual Swashes',
+    ss01: 'Stylistic Set 1', ss02: 'Stylistic Set 2', ss03: 'Stylistic Set 3',
+    ss04: 'Stylistic Set 4', ss05: 'Stylistic Set 5', ss06: 'Stylistic Set 6',
+    kern: 'Kerning', mark: 'Mark Positioning', mkmk: 'Mark-to-Mark',
+    frac: 'Fractions', ordn: 'Ordinals', sups: 'Superscript', subs: 'Subscript',
+    numr: 'Numerator', dnom: 'Denominator', lnum: 'Lining Figures', onum: 'Oldstyle Figures',
+    pnum: 'Proportional Figures', tnum: 'Tabular Figures', zero: 'Slashed Zero',
+    case: 'Case-Sensitive Forms', titl: 'Titling', cpsp: 'Capital Spacing'
+  };
+
+  const lookupTypeNames = {
+    1: 'Single Substitution', 2: 'Multiple Substitution', 3: 'Alternate Substitution',
+    4: 'Ligature Substitution', 5: 'Contextual Substitution', 6: 'Chained Contextual',
+    7: 'Extension', 8: 'Reverse Chained Contextual'
+  };
+  const gposLookupTypeNames = {
+    1: 'Single Positioning', 2: 'Pair Positioning', 3: 'Cursive Attachment',
+    4: 'Mark-to-Base', 5: 'Mark-to-Ligature', 6: 'Mark-to-Mark',
+    7: 'Contextual Positioning', 8: 'Chained Contextual', 9: 'Extension'
+  };
+
+  if (gsub && gsub.features) {
+    const section = document.createElement('div');
+    section.className = 'rules-section';
+    section.innerHTML = '<h3 class="rules-title">GSUB — Glyph Substitution</h3>';
+
+    const table = document.createElement('div');
+    table.className = 'rules-table';
+
+    const header = document.createElement('div');
+    header.className = 'rules-header';
+    header.innerHTML = '<span>Tag</span><span>Feature</span><span>Lookups</span><span>Type</span><span>Toggle</span>';
+    table.appendChild(header);
+
+    allFontFeatures = [];
+
+    gsub.features.forEach((feat, idx) => {
+      const { tag, feature } = feat;
+      const lookupCount = feature.lookupListIndex ? feature.lookupListIndex.length : 0;
+      const lookupTypes = [];
+      if (feature.lookupListIndex && gsub.lookups) {
+        feature.lookupListIndex.forEach(li => {
+          const lookup = gsub.lookups[li];
+          if (lookup && lookup.lookupType) {
+            lookupTypes.push(lookupTypeNames[lookup.lookupType] || `Type ${lookup.lookupType}`);
+          }
+        });
+      }
+
+      allFontFeatures.push(tag);
+      if (['liga','kern'].includes(tag)) activeOtFeatures.add(tag);
+
+      const row = document.createElement('div');
+      row.className = 'rules-row';
+      const isIndic = ['locl','ccmp','nukt','akhn','rphf','pref','blwf','pstf','vatu','cjct','haln'].includes(tag);
+      const isActive = activeOtFeatures.has(tag);
+
+      row.innerHTML = `
+        <span class="rules-tag ${isIndic ? 'indic-tag' : ''}">${tag}</span>
+        <span class="rules-name">${featureNames[tag] || tag}</span>
+        <span class="rules-lookups">${lookupCount}</span>
+        <span class="rules-type">${lookupTypes.join(', ') || '—'}</span>
+        <span class="rules-toggle">
+          <label class="mini-toggle">
+            <input type="checkbox" data-feature="${tag}" ${isActive ? 'checked' : ''}>
+            <span class="mini-track"><span class="mini-thumb"></span></span>
+          </label>
+        </span>
+      `;
+      table.appendChild(row);
+    });
+
+    section.appendChild(table);
+    container.appendChild(section);
+
+    section.querySelectorAll('.rules-toggle input').forEach(cb => {
+      cb.addEventListener('change', e => {
+        const feat = e.target.dataset.feature;
+        if (e.target.checked) {
+          activeOtFeatures.add(feat);
+        } else {
+          activeOtFeatures.delete(feat);
+        }
+        applyControls();
+      });
+    });
+  }
+
+  if (gpos && gpos.features) {
+    const section = document.createElement('div');
+    section.className = 'rules-section';
+    section.style.marginTop = '24px';
+    section.innerHTML = '<h3 class="rules-title">GPOS — Glyph Positioning</h3>';
+
+    const table = document.createElement('div');
+    table.className = 'rules-table';
+
+    const header = document.createElement('div');
+    header.className = 'rules-header';
+    header.innerHTML = '<span>Tag</span><span>Feature</span><span>Lookups</span><span>Type</span>';
+    table.appendChild(header);
+
+    gpos.features.forEach(feat => {
+      const { tag, feature } = feat;
+      const lookupCount = feature.lookupListIndex ? feature.lookupListIndex.length : 0;
+      const lookupTypes = [];
+      if (feature.lookupListIndex && gpos.lookups) {
+        feature.lookupListIndex.forEach(li => {
+          const lookup = gpos.lookups[li];
+          if (lookup && lookup.lookupType) {
+            lookupTypes.push(gposLookupTypeNames[lookup.lookupType] || `Type ${lookup.lookupType}`);
+          }
+        });
+      }
+
+      const row = document.createElement('div');
+      row.className = 'rules-row';
+      const isKern = tag === 'kern';
+      row.innerHTML = `
+        <span class="rules-tag ${isKern ? 'kern-tag' : ''}">${tag}</span>
+        <span class="rules-name">${featureNames[tag] || tag}</span>
+        <span class="rules-lookups">${lookupCount}</span>
+        <span class="rules-type">${lookupTypes.join(', ') || '—'}</span>
+      `;
+      table.appendChild(row);
+    });
+
+    section.appendChild(table);
+    container.appendChild(section);
+  }
 }
 
 // ── Compare ──────────────────────────────────────────────
@@ -1694,7 +1984,7 @@ async function loadCompareFont(family) {
   if (!config) return;
 
   try {
-    const ff = new FontFace(family, `url('${config.url}')`);
+    const ff = new FontFace(family, `url('${config.url}')`, { crossOrigin: 'anonymous' });
     await ff.load();
     document.fonts.add(ff);
     loadedCompareFonts.add(family);
