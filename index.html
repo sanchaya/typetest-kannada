@@ -15,6 +15,9 @@
 
 <!-- HEADER -->
 <header>
+  <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
   <div class="header-brand">
     <a href="https://typetest.sanchaya.net" target="_blank" class="header-logo-link">
       <img src="img/app-icon-light.png" alt="ಫಾಂಟ್ಸ್ ಸಂಚಯ" class="header-logo">
@@ -35,8 +38,11 @@
   </div>
 </header>
 
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
 <!-- SIDEBAR -->
-<aside>
+<aside id="sidebar">
 
   <!-- Upload -->
   <div>
@@ -1412,6 +1418,35 @@ $('dark-toggle').addEventListener('change', e => {
   updateUrl();
 });
 
+// ── Sidebar Toggle (Mobile) ──────────────────────────────
+function toggleSidebar(open) {
+  const sidebar = $('sidebar');
+  const overlay = $('sidebar-overlay');
+  if (open === undefined) {
+    open = !sidebar.classList.contains('open');
+  }
+  if (open) {
+    sidebar.classList.add('open');
+    overlay.classList.add('active');
+  } else {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('active');
+  }
+}
+
+$('menu-toggle').addEventListener('click', () => toggleSidebar());
+$('sidebar-overlay').addEventListener('click', () => toggleSidebar(false));
+
+// Swipe-to-close on sidebar
+let touchStartX = 0;
+$('sidebar').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+$('sidebar').addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (diff > 60) toggleSidebar(false);
+}, { passive: true });
+
 // Weight slider for variable fonts
 $('weight-slider').addEventListener('input', e => {
   state.fontWeight = +e.target.value;
@@ -1499,6 +1534,7 @@ tabButtons.forEach(btn => {
     tabPanels.forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById(`panel-${tabId}`).classList.add('active');
+    toggleSidebar(false);
     updateUrl();
   });
 });
@@ -2141,6 +2177,13 @@ window.addEventListener('load', () => {
   if (state.currentFont) applyUrlState();
   updateCompareSelects();
   updateUrl();
+});
+
+// ── Close sidebar on resize to desktop ───────────────────
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 900) {
+    toggleSidebar(false);
+  }
 });
 </script>
 </body>
