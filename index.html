@@ -1979,7 +1979,7 @@ function loadCompareFont(family) {
     document.head.appendChild(style);
     loadedCompareFonts.add(family);
 
-    document.fonts.load(`16px '${family}'`).then(() => resolve()).catch(() => resolve());
+    resolve();
   });
 }
 
