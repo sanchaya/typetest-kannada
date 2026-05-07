@@ -901,6 +901,7 @@ function applyControls() {
   const { fontSize: fs, lineHeight: lh, letterSpacing: ls, wordSpacing: ws } = state;
   const feat = buildFeatureSettings();
   allTestTexts().forEach(el => {
+    if (el.closest('#render-waterfall') || el.closest('#panel-waterfall')) return;
     el.style.fontSize = fs + 'px';
     el.style.lineHeight = lh;
     el.style.letterSpacing = ls + 'em';
@@ -1063,13 +1064,12 @@ function updateWaterfall() {
   if (waterfallItems.length === 0) return;
   const feat = buildFeatureSettings();
   waterfallItems.forEach(txt => {
-    txt.style.fontSize = txt.style.fontSize;
-    txt.style.lineHeight = 1.2;
-    txt.style.letterSpacing = '0.02em';
-    txt.style.fontFeatureSettings = feat;
     if (state.currentFont) {
       txt.style.fontFamily = `'${state.currentFont}', sans-serif`;
     }
+    txt.style.lineHeight = 1.2;
+    txt.style.letterSpacing = '0.02em';
+    txt.style.fontFeatureSettings = feat;
     if (state.isVariable) {
       txt.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
       txt.style.fontWeight = state.fontWeight;
