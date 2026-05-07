@@ -939,6 +939,8 @@ const fontCache = {
 };
 
 // ── fontLoader ────────────────────────────────────────────
+let loadedFontBuffer = null;
+
 function loadFont(file) {
   const ts = Date.now();
   const fontFamily = `TestFont_${ts}`;
@@ -951,6 +953,21 @@ function loadFont(file) {
   document.head.appendChild(style);
 
   document.fonts.load(`16px '${fontFamily}'`).catch(() => {});
+
+  file.arrayBuffer().then(buf => {
+    loadedFontBuffer = buf;
+    try {
+      parsedFontData = opentype.parse(buf);
+      const meta = $('font-metadata');
+      const otSection = $('ot-features-section');
+      if (meta) {
+        meta.innerHTML = '<div class="metadata-empty">Loading font data...</div>';
+      }
+      processFontFromBuffer(buf, fontFamily, meta, otSection);
+    } catch (e) {
+      console.warn('Could not parse uploaded font:', e.message);
+    }
+  }).catch(() => {});
 
   return { fontFamily, objectURL, timestamp: ts };
 }
@@ -1003,10 +1020,10 @@ function applyFont(fontFamily) {
       el.style.fontWeight = state.fontWeight;
     }
   });
-  // Also apply to direct textContent elements
   applyFontToAll();
-  // Update waterfall items
   updateWaterfall();
+  renderDecompose();
+  if (fontGlyphs.length > 0) renderGlyphMap();
 }
 
 function applyFontToAll() {
@@ -1566,6 +1583,11 @@ function loadFontGlyphs(fontFamily) {
   grid.innerHTML = '';
   count.textContent = 'Loading glyphs...';
 
+  if (loadedFontBuffer) {
+    buildGlyphMapFromBuffer(loadedFontBuffer, fontFamily, grid, count);
+    return;
+  }
+
   const styleEl = document.querySelector(`style[id="ff-${fontFamily}"]`);
   if (!styleEl) {
     count.textContent = 'No font data';
@@ -1578,12 +1600,22 @@ function loadFontGlyphs(fontFamily) {
     return;
   }
 
-  opentype.load(match[1], (err, font) => {
-    if (err) {
-      count.textContent = 'Error loading font: ' + err.message;
-      return;
-    }
+  const fontUrl = match[1];
+  if (fontUrl.startsWith('blob:')) {
+    fetch(fontUrl).then(r => r.arrayBuffer()).then(buf => {
+      loadedFontBuffer = buf;
+      buildGlyphMapFromBuffer(buf, fontFamily, grid, count);
+    }).catch(() => {
+      count.textContent = 'Could not load font file';
+    });
+  } else {
+    count.textContent = 'Glyph Map requires local font file. Upload a .ttf/.otf to view all glyphs.';
+  }
+}
 
+function buildGlyphMapFromBuffer(buffer, fontFamily, grid, count) {
+  try {
+    const font = opentype.parse(buffer);
     const glyphSet = new Set();
     for (const [cp, glyphId] of Object.entries(font.tables.cmap.glyphIndexMap || {})) {
       glyphSet.add(parseInt(cp));
@@ -1627,7 +1659,9 @@ function loadFontGlyphs(fontFamily) {
     });
 
     count.textContent = sorted.length + ' glyphs';
-  });
+  } catch (e) {
+    count.textContent = 'Error parsing font: ' + e.message;
+  }
 }
 
 function renderGlyphMap() {
@@ -1669,13 +1703,22 @@ function parseFontMetadata(fontFamily) {
   const fontConfig = availableFonts.find(f => f.url === fontUrl);
 
   if (fontConfig && fontConfig.url.includes('sanchaya.net')) {
-    displaySanchayaMetadata(fontConfig, fontFamily, meta, otSection, fontUrl);
+    displaySanchayaMetadata(fontConfig, fontFamily, meta, otSection);
+  } else if (loadedFontBuffer) {
+    processFontFromBuffer(loadedFontBuffer, fontFamily, meta, otSection);
+  } else if (fontUrl.startsWith('blob:')) {
+    fetch(fontUrl).then(r => r.arrayBuffer()).then(buf => {
+      loadedFontBuffer = buf;
+      processFontFromBuffer(buf, fontFamily, meta, otSection);
+    }).catch(() => {
+      meta.innerHTML = '<div class="metadata-empty">Could not load font file</div>';
+    });
   } else {
-    parseFontWithOpentype(fontUrl, fontFamily, meta, otSection);
+    meta.innerHTML = '<div class="metadata-empty">Upload a local font file to view metadata and rules</div>';
   }
 }
 
-function displaySanchayaMetadata(fontConfig, fontFamily, metaEl, otSection, fontUrl) {
+function displaySanchayaMetadata(fontConfig, fontFamily, metaEl, otSection) {
   metaEl.innerHTML = '';
   const info = [
     { label: 'Font Family', value: fontConfig.name },
@@ -1694,17 +1737,12 @@ function displaySanchayaMetadata(fontConfig, fontFamily, metaEl, otSection, font
 
   if (otSection) {
     otSection.style.display = 'none';
-    otSection.innerHTML = '<div class="metadata-empty">OpenType rules require local font file. Download from ಸಂಚಯ and upload to view GSUB/GPOS data.</div>';
   }
 }
 
-function parseFontWithOpentype(fontUrl, fontFamily, metaEl, otSection) {
-  opentype.load(fontUrl, (err, font) => {
-    if (err) {
-      metaEl.innerHTML = `<div class="metadata-empty">Could not parse font: ${err.message}</div>`;
-      return;
-    }
-
+function processFontFromBuffer(buffer, fontFamily, metaEl, otSection) {
+  try {
+    const font = opentype.parse(buffer);
     parsedFontData = font;
     const names = font.tables.name;
     const head = font.tables.head;
@@ -1774,7 +1812,9 @@ function parseFontWithOpentype(fontUrl, fontFamily, metaEl, otSection) {
       });
     }
     renderFontRules();
-  });
+  } catch (e) {
+    metaEl.innerHTML = `<div class="metadata-empty">Could not parse font: ${e.message}</div>`;
+  }
 }
 
 // ── Font Rules ────────────────────────────────────────────
