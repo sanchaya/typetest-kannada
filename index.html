@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="typetest-kannada.css">
+<script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
 </head>
 <body>
 
@@ -165,6 +166,9 @@
       <button class="tab-btn" data-tab="symbols">Symbols</button>
       <button class="tab-btn" data-tab="kerning">Kerning</button>
       <button class="tab-btn" data-tab="coverage">Glyph Coverage</button>
+      <button class="tab-btn" data-tab="glyph-picker">Glyph Map</button>
+      <button class="tab-btn" data-tab="compare">Compare</button>
+      <button class="tab-btn" data-tab="decompose">Conjuncts</button>
       <button class="tab-btn" data-tab="waterfall">Waterfall</button>
       <button class="tab-btn" data-tab="custom">Custom</button>
     </div>
@@ -372,6 +376,53 @@
         <div class="coverage-summary" id="coverage-summary"></div>
         <div class="coverage-bar" id="coverage-bar"></div>
         <div class="coverage-grid" id="coverage-grid"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-glyph-picker">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Glyph Map</span>
+          <span class="section-desc">All glyphs in the loaded font</span>
+        </div>
+        <div class="glyph-picker-controls">
+          <input type="text" class="glyph-search" id="glyph-search" placeholder="Search glyphs or Unicode code point...">
+          <span class="glyph-count" id="glyph-count">—</span>
+        </div>
+        <div class="glyph-map-grid" id="glyph-map-grid"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-compare">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Compare Fonts</span>
+          <span class="section-desc">Side-by-side font comparison</span>
+        </div>
+        <div class="compare-controls">
+          <select id="compare-font-1" class="compare-select"></select>
+          <select id="compare-font-2" class="compare-select"></select>
+        </div>
+        <div class="compare-area" id="compare-area">
+          <div class="compare-panel" id="compare-left">
+            <div class="compare-label" id="compare-label-1">Font 1</div>
+            <div class="compare-text" id="compare-text-1"></div>
+          </div>
+          <div class="compare-panel" id="compare-right">
+            <div class="compare-label" id="compare-label-2">Font 2</div>
+            <div class="compare-text" id="compare-text-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-decompose">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Conjunct Decomposition</span>
+          <span class="section-desc">How conjuncts break down into half-forms and full forms</span>
+        </div>
+        <div class="decompose-grid" id="decompose-grid"></div>
       </div>
     </div>
 
@@ -1029,35 +1080,9 @@ function renderContent() {
   $('render-kerning').textContent = testSet.kerning;
 
   renderCoverage();
-
-  // Apply font settings to all elements including direct textContent ones
-  applyFontToAll();
-
-  const wf = $('render-waterfall');
-  wf.innerHTML = '';
-  waterfallItems = [];
-  waterfallSizes.forEach(sz => {
-    const row = document.createElement('div');
-    row.className = 'waterfall-item';
-    
-    const lbl = document.createElement('span');
-    lbl.className = 'waterfall-size';
-    lbl.textContent = sz + 'px';
-    
-    const txt = document.createElement('span');
-    txt.className = 'test-text';
-    txt.textContent = waterfallText;
-    txt.style.fontSize = sz + 'px';
-    txt.style.lineHeight = 1.2;
-    txt.style.letterSpacing = '0.02em';
-    txt.style.display = 'inline-block';
-    
-    row.appendChild(lbl);
-    row.appendChild(txt);
-    wf.appendChild(row);
-    waterfallItems.push(txt);
-  });
-  updateWaterfall();
+  renderGlyphMap();
+  renderDecompose();
+  updateCompareSelects();
 }
 
 function updateWaterfall() {
@@ -1238,24 +1263,28 @@ $('size-slider').addEventListener('input', e => {
   state.fontSize = +e.target.value;
   $('size-val').textContent = state.fontSize + 'px';
   applyControls();
+  updateUrl();
 });
 $('lh-slider').addEventListener('input', e => {
   state.lineHeight = +e.target.value;
   $('lh-val').textContent = state.lineHeight.toFixed(2);
   applyControls();
+  updateUrl();
 });
 $('ls-slider').addEventListener('input', e => {
   state.letterSpacing = +e.target.value;
   $('ls-val').textContent = state.letterSpacing.toFixed(3) + 'em';
   applyControls();
+  updateUrl();
 });
 $('ws-slider').addEventListener('input', e => {
   state.wordSpacing = +e.target.value;
   $('ws-val').textContent = state.wordSpacing.toFixed(1);
   applyControls();
+  updateUrl();
 });
-$('lig-toggle').addEventListener('change', e => { state.ligatures = e.target.checked; applyControls(); });
-$('kern-toggle').addEventListener('change', e => { state.kerning = e.target.checked; applyControls(); });
+$('lig-toggle').addEventListener('change', e => { state.ligatures = e.target.checked; applyControls(); updateUrl(); });
+$('kern-toggle').addEventListener('change', e => { state.kerning = e.target.checked; applyControls(); updateUrl(); });
 $('dark-toggle').addEventListener('change', e => {
   state.darkBg = e.target.checked;
   const main = document.getElementById('main-area');
@@ -1266,6 +1295,7 @@ $('dark-toggle').addEventListener('change', e => {
     main.style.background = '';
     allTestTexts().forEach(el => el.style.color = '');
   }
+  updateUrl();
 });
 
 // Weight slider for variable fonts
@@ -1351,18 +1381,308 @@ const tabPanels = document.querySelectorAll('.tab-panel');
 tabButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     const tabId = btn.dataset.tab;
-
     tabButtons.forEach(b => b.classList.remove('active'));
     tabPanels.forEach(p => p.classList.remove('active'));
-
     btn.classList.add('active');
     document.getElementById(`panel-${tabId}`).classList.add('active');
+    updateUrl();
   });
 });
 
+// ── URL Session Sharing ──────────────────────────────────
+function encodeState() {
+  const params = new URLSearchParams();
+  if (state.currentFont) params.set('font', state.currentFont);
+  if (state.fontSize !== 32) params.set('size', state.fontSize);
+  if (state.lineHeight !== 1.4) params.set('lh', state.lineHeight);
+  if (state.letterSpacing !== 0) params.set('ls', state.letterSpacing);
+  if (state.wordSpacing !== 1) params.set('ws', state.wordSpacing);
+  if (!state.ligatures) params.set('liga', 0);
+  if (!state.kerning) params.set('kern', 0);
+  if (state.darkBg) params.set('dark', 1);
+  const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab;
+  if (activeTab && activeTab !== 'overview') params.set('tab', activeTab);
+  return params.toString();
+}
+
+function updateUrl() {
+  const hash = encodeState();
+  history.replaceState(null, '', hash ? '#' + hash : location.pathname);
+}
+
+function decodeState() {
+  const hash = location.hash.slice(1);
+  if (!hash) return null;
+  try { return new URLSearchParams(hash); } catch { return null; }
+}
+
+function applyUrlState() {
+  const params = decodeState();
+  if (!params) return;
+
+  if (params.has('font')) state.currentFont = params.get('font');
+  if (params.has('size')) {
+    state.fontSize = +params.get('size');
+    $('size-slider').value = state.fontSize;
+    $('size-val').textContent = state.fontSize + 'px';
+  }
+  if (params.has('lh')) {
+    state.lineHeight = +params.get('lh');
+    $('lh-slider').value = state.lineHeight;
+    $('lh-val').textContent = state.lineHeight.toFixed(2);
+  }
+  if (params.has('ls')) {
+    state.letterSpacing = +params.get('ls');
+    $('ls-slider').value = state.letterSpacing;
+    $('ls-val').textContent = state.letterSpacing.toFixed(3) + 'em';
+  }
+  if (params.has('ws')) {
+    state.wordSpacing = +params.get('ws');
+    $('ws-slider').value = state.wordSpacing;
+    $('ws-val').textContent = state.wordSpacing.toFixed(1);
+  }
+  if (params.get('liga') === '0') { state.ligatures = false; $('lig-toggle').checked = false; }
+  if (params.get('kern') === '0') { state.kerning = false; $('kern-toggle').checked = false; }
+  if (params.get('dark') === '1') {
+    state.darkBg = true;
+    $('dark-toggle').checked = true;
+    document.getElementById('main-area').style.background = '#0f0e0c';
+    document.querySelectorAll('.test-text').forEach(el => el.style.color = '#f5f2ec');
+  }
+
+  const tab = params.get('tab');
+  if (tab) {
+    tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    tabPanels.forEach(p => p.classList.toggle('active', p.id === `panel-${tab}`));
+  }
+}
+
+// ── Glyph Map ────────────────────────────────────────────
+let fontGlyphs = [];
+
+function loadFontGlyphs(fontFamily) {
+  fontGlyphs = [];
+  const grid = $('glyph-map-grid');
+  const count = $('glyph-count');
+  if (!grid || !count) return;
+
+  grid.innerHTML = '';
+  count.textContent = 'Loading glyphs...';
+
+  const styleEl = document.querySelector(`style[id="ff-${fontFamily}"]`);
+  if (!styleEl) {
+    count.textContent = 'No font data';
+    return;
+  }
+
+  const match = styleEl.textContent.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+  if (!match) {
+    count.textContent = 'Could not parse font URL';
+    return;
+  }
+
+  opentype.load(match[1], (err, font) => {
+    if (err) {
+      count.textContent = 'Error loading font: ' + err.message;
+      return;
+    }
+
+    const glyphSet = new Set();
+    for (const [cp, glyphId] of Object.entries(font.tables.cmap.glyphIndexMap || {})) {
+      glyphSet.add(parseInt(cp));
+    }
+
+    for (let i = 0; i < font.numGlyphs; i++) {
+      const glyph = font.glyphs.get(i);
+      if (glyph && glyph.unicode) {
+        glyph.unicode.forEach(u => glyphSet.add(u));
+      }
+    }
+
+    const sorted = Array.from(glyphSet).sort((a, b) => a - b);
+    fontGlyphs = sorted.map(cp => ({ cp, char: String.fromCodePoint(cp) }));
+
+    grid.innerHTML = '';
+    fontGlyphs.forEach(({ cp, char }) => {
+      const cell = document.createElement('div');
+      cell.className = 'glyph-cell';
+      cell.dataset.search = char + ' ' + cp.toString(16).toUpperCase();
+
+      const charSpan = document.createElement('span');
+      charSpan.className = 'glyph-cell-char';
+      charSpan.textContent = char;
+      charSpan.style.fontFamily = `'${fontFamily}', sans-serif`;
+
+      const codeSpan = document.createElement('span');
+      codeSpan.className = 'glyph-cell-cp';
+      codeSpan.textContent = cp.toString(16).toUpperCase().padStart(4, '0');
+
+      cell.appendChild(charSpan);
+      cell.appendChild(codeSpan);
+
+      cell.addEventListener('click', () => {
+        navigator.clipboard.writeText(char);
+        cell.style.background = 'var(--active-color)';
+        setTimeout(() => cell.style.background = '', 500);
+      });
+
+      grid.appendChild(cell);
+    });
+
+    count.textContent = sorted.length + ' glyphs';
+  });
+}
+
+function renderGlyphMap() {
+  if (state.currentFont) {
+    loadFontGlyphs(state.currentFont);
+  }
+}
+
+if ($('glyph-search')) {
+  $('glyph-search').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll('.glyph-cell').forEach(cell => {
+      cell.style.display = cell.dataset.search.includes(q) ? '' : 'none';
+    });
+  });
+}
+
+// ── Compare ──────────────────────────────────────────────
+function updateCompareSelects() {
+  const s1 = $('compare-font-1');
+  const s2 = $('compare-font-2');
+  if (!s1 || !s2) return;
+
+  const allFonts = [...state.versions, ...availableFonts.map(f => ({ fontFamily: f.family, name: f.name }))];
+  const unique = new Map();
+  allFonts.forEach(f => { if (!unique.has(f.fontFamily)) unique.set(f.fontFamily, f.name); });
+
+  const opts = Array.from(unique.entries()).map(([fam, name]) => `<option value="${fam}">${name}</option>`).join('');
+  s1.innerHTML = opts;
+  s2.innerHTML = opts;
+
+  if (state.currentFont) {
+    s1.value = state.currentFont;
+  }
+}
+
+function renderCompare() {
+  const f1 = $('compare-font-1')?.value;
+  const f2 = $('compare-font-2')?.value;
+  if (!f1 || !f2) return;
+
+  $('compare-label-1').textContent = availableFonts.find(f => f.family === f1)?.name || f1;
+  $('compare-label-2').textContent = availableFonts.find(f => f.family === f2)?.name || f2;
+
+  const sample = testSet.words[0] + '\n\n' + testSet.vachana.slice(0, 6).join('\n');
+
+  const t1 = $('compare-text-1');
+  const t2 = $('compare-text-2');
+  t1.textContent = sample;
+  t2.textContent = sample;
+  t1.style.fontFamily = `'${f1}', sans-serif`;
+  t2.style.fontFamily = `'${f2}', sans-serif`;
+  t1.style.fontSize = state.fontSize + 'px';
+  t2.style.fontSize = state.fontSize + 'px';
+  t1.style.lineHeight = state.lineHeight;
+  t2.style.lineHeight = state.lineHeight;
+}
+
+if ($('compare-font-1')) $('compare-font-1').addEventListener('change', renderCompare);
+if ($('compare-font-2')) $('compare-font-2').addEventListener('change', renderCompare);
+
+// ── Decompose ────────────────────────────────────────────
+const decomposeData = [
+  { conjunct: 'ಕ್ಷ', parts: [{ char: 'क्', name: 'Ka + virama' }, { char: 'ष', name: 'Sha' }] },
+  { conjunct: 'ಜ್ಞ', parts: [{ char: 'ಜ್', name: 'Ja + virama' }, { char: 'ಞ', name: 'Nya' }] },
+  { conjunct: 'ತ್ವ', parts: [{ char: 'ತ್', name: 'Ta + virama' }, { char: 'ವ', name: 'Va' }] },
+  { conjunct: 'ದ್ವ', parts: [{ char: 'ದ್', name: 'Da + virama' }, { char: 'ವ', name: 'Va' }] },
+  { conjunct: 'ಪ್ರ', parts: [{ char: 'ಪ್', name: 'Pa + virama' }, { char: 'ರ', name: 'Ra' }] },
+  { conjunct: 'ಸ್ಥ', parts: [{ char: 'ಸ್', name: 'Sa + virama' }, { char: 'ಥ', name: 'Tha' }] },
+  { conjunct: 'ಶ್ರ', parts: [{ char: 'ಶ್', name: 'Sha + virama' }, { char: 'ರ', name: 'Ra' }] },
+  { conjunct: 'ಳ್ಳ', parts: [{ char: 'ಳ್', name: 'Lla + virama' }, { char: 'ಳ', name: 'Lla' }] },
+  { conjunct: 'ನ್ನ', parts: [{ char: 'ನ್', name: 'Na + virama' }, { char: 'ನ', name: 'Na' }] },
+  { conjunct: 'ನ್ನ', parts: [{ char: 'ನ್', name: 'Na + virama' }, { char: 'ನ', name: 'Na' }] },
+  { conjunct: 'ತ್ತ', parts: [{ char: 'ತ್', name: 'Ta + virama' }, { char: 'ತ', name: 'Ta' }] },
+  { conjunct: 'ದ್ದ', parts: [{ char: 'ದ್', name: 'Da + virama' }, { char: 'ದ', name: 'Da' }] },
+  { conjunct: 'ಪ್ಪ', parts: [{ char: 'ಪ್', name: 'Pa + virama' }, { char: 'ಪ', name: 'Pa' }] },
+  { conjunct: 'ಬ್ಬ', parts: [{ char: 'ಬ್', name: 'Ba + virama' }, { char: 'ಬ', name: 'Ba' }] },
+  { conjunct: 'ಮ್ಮ', parts: [{ char: 'ಮ್', name: 'Ma + virama' }, { char: 'ಮ', name: 'Ma' }] },
+  { conjunct: 'ತ್ಯ', parts: [{ char: 'ತ್', name: 'Ta + virama' }, { char: 'ಯ', name: 'Ya' }] },
+  { conjunct: 'ಸ್ಕ', parts: [{ char: 'ಸ್', name: 'Sa + virama' }, { char: 'ಕ', name: 'Ka' }] },
+  { conjunct: 'ಹ್ನ', parts: [{ char: 'ಹ್', name: 'Ha + virama' }, { char: 'ನ', name: 'Na' }] },
+  { conjunct: 'ರ್ಕ', parts: [{ char: 'ರ್', name: 'Ra + virama' }, { char: 'ಕ', name: 'Ka' }] },
+  { conjunct: 'ನ್ತ', parts: [{ char: 'ನ್', name: 'Na + virama' }, { char: 'ತ', name: 'Ta' }] },
+];
+
+function renderDecompose() {
+  const grid = $('decompose-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  decomposeData.forEach(({ conjunct, parts }) => {
+    const row = document.createElement('div');
+    row.className = 'decompose-row';
+
+    const conjSpan = document.createElement('div');
+    conjSpan.className = 'decompose-conjunct';
+    conjSpan.textContent = conjunct;
+    conjSpan.style.fontFamily = `'${state.currentFont || 'sans-serif'}, sans-serif`;
+
+    const breakdown = document.createElement('div');
+    breakdown.className = 'decompose-breakdown';
+
+    parts.forEach((p, i) => {
+      if (i > 0) {
+        const plus = document.createElement('span');
+        plus.className = 'decompose-arrow';
+        plus.textContent = '+';
+        breakdown.appendChild(plus);
+      }
+
+      const part = document.createElement('span');
+      part.className = 'decompose-part';
+
+      const pChar = document.createElement('span');
+      pChar.className = 'decompose-part-char';
+      pChar.textContent = p.char;
+      pChar.style.fontFamily = `'${state.currentFont || 'sans-serif'}, sans-serif`;
+
+      const pName = document.createElement('span');
+      pName.className = 'decompose-part-name';
+      pName.textContent = p.name;
+
+      part.appendChild(pChar);
+      part.appendChild(pName);
+      breakdown.appendChild(part);
+    });
+
+    const arrow = document.createElement('div');
+    arrow.className = 'decompose-arrow';
+    arrow.textContent = '→';
+
+    const render = document.createElement('div');
+    render.className = 'decompose-conjunct';
+    render.textContent = conjunct;
+    render.style.fontFamily = `'${state.currentFont || 'sans-serif'}, sans-serif`;
+    render.style.textAlign = 'right';
+
+    row.appendChild(conjSpan);
+    row.appendChild(breakdown);
+    row.appendChild(arrow);
+    row.appendChild(render);
+    grid.appendChild(row);
+  });
+}
+
 // ── Initialize with default font ──────────────────────────
 window.addEventListener('load', () => {
+  applyUrlState();
   loadDefaultFont();
+  if (state.currentFont) applyUrlState();
+  updateCompareSelects();
+  updateUrl();
 });
 </script>
 </body>
