@@ -153,6 +153,7 @@
     <!-- Tab Navigation -->
     <div class="tab-nav" id="tab-nav">
       <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="font-info">Font Info</button>
       <button class="tab-btn" data-tab="alphabet">Alphabet</button>
       <button class="tab-btn" data-tab="numbers">Numbers</button>
       <button class="tab-btn" data-tab="mixed">Mixed Letters</button>
@@ -193,6 +194,22 @@
             <span class="overview-label">Sample Text</span>
             <span class="test-text overview-text" id="overview-paragraph"></span>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-font-info">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Font Information</span>
+          <span class="section-desc">Metadata and OpenType features</span>
+        </div>
+        <div id="font-metadata" class="font-metadata">
+          <div class="metadata-empty">Load a font or select a default font to view details</div>
+        </div>
+        <div class="ot-features-section" id="ot-features-section" style="margin-top:24px;display:none;">
+          <h3 class="ot-features-title">OpenType Features</h3>
+          <div class="ot-features-grid" id="ot-features-grid"></div>
         </div>
       </div>
     </div>
@@ -1081,6 +1098,7 @@ function renderContent() {
 
   renderCoverage();
   renderGlyphMap();
+  parseFontMetadata(state.currentFont);
   renderDecompose();
   updateCompareSelects();
 }
@@ -1545,6 +1563,100 @@ if ($('glyph-search')) {
     document.querySelectorAll('.glyph-cell').forEach(cell => {
       cell.style.display = cell.dataset.search.includes(q) ? '' : 'none';
     });
+  });
+}
+
+// ── Font Metadata ────────────────────────────────────────
+let parsedFontData = null;
+
+function parseFontMetadata(fontFamily) {
+  const styleEl = document.querySelector(`style[id="ff-${fontFamily}"]`);
+  if (!styleEl) return;
+
+  const match = styleEl.textContent.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+  if (!match) return;
+
+  const meta = $('font-metadata');
+  const otSection = $('ot-features-section');
+  if (!meta) return;
+
+  meta.innerHTML = '<div class="metadata-empty">Loading font data...</div>';
+
+  opentype.load(match[1], (err, font) => {
+    if (err) {
+      meta.innerHTML = `<div class="metadata-empty">Could not parse font: ${err.message}</div>`;
+      return;
+    }
+
+    parsedFontData = font;
+    const names = font.tables.name;
+    const head = font.tables.head;
+    const hhea = font.tables.hhea;
+
+    const info = [
+      { label: 'Font Family', value: names?.fontFamily?.en || fontFamily },
+      { label: 'Designer', value: names?.designer?.en || '—' },
+      { label: 'Designer URL', value: names?.designerURL?.en ? `<a href="${names.designerURL.en}" target="_blank" style="color:var(--text-color3);text-decoration:none;">${names.designerURL.en}</a>` : '—' },
+      { label: 'Manufacturer', value: names?.manufacturer?.en || '—' },
+      { label: 'License', value: names?.license?.en || '—' },
+      { label: 'Version', value: names?.version?.en || '—' },
+      { label: 'Description', value: names?.description?.en || '—' },
+      { label: 'Copyright', value: names?.copyright?.en || '—' },
+      { label: 'Glyphs', value: font.numGlyphs },
+      { label: 'Units/Em', value: head?.unitsPerEm || '—' },
+      { label: 'Ascender', value: hhea?.ascender || '—' },
+      { label: 'Descender', value: hhea?.descender || '—' },
+    ];
+
+    meta.innerHTML = '';
+    info.forEach(({ label, value }) => {
+      const card = document.createElement('div');
+      card.className = 'metadata-card';
+      card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
+      meta.appendChild(card);
+    });
+
+    // OpenType features
+    const gsub = font.tables.gsub;
+    const otGrid = $('ot-features-grid');
+    if (gsub && gsub.features && otGrid) {
+      otSection.style.display = 'block';
+      otGrid.innerHTML = '';
+
+      const featureNames = {
+        locl: 'Localized Forms', ccmp: 'Glyph Composition', nukt: 'Nukta Forms',
+        akhn: 'Akhands', rphf: 'Reph Forms', pref: 'Pre-base Forms',
+        blwf: 'Below-base Forms', pstf: 'Post-base Forms', vatu: 'Vattu Variants',
+        cjct: 'Conjunct Forms', haln: 'Halant Forms', init: 'Initial Forms',
+        pres: 'Pre-base Substitutions', abvs: 'Above-base Forms', blws: 'Below-base Substitutions',
+        psts: 'Post-base Substitutions', liga: 'Standard Ligatures', dlig: 'Discretionary Ligatures',
+        hlig: 'Historical Ligatures', clig: 'Contextual Ligatures', calt: 'Contextual Alternates',
+        salt: 'Stylistic Alternates', swsh: 'Swash', cswh: 'Contextual Swashes',
+        ss01: 'Stylistic Set 1', ss02: 'Stylistic Set 2', ss03: 'Stylistic Set 3',
+        ss04: 'Stylistic Set 4', ss05: 'Stylistic Set 5', ss06: 'Stylistic Set 6',
+        kern: 'Kerning', mark: 'Mark Positioning', mkmk: 'Mark-to-Mark',
+        frac: 'Fractions', ordn: 'Ordinals', sups: 'Superscript', subs: 'Subscript',
+        numr: 'Numerator', dnom: 'Denominator', lnum: 'Lining Figures', onum: 'Oldstyle Figures',
+        pnum: 'Proportional Figures', tnum: 'Tabular Figures', zero: 'Slashed Zero',
+        case: 'Case-Sensitive Forms', titl: 'Titling', cpsp: 'Capital Spacing'
+      };
+
+      gsub.features.forEach(({ tag }) => {
+        const feat = document.createElement('div');
+        feat.className = 'ot-feature';
+        const name = featureNames[tag] || tag;
+        const isIndic = ['locl','ccmp','nukt','akhn','rphf','pref','blwf','pstf','vatu','cjct','haln'].includes(tag);
+        if (isIndic) feat.classList.add('indic');
+
+        feat.innerHTML = `
+          <div class="ot-feature-info">
+            <span class="ot-feature-tag">${tag}</span>
+            <span class="ot-feature-name">${name}</span>
+          </div>
+        `;
+        otGrid.appendChild(feat);
+      });
+    }
   });
 }
 

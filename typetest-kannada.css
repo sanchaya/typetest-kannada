@@ -1303,6 +1303,94 @@ main {
   font-family: var(--mono);
 }
 
+/* ── FONT METADATA ─────────────────────────────────────── */
+
+.font-metadata {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.metadata-card {
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.metadata-label {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.metadata-value {
+  font-size: 16px;
+  color: var(--ink);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.metadata-empty {
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+  padding: 20px;
+  text-align: center;
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+}
+
+.ot-features-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.ot-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.ot-feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--paper);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+.ot-feature.disabled {
+  opacity: 0.4;
+  background: var(--text-background);
+}
+
+.ot-feature-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-color3);
+}
+
+.ot-feature-name {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.ot-feature-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 /* ── COMPARE ───────────────────────────────────────────── */
 
 .compare-controls {
