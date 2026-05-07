@@ -1080,9 +1080,33 @@ function updateWaterfall() {
 }
 
 // ── Glyph Coverage ────────────────────────────────────────
+let coverageFont = null;
+
+async function getCoverageFont(fontFamily) {
+  if (coverageFont && coverageFont.family === fontFamily) {
+    if (coverageFont.status === 'loaded') return coverageFont;
+    if (coverageFont.status === 'error') coverageFont = null;
+  }
+
+  const styleEl = document.querySelector(`style[id="ff-${fontFamily}"]`);
+  if (!styleEl) return null;
+
+  const match = styleEl.textContent.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+  if (!match) return null;
+
+  try {
+    const ff = new FontFace(fontFamily, `url('${match[1]}')`);
+    await ff.load();
+    document.fonts.add(ff);
+    coverageFont = ff;
+    return ff;
+  } catch {
+    return null;
+  }
+}
+
 function detectGlyphSupport(charCode, fontFamily) {
-  const char = String.fromCodePoint(charCode);
-  return document.fonts.check(`24px '${fontFamily}'`, char);
+  return document.fonts.check(`72px '${fontFamily}'`, String.fromCodePoint(charCode));
 }
 
 async function renderCoverage() {
@@ -1100,7 +1124,11 @@ async function renderCoverage() {
     return;
   }
 
-  await document.fonts.ready;
+  const ff = await getCoverageFont(state.currentFont);
+  if (!ff) {
+    summary.innerHTML = '<span class="coverage-note">Could not load font for coverage check</span>';
+    return;
+  }
 
   let supported = 0;
   let total = assignedKannada.length;
