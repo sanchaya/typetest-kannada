@@ -1677,12 +1677,38 @@ function updateCompareSelects() {
   if (state.currentFont) {
     s1.value = state.currentFont;
   }
+
+  setTimeout(renderCompare, 100);
 }
 
-function renderCompare() {
+const loadedCompareFonts = new Set();
+
+async function loadCompareFont(family) {
+  if (loadedCompareFonts.has(family)) return;
+  if (document.querySelector(`style[id="ff-${family}"]`)) {
+    loadedCompareFonts.add(family);
+    return;
+  }
+
+  const config = availableFonts.find(f => f.family === family);
+  if (!config) return;
+
+  try {
+    const ff = new FontFace(family, `url('${config.url}')`);
+    await ff.load();
+    document.fonts.add(ff);
+    loadedCompareFonts.add(family);
+  } catch (e) {
+    console.warn('Failed to load compare font:', family, e);
+  }
+}
+
+async function renderCompare() {
   const f1 = $('compare-font-1')?.value;
   const f2 = $('compare-font-2')?.value;
   if (!f1 || !f2) return;
+
+  await Promise.all([loadCompareFont(f1), loadCompareFont(f2)]);
 
   $('compare-label-1').textContent = availableFonts.find(f => f.family === f1)?.name || f1;
   $('compare-label-2').textContent = availableFonts.find(f => f.family === f2)?.name || f2;
