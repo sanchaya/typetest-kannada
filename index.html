@@ -945,7 +945,7 @@ function makeTestEl(tag, text) {
   return el;
 }
 
-function renderContent() {
+async function renderContent() {
   $('render-vowels').textContent = testSet.vowels;
 
   $('overview-vowels').textContent = testSet.vowels;
@@ -1082,34 +1082,10 @@ function updateWaterfall() {
 // ── Glyph Coverage ────────────────────────────────────────
 function detectGlyphSupport(charCode, fontFamily) {
   const char = String.fromCodePoint(charCode);
-  const size = 24;
-  const canvas = document.createElement('canvas');
-  canvas.width = size * 2;
-  canvas.height = size * 2;
-  const ctx = canvas.getContext('2d');
-
-  ctx.fillStyle = '#000';
-  ctx.font = `${size}px '${fontFamily}', sans-serif`;
-  ctx.textBaseline = 'top';
-  ctx.fillText(char, size * 0.5, 0);
-
-  const targetData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = `${size}px sans-serif`;
-  ctx.fillText(char, size * 0.5, 0);
-
-  const fallbackData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-
-  for (let i = 0; i < targetData.length; i += 4) {
-    if (targetData[i + 3] !== fallbackData[i + 3]) return true;
-    if (targetData[i + 3] > 0 && targetData[i] !== fallbackData[i]) return true;
-  }
-
-  return false;
+  return document.fonts.check(`24px '${fontFamily}'`, char);
 }
 
-function renderCoverage() {
+async function renderCoverage() {
   const grid = $('coverage-grid');
   const summary = $('coverage-summary');
   const bar = $('coverage-bar');
@@ -1123,6 +1099,8 @@ function renderCoverage() {
     summary.innerHTML = '<span class="coverage-note">Load a font to check glyph coverage</span>';
     return;
   }
+
+  await document.fonts.ready;
 
   let supported = 0;
   let total = assignedKannada.length;
