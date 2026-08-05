@@ -734,6 +734,16 @@
 
       </div>
 
+      <div class="subnav" id="web-subnav" data-panel="render-web-mockups">
+        <button class="sub-btn active" data-sub="mock-hero">Hero</button>
+        <button class="sub-btn" data-sub="mock-article">Article</button>
+        <button class="sub-btn" data-sub="mock-dark">Dark</button>
+        <button class="sub-btn" data-sub="mock-pricing">Pricing</button>
+        <button class="sub-btn" data-sub="mock-app">App</button>
+        <button class="sub-btn" data-sub="mock-mobile">Mobile</button>
+        <button class="sub-btn" data-sub="mock-features">Features</button>
+      </div>
+
       <div class="preview-grid" id="render-web-mockups">
 
         <div class="mock-card ctx-card" id="mock-hero">
@@ -952,6 +962,14 @@
         <div class="ctx-actions" style="margin:0 0 12px;">
           <button class="btn export-btn" id="export-print-png">Export All PNG</button>
           <button class="btn export-btn" id="export-print-pdf">Print All</button>
+        </div>
+        <div class="subnav" id="print-subnav" data-panel="render-print-mockups">
+          <button class="sub-btn active" data-sub="mock-np">Newspaper</button>
+          <button class="sub-btn" data-sub="mock-mag">Magazine</button>
+          <button class="sub-btn" data-sub="mock-book">Book</button>
+          <button class="sub-btn" data-sub="mock-cover">Cover</button>
+          <button class="sub-btn" data-sub="mock-spec">Spec</button>
+          <button class="sub-btn" data-sub="mock-letter">Letter</button>
         </div>
         <div class="preview-grid print-grid" id="render-print-mockups">
 
@@ -2514,8 +2532,38 @@ function contextExtraCSS() {
   return `:root{--font-loaded:${loadedFontVar()};${contextRoleVarsCSS()}}\n${contextFontEmbedCSS()}`;
 }
 
+function initSubnav(navId) {
+  const nav = $(navId);
+  if (!nav) return;
+  const container = $(nav.dataset.panel);
+  if (!container) return;
+  nav.querySelectorAll('.sub-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      nav.querySelectorAll('.sub-btn').forEach(b => b.classList.toggle('active', b === btn));
+      container.querySelectorAll('.mock-card').forEach(c => {
+        c.style.display = (c.id === btn.dataset.sub) ? '' : 'none';
+      });
+      container.classList.add('single');
+    });
+  });
+  const active = nav.querySelector('.sub-btn.active');
+  if (active) active.click();
+}
+
+async function withAllCardsVisible(containerId, fn) {
+  const container = $(containerId);
+  const hidden = [];
+  container.querySelectorAll('.mock-card').forEach(c => {
+    if (c.style.display === 'none') { hidden.push(c); c.style.display = ''; }
+  });
+  try { return await fn(); }
+  finally { hidden.forEach(c => { c.style.display = 'none'; }); }
+}
+
 function initContextEngine() {
   CONTEXT_ROLES.forEach(role => setupRoleControl(role));
+  initSubnav('web-subnav');
+  initSubnav('print-subnav');
   for (const role of ['title','sub','heading','body','note']) {
     const el = $(`text-${role}`);
     if (!el) continue;
@@ -2577,14 +2625,16 @@ function initContextEngine() {
     applyDisplayOT();
   });
 
-  $('export-web-all').addEventListener('click', async () => {
-    const ids = ['hero','article','dark','pricing','app','mobile'];
-    for (let i = 0; i < ids.length; i++) {
-      const card = $(`mock-${ids[i]}`);
-      if (!card) continue;
-      const layout = card.querySelector('.layout-hero,.layout-article,.layout-dark,.layout-pricing,.layout-app,.layout-mobile');
-      if (layout) await pngFromNode(layout, `typetest-kannada-web-${i + 1}.png`);
-    }
+  $('export-web-all').addEventListener('click', () => {
+    withAllCardsVisible('render-web-mockups', async () => {
+      const ids = ['hero','article','dark','pricing','app','mobile'];
+      for (let i = 0; i < ids.length; i++) {
+        const card = $(`mock-${ids[i]}`);
+        if (!card) continue;
+        const layout = card.querySelector('.layout-hero,.layout-article,.layout-dark,.layout-pricing,.layout-app,.layout-mobile');
+        if (layout) await pngFromNode(layout, `typetest-kannada-web-${i + 1}.png`);
+      }
+    });
   });
   $('export-web-print').addEventListener('click', () => {
     const inners = [];
@@ -2596,14 +2646,16 @@ function initContextEngine() {
     });
     buildPrintWindow(inners.join(''), contextExtraCSS());
   });
-  $('export-print-png').addEventListener('click', async () => {
-    const ids = ['np','mag','book','cover','spec','letter'];
-    for (let i = 0; i < ids.length; i++) {
-      const card = $(`mock-${ids[i]}`);
-      if (!card) continue;
-      const layout = card.querySelector('.layout-newspaper,.layout-magazine,.layout-book,.layout-cover,.layout-spec,.layout-letter');
-      if (layout) await pngFromNode(layout, `typetest-kannada-print-${i + 1}.png`);
-    }
+  $('export-print-png').addEventListener('click', () => {
+    withAllCardsVisible('render-print-mockups', async () => {
+      const ids = ['np','mag','book','cover','spec','letter'];
+      for (let i = 0; i < ids.length; i++) {
+        const card = $(`mock-${ids[i]}`);
+        if (!card) continue;
+        const layout = card.querySelector('.layout-newspaper,.layout-magazine,.layout-book,.layout-cover,.layout-spec,.layout-letter');
+        if (layout) await pngFromNode(layout, `typetest-kannada-print-${i + 1}.png`);
+      }
+    });
   });
   $('export-print-pdf').addEventListener('click', () => {
     const inners = [];

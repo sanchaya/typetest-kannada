@@ -2726,3 +2726,14 @@ main {
 .persona-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
 .persona-chips .chip { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--hover-color); color: var(--span-color); }
 .persona-go { margin-top: 10px; align-self: flex-start; padding: 8px 22px; font-size: 13px; font-weight: 600; }
+
+/* ── LAYOUT SUB-NAV (Web/Print panels) ───────────────────── */
+
+.subnav { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.sub-btn { padding: 7px 14px; border: 1px solid var(--border-color); background: transparent; color: var(--span-color); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 500; transition: all 0.15s ease; }
+.sub-btn:hover { border-color: var(--accent); color: var(--accent); }
+.sub-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.preview-grid.single { grid-template-columns: 1fr; justify-items: center; }
+.preview-grid.single .ctx-card { width: min(100%, 620px); }
+.print-grid.preview-grid.single .ctx-card { width: min(100%, 560px); }
