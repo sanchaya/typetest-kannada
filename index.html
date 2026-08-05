@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="typetest-kannada.css">
 <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -53,6 +54,47 @@
       <p><strong>Drop font file</strong><br>or click to browse</p>
       <div class="file-formats">TTF · OTF · WOFF · WOFF2</div>
     </div>
+  </div>
+
+  <!-- Sources -->
+  <div>
+    <div class="panel-label">Sources</div>
+
+    <div class="source-block">
+      <div class="source-title">Google Fonts</div>
+      <div class="source-row">
+        <input type="text" id="gf-name" class="source-input" placeholder="Font name" list="gf-suggestions" spellcheck="false">
+        <button class="btn" id="gf-load-btn">Load</button>
+      </div>
+      <datalist id="gf-suggestions">
+        <option value="Noto Sans Kannada">
+        <option value="Noto Serif Kannada">
+        <option value="Baloo Tamma 2">
+        <option value="Hind Mysuru">
+        <option value="Tiro Kannada">
+        <option value="Yrsa">
+        <option value="Catamaran">
+        <option value="Anek Kannada">
+        <option value="Akaya Kanadaka">
+        <option value="Hubballi">
+        <option value="Lava Kannada">
+        <option value="Mallanna">
+        <option value="Gidugu">
+        <option value="Ramabhadra">
+        <option value="Suranna">
+        <option value="Kadwa">
+      </datalist>
+    </div>
+
+    <div class="source-block">
+      <div class="source-title">ಸಂಚಯ Kannada catalog</div>
+      <div class="source-row">
+        <select id="remote-catalog-select" class="source-select"></select>
+        <button class="btn" id="remote-load-btn">Load</button>
+      </div>
+    </div>
+
+    <div class="source-status" id="source-status"></div>
   </div>
 
   <!-- Controls -->
@@ -158,6 +200,14 @@
 
   <div class="test-area" id="test-area">
 
+    <!-- Export Toolbar -->
+    <div class="export-bar">
+      <span class="export-hint">Export</span>
+      <button class="btn export-btn" id="export-png-btn" title="Save the active tab as a PNG image">PNG</button>
+      <button class="btn export-btn" id="export-print-btn" title="Open a print window with every tab (browser → Save as PDF)">Print / PDF</button>
+      <span class="export-note">PNG saves the active tab · Print/PDF exports all tabs</span>
+    </div>
+
     <!-- Tab Navigation -->
     <div class="tab-nav" id="tab-nav">
       <button class="tab-btn active" data-tab="overview">Overview</button>
@@ -177,6 +227,8 @@
       <button class="tab-btn" data-tab="coverage">Glyph Coverage</button>
       <button class="tab-btn" data-tab="glyph-picker">Glyph Map</button>
       <button class="tab-btn" data-tab="compare">Compare</button>
+      <button class="tab-btn" data-tab="web">Web Display</button>
+      <button class="tab-btn" data-tab="print">Print</button>
       <button class="tab-btn" data-tab="decompose">Decompose</button>
       <button class="tab-btn" data-tab="font-rules">Font Rules</button>
       <button class="tab-btn" data-tab="waterfall">Waterfall</button>
@@ -185,6 +237,42 @@
 
     <!-- Tab Panels -->
     <div class="tab-panel active" id="panel-overview">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Personas · ಗಮನಕೇಂದ್ರ</span>
+          <span class="section-desc">Pick your focus — each persona jumps to the most relevant test panels</span>
+        </div>
+        <div class="persona-grid">
+          <div class="persona-card" data-tab="web">
+            <span class="persona-icon">&#9670;</span>
+            <span class="persona-title">ವಿನ್ಯಾಸಕ <em>Designer</em></span>
+            <span class="persona-desc">ಓದುವಿಕೆ, ಗಾತ್ರದ ಕ್ರಮ, ಅಕ್ಷರ ಕೂಡುಗಳು — realistic contexts, role fonts, background control.</span>
+            <span class="persona-chips"><span class="chip">Web Display</span><span class="chip">Kerning</span><span class="chip">Waterfall</span></span>
+            <button class="btn persona-go">Open</button>
+          </div>
+          <div class="persona-card" data-tab="coverage">
+            <span class="persona-icon">&#9651;</span>
+            <span class="persona-title">ಅಭಿವೃದ್ಧಿ <em>Developer</em></span>
+            <span class="persona-desc">ಗ್ಲಿಫ್ ವ್ಯಾಪ್ತಿ, OpenType ಸವಲತ್ತುಗಳು, ನಿಖರ ಲಿಪಿ ಪರಿಶೀಲನೆ.</span>
+            <span class="persona-chips"><span class="chip">Coverage</span><span class="chip">Glyph Map</span><span class="chip">Font Rules</span><span class="chip">Custom</span></span>
+            <button class="btn persona-go">Open</button>
+          </div>
+          <div class="persona-card" data-tab="print">
+            <span class="persona-icon">&#9632;</span>
+            <span class="persona-title">ಪ್ರಕಾಶಕ <em>Publisher</em></span>
+            <span class="persona-desc">ದಟ್ಟವಾದ ಪಠ್ಯ, ಪತ್ರಿಕೆ, ಪುಸ್ತಕ, ಪಿಂಟ್ ಲೇಔಟ್ಗಳಲ್ಲಿ ದೀರ್ಘ ಓದು.</span>
+            <span class="persona-chips"><span class="chip">Print</span><span class="chip">Vachana</span><span class="chip">Kuvempu</span><span class="chip">Words</span></span>
+            <button class="btn persona-go">Open</button>
+          </div>
+          <div class="persona-card" data-tab="alphabet">
+            <span class="persona-icon">&#9633;</span>
+            <span class="persona-title">ವಿದ್ಯಾರ್ಥಿ <em>Student</em></span>
+            <span class="persona-desc">ವರ್ಣಮಾಲೆ, ಗುಣಿತಾಕ್ಷರ, ಒತ್ತಕ್ಷರ — ಲಿಪಿಯ ರಚನೆಯನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ.</span>
+            <span class="persona-chips"><span class="chip">Alphabet</span><span class="chip">Gunitakshara</span><span class="chip">Conjuncts</span><span class="chip">Numbers</span></span>
+            <button class="btn persona-go">Open</button>
+          </div>
+        </div>
+      </div>
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Quick Overview</span>
@@ -277,14 +365,62 @@
     <div class="tab-panel" id="panel-gunita">
       <div class="section">
         <div class="section-meta">
+          <span class="section-tag">Syllabic Grid Generator</span>
+          <span class="section-desc">Barakhadi / akshara grid — edit any cell, U+ labels shown, export to PNG or PDF</span>
+        </div>
+        <div class="syllabic-toolbar">
+          <div class="syllabic-row">
+            <label class="syllabic-size-label">Size
+              <input type="range" id="grid-size-range" min="12" max="96" step="1" value="32">
+              <input type="number" id="grid-size-num" value="32" min="12" max="96">
+            </label>
+            <button class="btn export-btn" id="grid-png-btn">Save PNG</button>
+            <button class="btn export-btn" id="grid-print-btn">Print / PDF</button>
+            <button class="btn export-btn template-btn" data-template="kannada">Kannada Akshara</button>
+          </div>
+          <div class="syllabic-fields">
+            <label class="syllabic-field">Consonants (one per line)
+              <textarea id="ctrl-consonants" class="syllabic-textarea" rows="6" spellcheck="false"></textarea>
+            </label>
+            <label class="syllabic-field">Vowel signs / matras (one per line, empty line = plain consonant)
+              <textarea id="ctrl-vowels" class="syllabic-textarea" rows="6" spellcheck="false"></textarea>
+            </label>
+            <label class="syllabic-field">Conjuncts (optional)
+              <textarea id="ctrl-conjuncts" class="syllabic-textarea" rows="3" spellcheck="false"></textarea>
+            </label>
+          </div>
+          <div class="syllabic-row">
+            <button class="btn export-btn primary-btn" id="btn-generate">Generate Grid</button>
+            <span class="syllabic-note">Cells are editable · uses the currently loaded font (system fallback otherwise)</span>
+          </div>
+        </div>
+        <div class="syllabic-empty" id="grid-empty">Enter consonants and vowel signs, then Generate.</div>
+        <div id="grid-output" class="syllabic-output"></div>
+      </div>
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">ಗುಣಿತಾಕ್ಷರ ಜಾಲರಿ</span>
+          <span class="section-desc">Consonant × 16 matras grid — the full barakhadi table in the loaded font</span>
+        </div>
+        <div id="render-gunita-grid" class="akshara-grid"></div>
+      </div>
+      <div class="section">
+        <div class="section-meta">
           <span class="section-tag">ಕನ್ನಡ ಗುಣಿತಾಕ್ಷರಗಳು</span>
-          <span class="section-desc">Consonant + all 16 vowel matras + halant</span>
+          <span class="section-desc">Consonant + all 16 vowel matras + halant (static reference)</span>
         </div>
         <div id="render-gunita"></div>
       </div>
     </div>
 
     <div class="tab-panel" id="panel-conjuncts">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">ಒತ್ತಕ್ಷರ ಜಾಲರಿ</span>
+          <span class="section-desc">Full 34 × 34 ottakshara conjunct grid in the loaded font</span>
+        </div>
+        <div id="render-conjuncts-grid" class="akshara-grid"></div>
+      </div>
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಕನ್ನಡ ಒತ್ತಕ್ಷರಗಳು</span>
@@ -394,9 +530,16 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">English Kerning Pairs</span>
-          <span class="section-desc">Kerning test strings</span>
+          <span class="section-desc">Latin kerning test strings — toggle Kerning in the sidebar to compare spacing</span>
         </div>
         <div class="test-text" id="render-kerning" style="line-height: 2;"></div>
+      </div>
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">ಕನ್ನಡ ಕರ್ನಿಂಗ್</span>
+          <span class="section-desc">Kannada kerning pairs — consonant + matra, rakar forms, and difficult clusters</span>
+        </div>
+        <div class="test-text" id="render-kerning-kannada" style="line-height: 2;"></div>
       </div>
     </div>
 
@@ -448,6 +591,546 @@
         </div>
       </div>
     </div>
+
+    <div class="tab-panel" id="panel-web">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Web Display · ಸಂದರ್ಭ ಪರೀಕ್ಷೆ</span>
+          <span class="section-desc">The loaded font in 6 realistic web layouts — assign fonts per role, edit copy, and export each card</span>
+        </div>
+      <div class="ctx-toolbar">
+
+        <div class="ctx-row">
+          <div class="ctx-cell">
+            <span class="ctx-label">Title</span>
+            <input type="text" class="ctx-input wide" id="text-title" value="ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು">
+          </div>
+          <div class="ctx-cell">
+            <span class="ctx-label">Subtitle</span>
+            <input type="text" class="ctx-input med" id="text-sub" value="ಆಧುನಿಕತೆ ಒಂದು ಶೈಲಿಯಲ್ಲ; ವಸ್ತುನಿಷ್ಠ ದೃಶ್ಯ ಭಾಷೆಯ ಹುಡುಕಾಟ">
+          </div>
+          <div class="ctx-cell">
+            <span class="ctx-label">Heading</span>
+            <input type="text" class="ctx-input sm" id="text-heading" value="ಇದೀಗ ಅನ್ವೇಷಿಸಿ">
+          </div>
+          <div class="ctx-cell grow">
+            <span class="ctx-label">Body</span>
+            <textarea class="ctx-input ctx-textarea" id="text-body">ಕನ್ನಡ ಲಿಪಿಯ ಸೌಂದರ್ಯ, ಅದರ ಒತ್ತಕ್ಷರಗಳು ಮತ್ತು ಗುಣಿತಾಕ್ಷರಗಳ ವಿನ್ಯಾಸವು ಶತಮಾನಗಳ ಪರಂಪರೆ. ಗ್ರಿಡ್, ಕ್ರಮಾನುಗತ, ಕಾರ್ಯ — ಈ ಮೂರು ತತ್ವಗಳು ಎಲ್ಲಾ ಪ್ರವೃತ್ತಿಗಳನ್ನು ಮೀರಿ ಉಳಿದಿವೆ. ಪರದೆಗಳು ಹೆಚ್ಚುತ್ತಿರುವಂತೆ ಮತ್ತು ಗಮನ ಕಡಿಮೆಯಾಗುತ್ತಿರುವಂತೆ, ಆಧಾರಭೂತ ನಿಯಮಗಳು ಇಂದಿಗೂ ಪ್ರಸ್ತುತ.</textarea>
+          </div>
+          <div class="ctx-cell">
+            <span class="ctx-label">Note</span>
+            <input type="text" class="ctx-input xs" id="text-note" value="ವೈಶಿಷ್ಟ್ಯ">
+          </div>
+        </div>
+
+        <div class="ctx-row">
+          <div class="ctx-cell">
+            <span class="role-badge badge-t">T</span>
+            <select class="ctx-select" id="src-title" data-role="title">
+              <option value="loaded" selected>Loaded</option>
+              <option value="system">System</option>
+              <option value="google">Google</option>
+              <option value="catalog">ಸಂಚಯ</option>
+            </select>
+            <select class="ctx-select" id="fnt-title" data-role="title"></select>
+            <input type="text" class="ctx-input sm gf-input" id="gf-title" placeholder="Font name" style="display:none">
+            <button class="btn ctx-btn" id="load-gf-title" data-role="title" style="display:none">Load</button>
+          </div>
+          <div class="ctx-cell">
+            <span class="role-badge badge-s">S</span>
+            <select class="ctx-select" id="src-sub" data-role="sub">
+              <option value="loaded" selected>Loaded</option>
+              <option value="system">System</option>
+              <option value="google">Google</option>
+              <option value="catalog">ಸಂಚಯ</option>
+            </select>
+            <select class="ctx-select" id="fnt-sub" data-role="sub"></select>
+            <input type="text" class="ctx-input sm gf-input" id="gf-sub" placeholder="Font name" style="display:none">
+            <button class="btn ctx-btn" id="load-gf-sub" data-role="sub" style="display:none">Load</button>
+          </div>
+          <div class="ctx-cell">
+            <span class="role-badge badge-h">H</span>
+            <select class="ctx-select" id="src-heading" data-role="heading">
+              <option value="loaded" selected>Loaded</option>
+              <option value="system">System</option>
+              <option value="google">Google</option>
+              <option value="catalog">ಸಂಚಯ</option>
+            </select>
+            <select class="ctx-select" id="fnt-heading" data-role="heading"></select>
+            <input type="text" class="ctx-input sm gf-input" id="gf-heading" placeholder="Font name" style="display:none">
+            <button class="btn ctx-btn" id="load-gf-heading" data-role="heading" style="display:none">Load</button>
+          </div>
+          <div class="ctx-cell grow">
+            <span class="role-badge badge-b">B</span>
+            <select class="ctx-select" id="src-body" data-role="body">
+              <option value="loaded" selected>Loaded</option>
+              <option value="system">System</option>
+              <option value="google">Google</option>
+              <option value="catalog">ಸಂಚಯ</option>
+            </select>
+            <select class="ctx-select" id="fnt-body" data-role="body"></select>
+            <input type="text" class="ctx-input sm gf-input" id="gf-body" placeholder="Font name" style="display:none">
+            <button class="btn ctx-btn" id="load-gf-body" data-role="body" style="display:none">Load</button>
+          </div>
+          <div class="ctx-cell">
+            <button class="btn ctx-btn" id="display-ot-toggle">OpenType ▾</button>
+          </div>
+        </div>
+
+        <div class="ot-panel" id="display-ot-panel" style="display:none">
+          <label class="ot-feat-check" title="Kerning"><input type="checkbox" data-feat="kern" checked> kern</label>
+          <label class="ot-feat-check" title="Standard Ligatures"><input type="checkbox" data-feat="liga" checked> liga</label>
+          <label class="ot-feat-check" title="Contextual Alternates"><input type="checkbox" data-feat="calt" checked> calt</label>
+          <label class="ot-feat-check" title="Discretionary Ligatures"><input type="checkbox" data-feat="dlig"> dlig</label>
+          <label class="ot-feat-check" title="Small Caps"><input type="checkbox" data-feat="smcp"> smcp</label>
+          <label class="ot-feat-check" title="Subscript"><input type="checkbox" data-feat="subs"> subs</label>
+          <label class="ot-feat-check" title="Superscript"><input type="checkbox" data-feat="sups"> sups</label>
+          <label class="ot-feat-check" title="Fractions"><input type="checkbox" data-feat="frac"> frac</label>
+          <label class="ot-feat-check" title="Numerator"><input type="checkbox" data-feat="numr"> numr</label>
+          <label class="ot-feat-check" title="Denominator"><input type="checkbox" data-feat="dnom"> dnom</label>
+          <label class="ot-feat-check" title="Ordinals"><input type="checkbox" data-feat="ordn"> ordn</label>
+          <label class="ot-feat-check" title="Old-style Figures"><input type="checkbox" data-feat="onum"> onum</label>
+          <label class="ot-feat-check" title="Lining Figures"><input type="checkbox" data-feat="lnum"> lnum</label>
+          <label class="ot-feat-check" title="Tabular Figures"><input type="checkbox" data-feat="tnum"> tnum</label>
+          <label class="ot-feat-check" title="Slashed Zero"><input type="checkbox" data-feat="zero"> zero</label>
+          <label class="ot-feat-check" title="Swash"><input type="checkbox" data-feat="swsh"> swsh</label>
+        </div>
+
+        <div class="ctx-row ctx-options">
+          <div class="ctx-cell">
+            <span class="ctx-label">Canvas</span>
+            <select class="ctx-select-sm" id="page-size">
+              <option value="1 / 1.35" selected>Portrait</option>
+              <option value="16 / 9">Desktop 16:9</option>
+              <option value="4 / 3">Tablet 4:3</option>
+              <option value="9 / 16">Mobile</option>
+              <option value="1 / 1">Square</option>
+            </select>
+          </div>
+          <div class="ctx-cell">
+            <span class="ctx-label">BG</span>
+            <div class="bg-group">
+              <button class="bg-type-btn active" data-bg="color">Color</button>
+              <button class="bg-type-btn" data-bg="gradient">Grad</button>
+              <button class="bg-type-btn" data-bg="image">Image</button>
+              <span class="color-swatch" title="Pick color"><input type="color" id="bg-color" value="#f7f5f3"></span>
+              <input type="file" class="bg-img-input" id="bg-image" accept="image/*">
+            </div>
+          </div>
+          <div class="ctx-cell">
+            <span class="ctx-label">Size</span>
+            <select class="ctx-select-sm" id="ctx-scale">
+              <option value="1">100%</option>
+              <option value="0.85">85%</option>
+              <option value="0.7">70%</option>
+              <option value="0.55">55%</option>
+            </select>
+          </div>
+          <div class="ctx-actions">
+            <button class="btn export-btn" id="export-web-all">Export All PNG</button>
+            <button class="btn export-btn" id="export-web-print">Print All</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="preview-grid" id="render-web-mockups">
+
+        <div class="mock-card ctx-card" id="mock-hero">
+          <span class="mock-tag">01 — Hero Header</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-hero" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-hero" data-fmt="print">Print</button>
+          </div>
+          <div class="layout-hero">
+            <div class="hero-stripe"></div>
+            <div class="hero-body">
+              <p class="hero-kicker typo-sub text-note">ವೈಶಿಷ್ಟ್ಯ</p>
+              <h1 class="hero-hl typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</h1>
+              <p class="hero-deck typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</p>
+              <span class="hero-cta typo-heading text-heading">ಲೇಖನ ಓದಿ</span>
+              <div class="hero-byline">
+                <span class="typo-sub">ಸಂಚಯ · O Foundation</span>
+                <span class="typo-body">ಜೂನ್ 2026 · 12 ನಿಮಿಷಗಳ ಓದು</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-article">
+          <span class="mock-tag">02 — Long-form Article</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-article" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-article" data-fmt="print">Print</button>
+          </div>
+          <div class="layout-article">
+            <div class="article-main">
+              <p class="article-meta typo-sub">ಟೈಪೋಗ್ರಫಿ · ಜೂನ್ 2026</p>
+              <h2 class="article-hl typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</h2>
+              <p class="article-deck typo-sub text-sub">ಆಧುನಿಕತೆ ಒಂದು ಶೈಲಿಯಲ್ಲ; ವಸ್ತುನಿಷ್ಠ ದೃಶ್ಯ ಭಾಷೆಯ ಹುಡುಕಾಟ.</p>
+              <div class="article-rule"></div>
+              <p class="article-body typo-body text-body">ಕನ್ನಡ ಲಿಪಿಯ ಸೌಂದರ್ಯ, ಅದರ ಒತ್ತಕ್ಷರಗಳು ಮತ್ತು ಗುಣಿತಾಕ್ಷರಗಳ ವಿನ್ಯಾಸವು ಶತಮಾನಗಳ ಪರಂಪರೆ.</p>
+            </div>
+            <div class="article-sidebar">
+              <span class="article-sidebar-label typo-heading">ಈ ಸಂಚಿಕೆಯಲ್ಲಿ</span>
+              <div class="sidebar-item">
+                <p class="sidebar-item-hed typo-heading text-heading">ಇದೀಗ ಅನ್ವೇಷಿಸಿ</p>
+                <p class="sidebar-item-txt typo-body text-body">ವೇರಿಯೇಬಲ್ ಫಾಂಟ್ ಯುಗ ವಿನ್ಯಾಸ ಸ್ಟುಡಿಯೋಗಳ ಕೆಲಸವನ್ನು ಬದಲಿಸುತ್ತಿದೆ.</p>
+              </div>
+              <div class="sidebar-item">
+                <p class="sidebar-item-hed typo-heading text-heading">ಇದೀಗ ಅನ್ವೇಷಿಸಿ</p>
+                <p class="sidebar-item-txt typo-body text-body">ಕನ್ನಡ ಮತ್ತು ದೇವನಾಗರಿ ಲಿಪಿಗಳು ಜಾಗತಿಕ ಟೈಪ್ ಸಂಭಾಷಣೆಗೆ ಪ್ರವೇಶಿಸುತ್ತಿವೆ.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-dark">
+          <span class="mock-tag">03 — Dark Feature</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-dark" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-dark" data-fmt="print">Print</button>
+          </div>
+          <div class="layout-dark">
+            <div>
+              <p class="dark-eyebrow typo-sub text-sub">ವೈಶಿಷ್ಟ್ಯ</p>
+              <h2 class="dark-hl typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</h2>
+              <p class="dark-deck typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</p>
+              <span class="dark-btn typo-heading text-heading">ಇದೀಗ ಅನ್ವೇಷಿಸಿ</span>
+            </div>
+            <div class="dark-stats">
+              <div>
+                <span class="dark-stat-val typo-title">2,400</span>
+                <span class="dark-stat-label typo-body text-note">ಪದಗಳು</span>
+              </div>
+              <div>
+                <span class="dark-stat-val typo-title">12 ನಿಮಿ</span>
+                <span class="dark-stat-label typo-body">ಓದುವ ಸಮಯ</span>
+              </div>
+              <div>
+                <span class="dark-stat-val typo-title">84</span>
+                <span class="dark-stat-label typo-body">ಪ್ರತಿಕ್ರಿಯೆ</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-pricing">
+          <span class="mock-tag">04 — Pricing</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-pricing" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-pricing" data-fmt="print">Print</button>
+          </div>
+          <div class="layout-pricing">
+            <p class="pricing-plan typo-sub text-sub">ವೃತ್ತಿಪರ</p>
+            <div class="pricing-price typo-title"><sup>₹</sup>499</div>
+            <p class="pricing-period typo-body text-body">ಪ್ರತಿ ತಿಂಗಳು, ವಾರ್ಷಿಕ ಬಿಲ್ಲಿಂಗ್</p>
+            <div class="pricing-rule"></div>
+            <div class="pricing-feat"><span class="pricing-check">✓</span> <span class="typo-body">ಅನಿಯಮಿತ ಫಾಂಟ್ ಅಪ್ಲೋಡ್</span></div>
+            <div class="pricing-feat"><span class="pricing-check">✓</span> <span class="typo-body">PNG &amp; PDF ರಫ್ತು</span></div>
+            <div class="pricing-feat"><span class="pricing-check">✓</span> <span class="typo-body">ಎಲ್ಲಾ ಲಿಪಿ ಬೆಂಬಲ</span></div>
+            <button class="pricing-cta typo-heading text-heading">ಪ್ರಾರಂಭಿಸಿ</button>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-app">
+          <span class="mock-tag">05 — App / Dashboard</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-app" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-app" data-fmt="print">Print</button>
+          </div>
+          <div class="layout-app">
+            <div class="app-nav">
+              <span class="app-brand typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</span>
+              <div class="app-nav-links">
+                <span class="app-nav-link typo-heading">ಅವಲೋಕನ</span>
+                <span class="app-nav-link typo-heading">ಯೋಜನೆಗಳು</span>
+                <span class="app-nav-link typo-heading">ಸೆಟ್ಟಿಂಗ್ಗಳು</span>
+              </div>
+            </div>
+            <div class="app-body">
+              <p class="app-greeting typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</p>
+              <p class="app-sub typo-sub text-sub">ಆಧುನಿಕತೆ ಒಂದು ಶೈಲಿಯಲ್ಲ; ವಸ್ತುನಿಷ್ಠ ದೃಶ್ಯ ಭಾಷೆಯ ಹುಡುಕಾಟ.</p>
+              <div class="app-cards">
+                <div class="app-card accent">
+                  <div class="app-card-val typo-title">1,240</div>
+                  <div class="app-card-label typo-body text-note">ಅವಧಿಗಳು</div>
+                </div>
+                <div class="app-card">
+                  <div class="app-card-val typo-title">98%</div>
+                  <div class="app-card-label typo-body text-note">ಉಪಲಬ್ಧತೆ</div>
+                </div>
+                <div class="app-card">
+                  <div class="app-card-val typo-title">4.2s</div>
+                  <div class="app-card-label typo-body text-note">ಸರಾಸರಿ ಲೋಡ್</div>
+                </div>
+              </div>
+              <p class="app-section-hed typo-heading text-heading">ಇತ್ತೀಚಿನ ಅವಧಿಗಳು</p>
+              <div class="app-row"><span class="typo-body text-body">ಬೆಂಗಳೂರು · 2026</span></div>
+              <div class="app-row"><span class="typo-body text-body">ಮೈಸೂರು · 2025</span></div>
+              <div class="app-row"><span class="typo-body text-body">ಮಂಗಳೂರು · 2024</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-mobile">
+          <span class="mock-tag">06 — Mobile UI</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-mobile" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-mobile" data-fmt="print">Print</button>
+          </div>
+          <div class="layout-mobile">
+            <div class="phone-shell">
+              <div class="phone-bar"><div class="phone-notch"></div></div>
+              <div class="phone-body">
+                <p class="phone-kicker typo-sub text-sub">ವೈಶಿಷ್ಟ್ಯ</p>
+                <div class="phone-hl typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</div>
+                <div class="phone-body-txt typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</div>
+                <div class="phone-btn typo-heading text-heading">ಇದೀಗ ಅನ್ವೇಷಿಸಿ</div>
+              </div>
+              <div class="phone-nav">
+                <div class="phone-nav-dot active"></div>
+                <div class="phone-nav-dot"></div>
+                <div class="phone-nav-dot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-features">
+          <span class="mock-tag">07 — Type Features</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-features" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-features" data-fmt="print">Print</button>
+          </div>
+          <div class="layout-features">
+            <div class="feat-head">
+              <div class="feat-title typo-title">ಅಕ್ಷರ ವೈಶಿಷ್ಟ್ಯಗಳು</div>
+              <div class="feat-sub typo-sub">OpenType Features</div>
+            </div>
+            <div class="feat-grid">
+              <div class="feat-tile">
+                <span class="feat-tag">Fractions · frac</span>
+                <span class="feat-demo typo-body">1/2 1/4 3/4 1/3 2/3</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Superscript · sups</span>
+                <span class="feat-demo typo-body">E=mc2 · 10&#8314; · R&#178;</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Subscript · subs</span>
+                <span class="feat-demo typo-body">H2O · CO2 · C6H12O6</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Figures · onum / lnum</span>
+                <span class="feat-demo typo-body">0123456789</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Tabular · tnum</span>
+                <span class="feat-demo typo-body">123.45 1.23 98.7</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Discretionary · dlig</span>
+                <span class="feat-demo typo-body">ff fi fl ffi ffl</span>
+              </div>
+            </div>
+            <div class="feat-note typo-note">Toggle these in the OpenType panel. Most Kannada fonts ship frac/sups/subs for Latin only — flip the checkboxes to compare.</div>
+          </div>
+        </div>
+
+      </div>
+
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-print">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Print · ಮುದ್ರಣ ಪರೀಕ್ಷೆ</span>
+          <span class="section-desc">The loaded font in 6 print layouts — newspaper, magazine, book, cover, spec, stationery</span>
+        </div>
+        <div class="ctx-actions" style="margin:0 0 12px;">
+          <button class="btn export-btn" id="export-print-png">Export All PNG</button>
+          <button class="btn export-btn" id="export-print-pdf">Print All</button>
+        </div>
+        <div class="preview-grid print-grid" id="render-print-mockups">
+
+          <div class="mock-card ctx-card" id="mock-np">
+            <span class="mock-tag">01 — Newspaper</span>
+            <div class="mock-actions">
+              <button class="btn export-btn mock-btn" data-target="mock-np" data-fmt="png">PNG</button>
+              <button class="btn export-btn mock-btn" data-target="mock-np" data-fmt="print">Print</button>
+            </div>
+            <div class="layout-newspaper">
+              <div class="np-top">
+                <div class="np-masthead">
+                  <div class="np-name typo-title text-title">ಅಕ್ಷರ ಪತ್ರಿಕೆ</div>
+                </div>
+                <div class="np-rules">
+                  <span class="np-meta typo-body">ಸೋಮವಾರ, ಜೂನ್ 2026</span>
+                  <span class="np-meta typo-body">ಅಂತಿಮ ಆವೃತ್ತಿ</span>
+                  <span class="np-meta typo-body">₹5.00</span>
+                </div>
+              </div>
+              <div class="np-body">
+                <div>
+                  <div class="np-lead-hl typo-title text-title">ಅಕ್ಷರ ವಿನ್ಯಾಸ ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುತ್ತದೆ</div>
+                  <div class="np-deck typo-sub text-sub">ಅಕ್ಷರಶಾಸ್ತ್ರದ ಸತ್ಯತೆ ಮತ್ತೆ ಮುನ್ನೆಲೆಗೆ — ಪ್ರೀಮಿಯಂ ಪ್ರಕಾಶನದಲ್ಲಿ ಟೈಪೋಗ್ರಫಿಕ್ ದೃಢೀಕರಣದ ಪುನರಾಗಮನ.</div>
+                  <div class="np-text typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ಗ್ರಿಡ್, ಕ್ರಮಾನುಗತ, ಕಾರ್ಯ — ಈ ಮೂರು ತತ್ವಗಳು ಎಲ್ಲಾ ಪ್ರವೃತ್ತಿಗಳನ್ನು ಮೀರಿ ಉಳಿದಿವೆ. ಪರದೆಗಳು ಹೆಚ್ಚುತ್ತಿರುವಂತೆ ಮತ್ತು ಗಮನ ಕಡಿಮೆಯಾಗುತ್ತಿರುವಂತೆ, ಬೌಹೌಸ್ ಶಾಲೆಯ ಆಧಾರಭೂತ ನಿಯಮಗಳು ಇಂದಿಗೂ ಪ್ರಸ್ತುತ.</div>
+                </div>
+                <div class="np-sidebar">
+                  <div class="np-sidebar-item">
+                    <div class="np-sidebar-hed typo-heading text-heading">ಹೊಸ ಲಿಪಿ ಬೆಂಬಲ</div>
+                    <div class="np-sidebar-txt typo-body text-body">ಒಡಿಯಾ, ದೇವನಾಗರಿ, ತಮಿಳು ಲಿಪಿಗಳು ಜಾಗತಿಕ ಟೈಪ್ ಸಂಭಾಷಣೆಗೆ ಪ್ರವೇಶಿಸುತ್ತಿವೆ.</div>
+                  </div>
+                  <div class="np-sidebar-item">
+                    <div class="np-sidebar-hed typo-heading text-heading">ವೇರಿಯಬಲ್ ಫಾಂಟ್</div>
+                    <div class="np-sidebar-txt typo-body text-body">ಒಂದು ವೇರಿಯಬಲ್ ಫಾಂಟ್ ಫೈಲ್ ಇಡೀ ಟೈಪ್ ಕುಟುಂಬವನ್ನು ಬದಲಿಸುತ್ತದೆ.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="np-footer">
+                <span class="np-footer-txt typo-body text-title">ಅಕ್ಷರ ಪತ್ರಿಕೆ</span>
+                <span class="np-footer-txt typo-body">ಪುಟ A1</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mock-card ctx-card" id="mock-mag">
+            <span class="mock-tag">02 — Magazine Editorial</span>
+            <div class="mock-actions">
+              <button class="btn export-btn mock-btn" data-target="mock-mag" data-fmt="png">PNG</button>
+              <button class="btn export-btn mock-btn" data-target="mock-mag" data-fmt="print">Print</button>
+            </div>
+            <div class="layout-magazine">
+              <div class="mag-splash">
+                <div class="mag-issue-tag typo-sub text-sub">ಸಂಚಿಕೆ 24 · ಟೈಪೋಗ್ರಫಿ ವಿಶೇಷ</div>
+                <h2 class="mag-title typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</h2>
+                <p class="mag-deck typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಪ್ರಕಾಶನ ಜಗತ್ತಿನ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</p>
+              </div>
+              <div class="mag-footer">
+                <div>
+                  <div class="mag-footer-info typo-sub text-sub">ಜೂನ್ 2026</div>
+                  <div class="mag-footer-info typo-body text-note">ಅಂತಾರಾಷ್ಟ್ರೀಯ ಆವೃತ್ತಿ</div>
+                </div>
+                <div class="mag-price typo-title">₹399</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mock-card ctx-card" id="mock-book">
+            <span class="mock-tag">03 — Book / Dense Body</span>
+            <div class="mock-actions">
+              <button class="btn export-btn mock-btn" data-target="mock-book" data-fmt="png">PNG</button>
+              <button class="btn export-btn mock-btn" data-target="mock-book" data-fmt="print">Print</button>
+            </div>
+            <div class="layout-book">
+              <div class="book-chapter typo-sub text-sub">ಅಧ್ಯಾಯ IV · ಅಂತಾರಾಷ್ಟ್ರೀಯ ಶೈಲಿ</div>
+              <div class="book-title typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</div>
+              <div class="book-body typo-body">
+                <span class="book-drop typo-title">ಅ</span><span class="text-body">ಕ್ಷರ ವಿನ್ಯಾಸದ ಸೂಕ್ಷ್ಮ ಅಧ್ಯಯನವು ಅದು ರಚಿತವಾದ ಸಾಂಸ್ಕೃತಿಕ ಕ್ಷಣವನ್ನು ಪ್ರತಿಬಿಂಬಿಸುತ್ತದೆ. ಪ್ರತಿಯೊಂದು ಟೈಪ್ಫೇಸ್ ತನ್ನ ಸೃಷ್ಟಿಯ ನೆನಪು, ಅದರ ಕಾಲದ ಉಪಕರಣಗಳು ಮತ್ತು ವಿನ್ಯಾಸಕಾರನ ಕೈಯ ಛಾಪನ್ನು ಹೊತ್ತುಕೊಂಡಿರುತ್ತದೆ. ಅಕ್ಷರಗಳ ನಡುವಿನ ಅಂತರ, ಒತ್ತಕ್ಷರಗಳ ಹರಿವು, ಗುಣಿತಾಕ್ಷರಗಳ ಸಮತೋಲನ — ಇವೆಲ್ಲವೂ ಓದುಗನ ಅನುಭವವನ್ನು ರೂಪಿಸುತ್ತವೆ.</span>
+              </div>
+              <div class="book-folio">
+                <span class="typo-body text-title">ಅಕ್ಷರಶಿಲ್ಪ</span>
+                <span class="typo-body">88</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mock-card ctx-card" id="mock-cover">
+            <span class="mock-tag">04 — Book / Monograph Cover</span>
+            <div class="mock-actions">
+              <button class="btn export-btn mock-btn" data-target="mock-cover" data-fmt="png">PNG</button>
+              <button class="btn export-btn mock-btn" data-target="mock-cover" data-fmt="print">Print</button>
+            </div>
+            <div class="layout-cover">
+              <div class="cover-grid"></div>
+              <div class="cover-pub typo-sub text-sub">ಅಕ್ಷರ ಪ್ರೆಸ್ · 2026</div>
+              <div class="cover-main">
+                <div class="cover-rule"></div>
+                <div class="cover-title typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</div>
+                <div class="cover-author typo-body text-body">ಲೇಖಕ: <strong>ದಾಸ ಮತ್ತು ಮುಲ್ಲರ್</strong></div>
+              </div>
+              <div class="cover-spine">
+                <div class="cover-spine-txt typo-sub text-sub">ಅಕ್ಷರ ಪ್ರೆಸ್</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mock-card ctx-card" id="mock-spec">
+            <span class="mock-tag">05 — Dense Specification</span>
+            <div class="mock-actions">
+              <button class="btn export-btn mock-btn" data-target="mock-spec" data-fmt="png">PNG</button>
+              <button class="btn export-btn mock-btn" data-target="mock-spec" data-fmt="print">Print</button>
+            </div>
+            <div class="layout-spec">
+              <div class="spec-header">
+                <div>
+                  <div class="spec-brand typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</div>
+                  <div class="spec-generic typo-body text-sub">ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುವ ಅಕ್ಷರ ವಿನ್ಯಾಸ</div>
+                </div>
+                <div class="spec-rx typo-title">Rx</div>
+              </div>
+              <div class="spec-section">
+                <div class="spec-section-title typo-sub">ಸೂಚನೆಗಳು</div>
+                <div class="spec-body typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸದ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ನಿಯಂತ್ರಿತ ಟೈಪೋಗ್ರಫಿಕ್ ಪರಿಸರದಲ್ಲಿ ಬಳಸಲು. ಎಲ್ಲಾ ಲಿಪಿ ವ್ಯವಸ್ಥೆಗಳನ್ನು ಒಳಗೊಂಡಿದೆ — ಲ್ಯಾಟಿನ್ ಮತ್ತು ದ್ವಿಮುಖ ಪಠ್ಯ.</div>
+              </div>
+              <div class="spec-section">
+                <div class="spec-section-title typo-sub">ಪ್ರಮಾಣ ಮತ್ತು ನಿಯತಾಂಕಗಳು</div>
+                <table class="spec-table">
+                  <tr>
+                    <th class="typo-heading">ನಿಯತಾಂಕ</th>
+                    <th class="typo-heading">ಶಿಫಾರಸು</th>
+                    <th class="typo-heading">ಘಟಕ</th>
+                  </tr>
+                  <tr><td class="typo-body">ಅಕ್ಷರ ಗಾತ್ರ</td><td class="typo-body">10–12</td><td class="typo-body">pt</td></tr>
+                  <tr><td class="typo-body">ಸಾಲು ಅಂತರ</td><td class="typo-body">14–16</td><td class="typo-body">pt</td></tr>
+                  <tr><td class="typo-body">ಅಳತೆ</td><td class="typo-body">55–65</td><td class="typo-body">ch</td></tr>
+                  <tr><td class="typo-body">ಟ್ರ್ಯಾಕಿಂಗ್</td><td class="typo-body">0–10</td><td class="typo-body">u/em</td></tr>
+                </table>
+              </div>
+              <div class="spec-warning">
+                <span class="spec-warn-icon">&#9651;</span>
+                <span class="spec-warn-text typo-body text-body">ಎಲ್ಲಾ ಟೈಪ್ಫೇಸ್ಗಳನ್ನು ಸೂಕ್ತ ಆಪ್ಟಿಕಲ್ ಕಾಳಜಿಯಿಂದ ನಿರ್ವಹಿಸಿ. ಅಕ್ಷರ ವಿನ್ಯಾಸ ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುತ್ತದೆ.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mock-card ctx-card" id="mock-letter">
+            <span class="mock-tag">06 — Corporate Stationery</span>
+            <div class="mock-actions">
+              <button class="btn export-btn mock-btn" data-target="mock-letter" data-fmt="png">PNG</button>
+              <button class="btn export-btn mock-btn" data-target="mock-letter" data-fmt="print">Print</button>
+            </div>
+            <div class="layout-letter">
+              <div class="letter-head">
+                <div>
+                  <div class="letter-co typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ ಲ್ಯಾಬ್ಸ್</div>
+                  <div class="letter-tagline typo-sub text-sub">ಅಕ್ಷರ. ನಿಖರತೆ. ಸ್ಪಷ್ಟತೆ.</div>
+                </div>
+                <div class="letter-contact typo-body text-note">hello@akshara.press<br>+91 80 0000 0000<br>ಬೆಂಗಳೂರು, ಭಾರತ</div>
+              </div>
+              <div class="letter-stripe"></div>
+              <div class="letter-body">
+                <div class="letter-ref typo-heading text-heading">1 ಜೂನ್ 2026 · ಉಲ್ಲೇಖ: ಅಕ್ಷ-2026-001</div>
+                <div class="letter-salutation typo-body text-note">ಆದರಣೀಯ ಅಕ್ಷರ ವಿನ್ಯಾಸಕರೇ,</div>
+                <div class="letter-text typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಪ್ರಕಾಶನ ಜಗತ್ತಿನ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ಈ ಪತ್ರವು ನಿಮ್ಮ ಆಯ್ಕೆಯ ಟೈಪ್ಫೇಸ್ ಪತ್ರವ್ಯವಹಾರದ ಪ್ರಮಾಣದಲ್ಲಿ ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ತೋರಿಸುತ್ತದೆ — ಓದುವಿಕೆ, ಬಣ್ಣ ಮತ್ತು ಲಯವನ್ನು ಅತ್ಯಂತ ಕಠಿಣ ಸಂದರ್ಭದಲ್ಲಿ ಪರೀಕ್ಷಿಸಲಾಗುತ್ತದೆ.</div>
+                <div class="letter-sig">
+                  <div class="letter-sig-name typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ ಲ್ಯಾಬ್ಸ್</div>
+                  <div class="letter-sig-title typo-sub text-sub">ಕ್ರಿಯೇಟಿವ್ ನಿರ್ದೇಶಕ, ಅಕ್ಷರ ವಿಭಾಗ</div>
+                </div>
+              </div>
+              <div class="letter-footer">
+                <span class="typo-body text-sub">ಅಕ್ಷರ ಪ್ರೆಸ್ · ಬೆಂಗಳೂರು</span>
+                <span class="typo-body">ಪುಟ 1 of 1</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
 
     <div class="tab-panel" id="panel-decompose">
       <div class="section">
@@ -510,32 +1193,103 @@
 <script>
 // ── Load Random Default Font from fonts.sanchaya.net ────────
 const availableFonts = [
-  { name: 'Kedage Bold', url: 'https://fonts.sanchaya.net/Fonts/Kedage/Kedage-b.ttf', family: 'KedageBold', isVariable: false },
-  { name: 'Lohit Kannada', url: 'https://fonts.sanchaya.net/Fonts/Lohit-Kannada/Lohit-Kannada.ttf', family: 'LohitKannada', isVariable: false },
-  { name: 'Benne Regular', url: 'https://fonts.sanchaya.net/Fonts/Benne/Benne-Regular.ttf', family: 'BenneRegular', isVariable: false },
-  { name: 'Gubbi', url: 'https://fonts.sanchaya.net/Fonts/Gubbi/Gubbi.ttf', family: 'Gubbi', isVariable: false },
-  { name: 'Hoysala Regular', url: 'https://fonts.sanchaya.net/Fonts/Hoysala/Hoysala-Regular.ttf', family: 'HoysalaRegular', isVariable: false },
-  { name: 'Hubballi Regular', url: 'https://fonts.sanchaya.net/Fonts/Hubballi/Hubballi-Regular.ttf', family: 'HubballiRegular', isVariable: false },
-  { name: 'Inchara', url: 'https://fonts.sanchaya.net/Fonts/Inchara/inchara.ttf', family: 'Inchara', isVariable: false },
-  { name: 'Navilu', url: 'https://fonts.sanchaya.net/Fonts/Navilu/Navilu.ttf', family: 'Navilu', isVariable: false },
-  { name: 'Kadamba Kakusthavarman', url: 'https://fonts.sanchaya.net/Fonts/Kadamba/Kadamba-Kakusthavarman.ttf', family: 'Kadamba', isVariable: false },
-  { name: 'Kanishka', url: 'https://fonts.sanchaya.net/Fonts/Kanishka/Kanishka.ttf', family: 'Kanishka', isVariable: false },
-  { name: 'Cheluvi', url: 'https://fonts.sanchaya.net/Fonts/Cheluvi/Cheluvi.ttf', family: 'Cheluvi', isVariable: false },
-  { name: 'Chalukya Vijayaditya', url: 'https://fonts.sanchaya.net/Fonts/Chalukya/Chalukya-Vijayaditya.ttf', family: 'Chalukya', isVariable: false },
-  { name: 'BelurKannada Regular', url: 'https://fonts.sanchaya.net/Fonts/BelurKannada/BelurKannada-Regular.ttf', family: 'BelurKannadaRegular', isVariable: false },
-  { name: 'Kolar Bold', url: 'https://fonts.sanchaya.net/Fonts/Kolar/Kolar-Bold.ttf', family: 'KolarBold', isVariable: false },
-  { name: 'BandipurOne', url: 'https://fonts.sanchaya.net/Fonts/BandipurOne/BandipurOne.ttf', family: 'BandipurOne', isVariable: false },
-  { name: 'Ganga Marasimha', url: 'https://fonts.sanchaya.net/Fonts/Ganga/Gangga-Marasimha.ttf', family: 'Ganga', isVariable: false },
-  { name: 'Gajamukha Full', url: 'https://fonts.sanchaya.net/Fonts/Gajamukha/Gajamukha-Full.ttf', family: 'Gajamukha', isVariable: false },
-  { name: 'Akaya Kanadaka', url: 'https://fonts.sanchaya.net/Fonts/Akaya-Kanadaka/AkayaKanadaka-Regular.ttf', family: 'AkayaKanadaka', isVariable: false },
-  { name: 'Anek Kannada Variable', url: 'https://fonts.sanchaya.net/Fonts/Anek-Kannada/AnekKannada-VariableFont-wdth,wght.ttf', family: 'AnekKannadaVariable', isVariable: true },
-  { name: 'KarnataGTN Variable', url: 'https://fonts.sanchaya.net/Fonts/KarnataGTN/KarnataGTN-Variable.ttf', family: 'KarnataGTNVariable', isVariable: true },
-  { name: 'October Kannada Variable', url: 'https://fonts.sanchaya.net/Fonts/October-Kannada/OctoberKnLVariable-Regular.ttf', family: 'OctoberKannadaVariable', isVariable: true },
-  { name: 'November Kannada Variable', url: 'https://fonts.sanchaya.net/Fonts/November-Kannada/NovemberKnLVariable-Regular.ttf', family: 'NovemberKannadaVariable', isVariable: true },
-  { name: 'Lava Kannada', url: 'https://fonts.sanchaya.net/Fonts/Lava-Kannada/LavaKannada-Regular.ttf', family: 'LavaKannada', isVariable: true },
-  { name: 'Ek Kannada', url: 'https://fonts.sanchaya.net/Fonts/Ek-Kannada/EkKannada-Regular.ttf', family: 'EkKannada', isVariable: true },
-  { name: 'Kohinoor Kannada', url: 'https://fonts.sanchaya.net/Fonts/KohinoorKannada/KohinoorKannada-Regular.ttf', family: 'KohinoorKannada', isVariable: true },
-  { name: 'Akhand Kannada', url: 'https://fonts.sanchaya.net/Fonts/AkhandKannada/AkhandKannada-Regular.ttf', family: 'AkhandKannada', isVariable: true }
+  { name: 'Kedage', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kedage/Kedage-b.ttf', family: 'Kedage', isVariable: false },
+  { name: 'Lohit Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Lohit-Kannada/Lohit-Kannada.ttf', family: 'LohitKannada', isVariable: false },
+  { name: 'Benne', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Benne/Benne-Regular.ttf', family: 'Benne', isVariable: false },
+  { name: 'Gubbi', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Gubbi/Gubbi.ttf', family: 'Gubbi', isVariable: false },
+  { name: 'Hoysala', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Hoysala/Hoysala-Regular.ttf', family: 'Hoysala', isVariable: false },
+  { name: 'Hubballi', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Hubballi/Hubballi-Regular.ttf', family: 'Hubballi', isVariable: false },
+  { name: 'Inchara', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Inchara/inchara.ttf', family: 'Inchara', isVariable: false },
+  { name: 'Navilu', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Navilu/Navilu.ttf', family: 'Navilu', isVariable: false },
+  { name: 'Kadamba', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kadamba/Kadamba-Kakusthavarman.ttf', family: 'Kadamba', isVariable: false },
+  { name: 'Kanishka', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kanishka/Kanishka.ttf', family: 'Kanishka', isVariable: false },
+  { name: 'Cheluvi', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Cheluvi/Cheluvi.ttf', family: 'Cheluvi', isVariable: false },
+  { name: 'Chalukya', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Chalukya/Chalukya-Vijayaditya.ttf', family: 'Chalukya', isVariable: false },
+  { name: 'BelurKannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/BelurKannada/BelurKannada-Bold.ttf', family: 'BelurKannada', isVariable: false },
+  { name: 'Kolar', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kolar/Kolar-Bold.otf', family: 'Kolar', isVariable: false },
+  { name: 'BandipurOne', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/BandipurOne/BandipurOne.ttf', family: 'BandipurOne', isVariable: false },
+  { name: 'Ganga', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Ganga/Gangga%20Marasimha.ttf', family: 'Ganga', isVariable: false },
+  { name: 'Gajamukha', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Gajamukha/Gajamukha%20Full.otf', family: 'Gajamukha', isVariable: false },
+  { name: 'Akaya Kanadaka', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Akaya_Kanadaka/AkayaKanadaka-Regular.ttf', family: 'AkayaKanadaka', isVariable: false },
+  { name: 'Anek Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Anek_Kannada/AnekKannada-VariableFont_wdth%2Cwght.ttf', family: 'AnekKannada', isVariable: true },
+  { name: 'KarnataGTN', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/KarnataGTN/KarnataGTN-Black.ttf', family: 'KarnataGTN', isVariable: false },
+  { name: 'October Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/October%20Kannada/OctoberKnLVariable-Black.otf', family: 'OctoberKannada', isVariable: true },
+  { name: 'November Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/November%20Kannada/NovemberKnLVariable-Black.otf', family: 'NovemberKannada', isVariable: true },
+  { name: 'Lava Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Lava%20Kannada/LavaKannada-Bold.otf', family: 'LavaKannada', isVariable: false },
+  { name: 'Ek Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Ek%20Kannada/EkKannada-Bold.ttf', family: 'EkKannada', isVariable: false },
+  { name: 'KohinoorKannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/KohinoorKannada/KohinoorKannada-Bold.ttf', family: 'KohinoorKannada', isVariable: false },
+  { name: 'AkhandKannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/AkhandKannada/AkhandKannada-Black.ttf', family: 'AkhandKannada', isVariable: false }
+];
+
+const REMOTE_CATALOG = [
+  { name: 'Akaya Kanadaka', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Akaya_Kanadaka/AkayaKanadaka-Regular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Akaya_Kanadaka/AkayaKanadaka-Regular.ttf' },
+  { name: 'AkhandKannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/AkhandKannada/AkhandKannada-Black.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/AkhandKannada/AkhandKannada-Black.ttf' },
+  { name: 'Ambarisha', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Ambarisha/Ambarisha-Regular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Ambarisha/Ambarisha-Regular.ttf' },
+  { name: 'Anchu Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Anchu-Kannada/ANCHU.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Anchu-Kannada/ANCHU.ttf' },
+  { name: 'Anek Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Anek_Kannada/AnekKannada-VariableFont_wdth%2Cwght.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Anek_Kannada/AnekKannada-VariableFont_wdth,wght.ttf' },
+  { name: 'ATS Bengaluru', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/ATS-Bengaluru/ATSBengaluru-DotBold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/ATS-Bengaluru/ATSBengaluru-DotBold.ttf' },
+  { name: 'ATS Chikkamagaluru', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/ATS-Chikkamagaluru/ATSChikkamagaluru-ColorRegular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/ATS-Chikkamagaluru/ATSChikkamagaluru-ColorRegular.ttf' },
+  { name: 'Baloo Tamma 2', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Baloo_Tamma_2/BalooTamma2-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Baloo_Tamma_2/BalooTamma2-Bold.ttf' },
+  { name: 'BandipurOne', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/BandipurOne/BandipurOne.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/BandipurOne/BandipurOne.ttf' },
+  { name: 'Baraha Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Baraha-Kannada/BRHAKND.TTF', cdn: 'https://fonts.sanchaya.net/Fonts/Baraha-Kannada/BRHAKND.TTF' },
+  { name: 'BelurKannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/BelurKannada/BelurKannada-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/BelurKannada/BelurKannada-Bold.ttf' },
+  { name: 'Benne', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Benne/Benne-Regular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Benne/Benne-Regular.ttf' },
+  { name: 'Chalukya', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Chalukya/Chalukya-Vijayaditya.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Chalukya/Chalukya-Vijayaditya.ttf' },
+  { name: 'Cheluvi', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Cheluvi/Cheluvi.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Cheluvi/Cheluvi.ttf' },
+  { name: 'Designiga Handwriting', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Designiga-Handwriting/DesignigaHandwritting-Regular.260226-1755-SVG.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Designiga-Handwriting/DesignigaHandwritting-Regular.260226-1755-SVG.ttf' },
+  { name: 'DevamaNew', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/DevamaNew/Devama.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/DevamaNew/Devama.ttf' },
+  { name: 'Ek Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Ek%20Kannada/EkKannada-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Ek Kannada/EkKannada-Bold.ttf' },
+  { name: 'Ellara Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Ellara-Kannada/Ellara-Kannada.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Ellara-Kannada/Ellara-Kannada.ttf' },
+  { name: 'Fit Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Fit-Kannada/Fit%20Kannada.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Fit-Kannada/Fit Kannada.ttf' },
+  { name: 'Gajamukha', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Gajamukha/Gajamukha%20Full.otf', cdn: 'https://fonts.sanchaya.net/Fonts/Gajamukha/Gajamukha Full.otf' },
+  { name: 'Ganga', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Ganga/Gangga%20Marasimha.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Ganga/Gangga Marasimha.ttf' },
+  { name: 'Gok Kannada Fonts', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Gok-Kannada-Fonts/Kar%20Chandrashekhara%20Kambara.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Gok-Kannada-Fonts/Kar Chandrashekhara Kambara.ttf' },
+  { name: 'Gubbi', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Gubbi/Gubbi.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Gubbi/Gubbi.ttf' },
+  { name: 'HindMysuru', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/HindMysuru/HindMysuru-Bold.otf', cdn: 'https://fonts.sanchaya.net/Fonts/HindMysuru/HindMysuru-Bold.otf' },
+  { name: 'Hoysala', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Hoysala/Hoysala-Regular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Hoysala/Hoysala-Regular.ttf' },
+  { name: 'Hubballi', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Hubballi/Hubballi-Regular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Hubballi/Hubballi-Regular.ttf' },
+  { name: 'Inchara', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Inchara/inchara.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Inchara/inchara.ttf' },
+  { name: 'Kadamba', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kadamba/Kadamba-Kakusthavarman.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Kadamba/Kadamba-Kakusthavarman.ttf' },
+  { name: 'Kanishka', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kanishka/Kanishka.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Kanishka/Kanishka.ttf' },
+  { name: 'KannadaPixel', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/KannadaPixel/KannadaPixel.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/KannadaPixel/KannadaPixel.ttf' },
+  { name: 'Karnata Bandipur', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Karnata-Bandipur/KarnataBandipur.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Karnata-Bandipur/KarnataBandipur.ttf' },
+  { name: 'Karnata F Kittel Font', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Karnata-F-Kittel-Font/Karnata%20F%20Kittel.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Karnata-F-Kittel-Font/Karnata F Kittel.ttf' },
+  { name: 'Karnata German Mission Press', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Karnata-German-Mission-Press/KarnataGermanMissionPressTypeface.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Karnata-German-Mission-Press/KarnataGermanMissionPressTypeface.ttf' },
+  { name: 'Karnata Wesleyan Mission Press', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Karnata-Wesleyan-Mission-Press/KarnataWesleyanMissionPress.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Karnata-Wesleyan-Mission-Press/KarnataWesleyanMissionPress.ttf' },
+  { name: 'KarnataGTN', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/KarnataGTN/KarnataGTN-Black.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/KarnataGTN/KarnataGTN-Black.ttf' },
+  { name: 'Kedage', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kedage/Kedage-b.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Kedage/Kedage-b.ttf' },
+  { name: 'KohinoorKannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/KohinoorKannada/KohinoorKannada-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/KohinoorKannada/KohinoorKannada-Bold.ttf' },
+  { name: 'Kolar', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kolar/Kolar-Bold.otf', cdn: 'https://fonts.sanchaya.net/Fonts/Kolar/Kolar-Bold.otf' },
+  { name: 'KPRao', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/KPRao/AK-Kannada.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/KPRao/AK-Kannada.ttf' },
+  { name: 'Kuvempu Praja', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kuvempu%20Praja/Kuvempu_Praja1.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Kuvempu Praja/Kuvempu_Praja1.ttf' },
+  { name: 'Lava Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Lava%20Kannada/LavaKannada-Bold.otf', cdn: 'https://fonts.sanchaya.net/Fonts/Lava Kannada/LavaKannada-Bold.otf' },
+  { name: 'Lohit Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Lohit-Kannada/Lohit-Kannada.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Lohit-Kannada/Lohit-Kannada.ttf' },
+  { name: 'Malige', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Malige/Malige-b.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Malige/Malige-b.ttf' },
+  { name: 'Murty Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Murty-Kannada/Murty-Kannada.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Murty-Kannada/Murty-Kannada.ttf' },
+  { name: 'Nanni Indic', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Nanni-Indic/Nanni-Regular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Nanni-Indic/Nanni-Regular.ttf' },
+  { name: 'Navilu', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Navilu/Navilu.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Navilu/Navilu.ttf' },
+  { name: 'Nirmala UI', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Nirmala%20UI/38509324738.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Nirmala UI/38509324738.ttf' },
+  { name: 'Nishchaya', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Nishchaya/Nishchaya.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Nishchaya/Nishchaya.ttf' },
+  { name: 'NLCI Kaveri', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/NLCI-Kaveri/Kaveri-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/NLCI-Kaveri/Kaveri-Bold.ttf' },
+  { name: 'nlci knda badami', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/nlci-knda-badami/Badami-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/nlci-knda-badami/Badami-Bold.ttf' },
+  { name: 'NotoSansKannada Unhinted', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/NotoSansKannada-Unhinted/NotoSansKannada-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/NotoSansKannada-Unhinted/NotoSansKannada-Bold.ttf' },
+  { name: 'NotoSerifKannada Unhinted', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/NotoSerifKannada-Unhinted/NotoSerifKannada-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/NotoSerifKannada-Unhinted/NotoSerifKannada-Bold.ttf' },
+  { name: 'November Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/November%20Kannada/NovemberKnLVariable-Black.otf', cdn: 'https://fonts.sanchaya.net/Fonts/November Kannada/NovemberKnLVariable-Black.otf' },
+  { name: 'Nudi Akshara 03', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Nudi-Akshara-03/Nudi-Akshara-03.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Nudi-Akshara-03/Nudi-Akshara-03.ttf' },
+  { name: 'Nudi Fonts', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Nudi_Fonts/NUDI%2019%20E.TTF', cdn: 'https://fonts.sanchaya.net/Fonts/Nudi_Fonts/NUDI 19 E.TTF' },
+  { name: 'October Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/October%20Kannada/OctoberKnLVariable-Black.otf', cdn: 'https://fonts.sanchaya.net/Fonts/October Kannada/OctoberKnLVariable-Black.otf' },
+  { name: 'Padyakke Libre', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Padyakke_Libre/PadyakkeExpandedOne-Regular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Padyakke_Libre/PadyakkeExpandedOne-Regular.ttf' },
+  { name: 'Praja', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Praja/PRABI.TTF', cdn: 'https://fonts.sanchaya.net/Fonts/Praja/PRABI.TTF' },
+  { name: 'PRAKASHAK', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/PRAKASHAK/CHABI.TTF', cdn: 'https://fonts.sanchaya.net/Fonts/PRAKASHAK/CHABI.TTF' },
+  { name: 'Raavi', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Raavi/raavi-bold-unicode-kannada-font.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Raavi/raavi-bold-unicode-kannada-font.ttf' },
+  { name: 'SakalBharati', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/SakalBharati/SakalBharati.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/SakalBharati/SakalBharati.ttf' },
+  { name: 'SamaKannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/SamaKannada/SamaKannada-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/SamaKannada/SamaKannada-Bold.ttf' },
+  { name: 'Sampige', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Sampige/Sampige.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Sampige/Sampige.ttf' },
+  { name: 'SandurKannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/SandurKannada/SandurKannada-Bold.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/SandurKannada/SandurKannada-Bold.ttf' },
+  { name: 'Shreelipi', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Shreelipi/S0010890.TTF', cdn: 'https://fonts.sanchaya.net/Fonts/Shreelipi/S0010890.TTF' },
+  { name: 'Sriraju', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Sriraju/SRIRAJBI.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Sriraju/SRIRAJBI.ttf' },
+  { name: 'Tiro Kannada', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Tiro_Kannada/TiroKannada-Italic.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Tiro_Kannada/TiroKannada-Italic.ttf' },
+  { name: 'Tunga', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Tunga/Tunga%20Regular.ttf', cdn: 'https://fonts.sanchaya.net/Fonts/Tunga/Tunga Regular.ttf' },
 ];
 
 function getRandomFont() {
@@ -793,6 +1547,8 @@ const testSet = {
 
   kerning: "Av Aw Ay Az Fa Fe Fi Fo Fu Kv Kw Ky Pa Pe Po Ta Te Ti To Tr Ts Tu Ty Va Ve Vo Vr Vu Vy Wa We Wr Wv Wy AC AT AVA AWA AYA AV AW AY AZ CT CYC FA FE FO KV KW KY LO LV LY NG OD PA PA PE PO TA TA TE TI TO TR TS TU TY UA VA VA VE VO VR VU VY WA WO WA WE WR WV WY YS",
 
+  kerningKannada: "ಕಾ ಕಿ ಕೀ ಕು ಕೂ ಕೃ ಕೆ ಕೇ ಕೈ ಕೊ ಕೋ ಕೌ ಕಂ ಕಃ\nಅಕ್ಕ ಹಕ್ಕಿ ಸಕ್ಕರೆ ಕುಂಬಳಕಾಯಿ ಗೀತೆ ದೀಪಾವಳಿ ಮೂರು ಹೆಜ್ಜೆ\nಶ್ರೀ ಕ್ರಮ ಪ್ರಗತಿ ಭ್ರಮೆ ತ್ರಿವೇಣಿ ಕ್ಷೇತ್ರ ಜ್ಞಾನ ವಿದ್ಯೆ\nಇಲ್ಲಿ ಒಂದು ಈಶ್ವರ ತೋರಣ ಕವಚ ಸ್ವರ್ಣ ವ್ಯಕ್ತಿ",
+
   paragraph: "ಕನ್ನಡ ಭಾಷೆಯು ದ್ರಾವಿಡ ಭಾಷಾ ಕುಟುಂಬಕ್ಕೆ ಸೇರಿದ ಒಂದು ಪ್ರಮುಖ ಭಾಷೆ. ಇದು ಕರ್ನಾಟಕ ರಾಜ್ಯದ ಅಧಿಕೃತ ಭಾಷೆಯಾಗಿದ್ದು, ಸರಿಸುಮಾರು ನಾಲ್ಕು ಕೋಟಿ ಜನರು ಈ ಭಾಷೆಯನ್ನು ಮಾತನಾಡುತ್ತಾರೆ. ಕನ್ನಡ ಲಿಪಿಯು ಬ್ರಾಹ್ಮಿ ಲಿಪಿಯಿಂದ ವಿಕಸನಗೊಂಡಿದ್ದು, ಇದರಲ್ಲಿ ೪೯ ಅಕ್ಷರಗಳಿವೆ. ಕನ್ನಡ ಸಾಹಿತ್ಯಕ್ಕೆ ಎಂಟು ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಗಳು ಲಭಿಸಿದ್ದು, ಇದು ಭಾರತದ ಯಾವುದೇ ಭಾಷೆಗೆ ದೊರೆತ ಅತ್ಯಧಿಕ ಸಂಖ್ಯೆ. ಕವಿರಾಜಮಾರ್ಗ ಕನ್ನಡ ಸಾಹಿತ್ಯದ ಮೊದಲ ಲಭ್ಯ ಗ್ರಂಥ."
 };
 
@@ -944,8 +1700,52 @@ const fontCache = {
   store(key, url) { this.urls[key] = url; }
 };
 
+// ── IndexedDB font persistence ────────────────────────────
+const DB_NAME = 'typetest-fonts', DB_VER = 1, DB_STORE = 'fonts';
+function openFontDB() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = e => e.target.result.createObjectStore(DB_STORE, { keyPath: 'fontFamily' });
+    req.onsuccess = e => res(e.target.result);
+    req.onerror = e => rej(e.target.error);
+  });
+}
+async function saveFontToDB(record) {
+  try {
+    const db = await openFontDB();
+    const tx = db.transaction(DB_STORE, 'readwrite');
+    tx.objectStore(DB_STORE).put(record);
+    return new Promise((res, rej) => { tx.oncomplete = res; tx.onerror = rej; });
+  } catch (e) {}
+}
+async function getFontsFromDB() {
+  try {
+    const db = await openFontDB();
+    const tx = db.transaction(DB_STORE, 'readonly');
+    const req = tx.objectStore(DB_STORE).getAll();
+    return new Promise(res => { req.onsuccess = () => res(req.result || []); req.onerror = () => res([]); });
+  } catch (e) { return []; }
+}
+async function removeFontFromDB(fontFamily) {
+  try {
+    const db = await openFontDB();
+    const tx = db.transaction(DB_STORE, 'readwrite');
+    tx.objectStore(DB_STORE).delete(fontFamily);
+    return new Promise((res, rej) => { tx.oncomplete = res; tx.onerror = rej; });
+  } catch (e) {}
+}
+async function clearFontsDB() {
+  try {
+    const db = await openFontDB();
+    const tx = db.transaction(DB_STORE, 'readwrite');
+    tx.objectStore(DB_STORE).clear();
+    return new Promise((res, rej) => { tx.oncomplete = res; tx.onerror = rej; });
+  } catch (e) {}
+}
+
 // ── fontLoader ────────────────────────────────────────────
 let loadedFontBuffer = null;
+const fontBuffers = new Map();
 
 function loadFont(file) {
   const ts = Date.now();
@@ -962,6 +1762,8 @@ function loadFont(file) {
 
   file.arrayBuffer().then(buf => {
     loadedFontBuffer = buf;
+    fontBuffers.set(fontFamily, buf);
+    saveFontToDB({ fontFamily, name: file.name, timestamp: ts, buffer: buf });
     try {
       parsedFontData = opentype.parse(buf);
       const meta = $('font-metadata');
@@ -1033,7 +1835,7 @@ function applyFont(fontFamily) {
 }
 
 function applyFontToAll() {
-  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'custom-render'];
+  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
   directElements.forEach(id => {
     const el = $(id);
     if (el && state.currentFont) {
@@ -1077,7 +1879,7 @@ function applyControls() {
     }
   });
   // Also update direct elements
-  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'custom-render'];
+  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
   directElements.forEach(id => {
     const el = $(id);
     if (el) {
@@ -1144,10 +1946,12 @@ function renderContent() {
   const guEl = $('render-gunita');
   guEl.innerHTML = '';
   testSet.gunita.forEach(row => guEl.appendChild(makeTestEl('div', row)));
+  renderGunitaGrid();
 
   const conjEl = $('render-conjuncts');
   conjEl.innerHTML = '';
   testSet.conjuncts.forEach(row => conjEl.appendChild(makeTestEl('div', row)));
+  renderConjunctsGrid();
 
   $('render-special-conjuncts').textContent = testSet.specialConjuncts;
 
@@ -1195,6 +1999,7 @@ function renderContent() {
 
   $('render-symbols').textContent = testSet.symbols;
   $('render-kerning').textContent = testSet.kerning;
+  $('render-kerning-kannada').textContent = testSet.kerningKannada;
 
   renderCoverage();
   renderGlyphMap();
@@ -1351,6 +2156,7 @@ function handleFile(file) {
   $('font-name-display').textContent = file.name;
   $('live-dot').classList.add('active');
   $('st-font').textContent = file.name;
+  if (typeof refreshRoleSelects === 'function') refreshRoleSelects();
 }
 
 // ── version list ──────────────────────────────────────────
@@ -1365,17 +2171,452 @@ function renderVersionList() {
     const item = document.createElement('div');
     item.className = 'version-item' + (v.fontFamily === state.currentFont ? ' active' : '');
     const time = new Date(v.timestamp).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    item.innerHTML = `<span>${v.name.replace(/\.[^.]+$/, '')}</span><span class="v-label">${time}</span>`;
-    item.addEventListener('click', () => {
+    item.innerHTML = `<span class="v-name">${v.name.replace(/\.[^.]+$/, '')}${v.persisted ? '<i class="v-persist" title="Saved in browser (IndexedDB)">⤓</i>' : ''}</span><span class="v-label">${time}</span><button class="v-remove" title="Remove font">&#215;</button>`;
+    item.addEventListener('click', e => {
+      if (e.target.closest('.v-remove')) return;
       state.currentFont = v.fontFamily;
+      loadedFontBuffer = fontBuffers.get(v.fontFamily) || null;
       applyFont(v.fontFamily);
       $('font-name-display').textContent = v.name;
       $('st-font').textContent = v.name;
+      renderContent();
       renderVersionList();
+      if (typeof refreshRoleSelects === 'function') refreshRoleSelects();
+    });
+    item.querySelector('.v-remove').addEventListener('click', e => {
+      e.stopPropagation();
+      state.versions = state.versions.filter(x => x !== v);
+      fontCache.revoke(v.fontFamily);
+      removeFontFromDB(v.fontFamily);
+      renderVersionList();
+      if (state.currentFont === v.fontFamily) {
+        state.currentFont = state.versions[0]?.fontFamily || null;
+        if (state.currentFont) {
+          const cur = state.versions[0];
+          loadedFontBuffer = fontBuffers.get(cur.fontFamily) || null;
+          applyFont(cur.fontFamily);
+          $('font-name-display').textContent = cur.name;
+          $('st-font').textContent = cur.name;
+          renderContent();
+        }
+      }
     });
     list.appendChild(item);
   });
 }
+
+async function restorePersistedFonts() {
+  const saved = await getFontsFromDB();
+  if (!saved.length) return;
+  const restored = [];
+  for (const f of saved) {
+    try {
+      const ff = new FontFace(f.fontFamily, f.buffer);
+      await ff.load();
+      document.fonts.add(ff);
+      fontBuffers.set(f.fontFamily, f.buffer);
+      restored.push({ fontFamily: f.fontFamily, name: f.name, timestamp: f.timestamp, persisted: true });
+    } catch (e) {}
+  }
+  if (restored.length) {
+    state.versions = restored.concat(state.versions.filter(v => !restored.some(r => r.fontFamily === v.fontFamily)));
+    renderVersionList();
+  }
+}
+
+// ── sources: Google Fonts + ಸಂಚಯ remote catalog ─────────
+function setSourceStatus(msg, cls) {
+  const el = $('source-status');
+  if (el) {
+    el.textContent = msg;
+    el.className = 'source-status' + (cls ? ' ' + cls : '');
+  }
+}
+
+function slugFamily(name, prefix) {
+  return prefix + name.replace(/[^A-Za-z0-9]+/g, '');
+}
+
+async function registerFontFace(family, buffer, descriptors) {
+  const ff = new FontFace(family, buffer, descriptors || {});
+  await ff.load();
+  document.fonts.add(ff);
+  return ff;
+}
+
+async function loadGoogleFont(name) {
+  const cssUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(name)}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
+  const res = await fetch(cssUrl);
+  if (!res.ok) throw new Error(`Google Fonts returned ${res.status}`);
+  const css = await res.text();
+  const blocks = [...css.matchAll(/@font-face\s*{([^}]*)}/g)];
+  if (!blocks.length) throw new Error('No @font-face found — check the font name');
+  const family = slugFamily(name, 'GF_');
+  const loaded = [];
+  let firstBuffer = null;
+  for (const [, body] of blocks) {
+    const srcM = body.match(/url\((https:[^)]+)\)/);
+    if (!srcM) continue;
+    const url = srcM[1].replace(/^['"]|['"]$/g, '');
+    const buffer = await (await fetch(url)).arrayBuffer();
+    if (!firstBuffer) firstBuffer = buffer;
+    const descriptors = {};
+    const uniM = body.match(/unicode-range:\s*([^;]+);/);
+    if (uniM) descriptors.unicodeRange = uniM[1].trim();
+    const wM = body.match(/font-weight:\s*([^;]+);/);
+    if (wM) descriptors.weight = wM[1].trim();
+    const sM = body.match(/font-style:\s*([^;]+);/);
+    if (sM) descriptors.style = sM[1].trim();
+    try {
+      await registerFontFace(family, buffer, descriptors);
+      loaded.push({ buffer, descriptors });
+    } catch (e) {}
+  }
+  if (!firstBuffer || !loaded.length) throw new Error('Could not fetch font files');
+  return { family, name, buffer: firstBuffer };
+}
+
+async function loadRemoteFont(entry) {
+  const res = await fetch(entry.url);
+  if (!res.ok) throw new Error(`Catalog font returned ${res.status}`);
+  const buffer = await res.arrayBuffer();
+  const family = slugFamily(entry.name, 'San_');
+  await registerFontFace(family, buffer);
+  return { family, name: entry.name, buffer };
+}
+
+async function activateFontRecord(rec, isVariable) {
+  fontBuffers.set(rec.family, rec.buffer);
+  loadedFontBuffer = rec.buffer;
+  state.currentFont = rec.family;
+  state.isVariable = !!isVariable;
+  state.fontWeight = isVariable ? 400 : state.fontWeight;
+  if (rec.source === 'Google Fonts') googleRoleFonts.set(rec.family, rec.name);
+  const ts = Date.now();
+  const record = { fontFamily: rec.family, name: rec.name, timestamp: ts, source: rec.source || 'remote' };
+  state.versions.unshift(record);
+  if (state.versions.length > 8) state.versions.pop();
+  saveFontToDB({ ...record, buffer: rec.buffer });
+  renderVersionList();
+  $('empty-state').style.display = 'none';
+  $('test-area').classList.add('visible');
+  $('live-dot').classList.add('active');
+  $('font-name-display').textContent = rec.name;
+  $('st-font').textContent = rec.name;
+  renderContent();
+  applyFont(rec.family);
+  applyControls();
+  if (typeof refreshRoleSelects === 'function') refreshRoleSelects();
+  try {
+    const meta = $('font-metadata');
+    const otSection = $('ot-features-section');
+    if (meta) meta.innerHTML = '<div class="metadata-empty">Loading font data…</div>';
+    processFontFromBuffer(rec.buffer, rec.family, meta, otSection);
+    renderFontRules();
+  } catch (e) {
+    console.warn('Could not parse font (expected for woff2):', e.message);
+  }
+  updateCompareSelects();
+  updateUrl();
+  setSourceStatus(`${rec.name} loaded` + (isVariable ? ' · variable' : ''), 'ok');
+}
+
+function populateRemoteCatalog() {
+  const sel = $('remote-catalog-select');
+  if (!sel || typeof REMOTE_CATALOG === 'undefined') return;
+  sel.innerHTML = '';
+  REMOTE_CATALOG.forEach(entry => {
+    const opt = document.createElement('option');
+    opt.value = entry.name;
+    opt.textContent = entry.name;
+    sel.appendChild(opt);
+  });
+}
+
+async function handleGoogleLoad() {
+  const name = $('gf-name').value.trim();
+  if (!name) { setSourceStatus('Enter a Google Fonts family name', 'error'); return; }
+  setSourceStatus(`Loading “${name}”…`);
+  try {
+    const rec = await loadGoogleFont(name);
+    rec.source = 'Google Fonts';
+    await activateFontRecord(rec, false);
+  } catch (e) {
+    setSourceStatus(`Failed: ${e.message}`, 'error');
+    console.error(e);
+  }
+}
+
+async function handleRemoteLoad() {
+  const sel = $('remote-catalog-select');
+  const entry = REMOTE_CATALOG.find(x => x.name === sel.value);
+  if (!entry) { setSourceStatus('Select a font from the catalog', 'error'); return; }
+  setSourceStatus(`Loading ${entry.name}…`);
+  try {
+    const rec = await loadRemoteFont(entry);
+    rec.source = 'ಸಂಚಯ catalog';
+    const isVariable = /variable/i.test(entry.name + entry.url);
+    await activateFontRecord(rec, isVariable);
+  } catch (e) {
+    setSourceStatus(`Failed: ${e.message}`, 'error');
+    console.error(e);
+  }
+}
+
+$('gf-load-btn').addEventListener('click', handleGoogleLoad);
+$('gf-name').addEventListener('keydown', e => { if (e.key === 'Enter') handleGoogleLoad(); });
+$('remote-load-btn').addEventListener('click', handleRemoteLoad);
+populateRemoteCatalog();
+
+
+// ── Web Display / context engine ───────────────────────────
+const SYSTEM_FONTS = ['system-ui','-apple-system','Segoe UI','Helvetica','Arial','Arial Narrow','Georgia','Times New Roman','Courier New','Trebuchet MS','Impact','Comic Sans MS','Palatino','Garamond','Optima','Futura','Gill Sans','Calibri','Cambria','Consolas','Verdana'];
+const CONTEXT_ROLES = ['title','sub','heading','body'];
+const googleRoleFonts = new Map();
+const ctxTexts = {};
+const displayOTState = { kern:true, liga:true, calt:true, dlig:false, smcp:false, subs:false, sups:false, frac:false, numr:false, dnom:false, ordn:false, onum:false, lnum:false, tnum:false, zero:false, swsh:false };
+
+function loadedFontVar() {
+  return state.currentFont ? `'${state.currentFont}', sans-serif` : 'sans-serif';
+}
+
+function setRoleFont(role, family) {
+  const value = family ? `'${family}', system-ui, sans-serif` : loadedFontVar();
+  document.documentElement.style.setProperty(`--font-${role}`, value);
+  const isLoadedVar = family === state.currentFont && state.isVariable;
+  document.querySelectorAll(`.typo-${role}`).forEach(el => {
+    el.style.fontVariationSettings = isLoadedVar ? `'wght' ${state.fontWeight}` : '';
+    el.style.fontWeight = isLoadedVar ? state.fontWeight : '';
+  });
+}
+
+async function refreshRoleSelects() {
+  document.documentElement.style.setProperty('--font-loaded', loadedFontVar());
+  for (const role of CONTEXT_ROLES) {
+    const srcSel = $(`src-${role}`), fntSel = $(`fnt-${role}`);
+    if (!srcSel || !fntSel) continue;
+    const prev = fntSel.value;
+    const src = srcSel.value;
+    fntSel.innerHTML = '';
+    if (src === 'loaded') {
+      if (state.versions.length) {
+        state.versions.forEach(v => {
+          const o = document.createElement('option');
+          o.value = v.fontFamily;
+          o.textContent = v.name.replace(/\.[^.]+$/, '');
+          fntSel.appendChild(o);
+        });
+        fntSel.value = (state.currentFont && state.versions.some(v => v.fontFamily === state.currentFont))
+          ? state.currentFont : state.versions[0].fontFamily;
+      } else {
+        fntSel.innerHTML = '<option value="">— load a font —</option>';
+      }
+    } else if (src === 'system') {
+      SYSTEM_FONTS.forEach(f => { const o = document.createElement('option'); o.value = f; o.textContent = f; fntSel.appendChild(o); });
+      if (prev && SYSTEM_FONTS.includes(prev)) fntSel.value = prev;
+    } else if (src === 'google') {
+      if (!googleRoleFonts.size) { fntSel.innerHTML = '<option value="">— no Google font loaded —</option>'; }
+      googleRoleFonts.forEach((name, family) => { const o = document.createElement('option'); o.value = family; o.textContent = name; fntSel.appendChild(o); });
+      if (prev && googleRoleFonts.has(prev)) fntSel.value = prev;
+    } else if (src === 'catalog') {
+      REMOTE_CATALOG.forEach(e => { const o = document.createElement('option'); o.value = e.name; o.textContent = e.name; fntSel.appendChild(o); });
+      if (prev && REMOTE_CATALOG.some(e => e.name === prev)) fntSel.value = prev;
+    }
+    setRoleFont(role, fntSel.value || null);
+  }
+  applyDisplayOT();
+}
+
+async function loadCatalogForRole(role, name) {
+  const entry = REMOTE_CATALOG.find(e => e.name === name);
+  if (!entry) return;
+  try {
+    const rec = await loadRemoteFont(entry);
+    const fntSel = $(`fnt-${role}`);
+    if (fntSel && !fntSel.querySelector(`option[value="${rec.family}"]`)) {
+      const o = document.createElement('option');
+      o.value = rec.family; o.textContent = rec.name + ' (ಸಂಚಯ)';
+      fntSel.appendChild(o);
+    }
+    if (fntSel) fntSel.value = rec.family;
+    setRoleFont(role, rec.family);
+  } catch (e) {
+    console.error('catalog role load failed', e);
+  }
+}
+
+function setupRoleControl(role) {
+  const srcSel = $(`src-${role}`), fntSel = $(`fnt-${role}`),
+        gfInput = $(`gf-${role}`), loadBtn = $(`load-gf-${role}`);
+  srcSel.addEventListener('change', async () => {
+    gfInput.style.display = srcSel.value === 'google' ? '' : 'none';
+    loadBtn.style.display = srcSel.value === 'google' ? '' : 'none';
+    await refreshRoleSelects();
+    if (srcSel.value === 'catalog' && fntSel.value) await loadCatalogForRole(role, fntSel.value);
+  });
+  fntSel.addEventListener('change', async () => {
+    if (srcSel.value === 'catalog' && fntSel.value) {
+      await loadCatalogForRole(role, fntSel.value);
+    } else {
+      setRoleFont(role, fntSel.value || null);
+    }
+    applyDisplayOT();
+  });
+  loadBtn.addEventListener('click', async () => {
+    const name = gfInput.value.trim();
+    if (!name) return;
+    try {
+      const rec = await loadGoogleFont(name);
+      googleRoleFonts.set(rec.family, name);
+      fontBuffers.set(rec.family, rec.buffer);
+      await refreshRoleSelects();
+      fntSel.value = rec.family;
+      setRoleFont(role, rec.family);
+      applyDisplayOT();
+    } catch (e) {
+      console.error(e);
+      alert('Google Fonts load failed: ' + e.message);
+    }
+  });
+}
+
+function applyTexts() {
+  for (const role of ['title','sub','heading','body','note']) {
+    const val = ctxTexts[role] || '';
+    document.querySelectorAll(`.text-${role}`).forEach(el => { el.textContent = val; });
+  }
+}
+
+function applyDisplayOT() {
+  const feats = Object.entries(displayOTState)
+    .map(([k, v]) => `"${k}" ${v ? 1 : 0}`);
+  if (state.kerning) feats.push('"kern" 1');
+  if (state.ligatures) feats.push('"liga" 1');
+  activeOtFeatures.forEach(t => feats.push(`"${t}" 1`));
+  const value = [...new Set(feats)].join(', ');
+  document.querySelectorAll('.preview-grid *').forEach(el => { el.style.fontFeatureSettings = value; });
+}
+
+function contextRoleVarsCSS() {
+  const cs = getComputedStyle(document.documentElement);
+  return CONTEXT_ROLES.map(r => `--font-${r}: ${cs.getPropertyValue(`--font-${r}`) || loadedFontVar()};`).join('');
+}
+
+function contextFontEmbedCSS() {
+  let css = '';
+  fontBuffers.forEach((buf, family) => {
+    if (buf) css += `@font-face{font-family:'${family}';src:url('data:font/truetype;base64,${uint8ToB64(new Uint8Array(buf))}')}\n`;
+  });
+  return css;
+}
+
+function contextExtraCSS() {
+  return `:root{--font-loaded:${loadedFontVar()};${contextRoleVarsCSS()}}\n${contextFontEmbedCSS()}`;
+}
+
+function initContextEngine() {
+  CONTEXT_ROLES.forEach(role => setupRoleControl(role));
+  for (const role of ['title','sub','heading','body','note']) {
+    const el = $(`text-${role}`);
+    if (!el) continue;
+    ctxTexts[role] = el.value;
+    el.addEventListener('input', () => { ctxTexts[role] = el.value; applyTexts(); });
+  }
+  applyTexts();
+  refreshRoleSelects();
+
+  $('page-size').addEventListener('change', e => {
+    document.querySelectorAll('.ctx-card').forEach(card => { card.style.aspectRatio = e.target.value; });
+  });
+
+  $('ctx-scale').addEventListener('change', e => {
+    document.querySelectorAll('.ctx-card > [class*="layout-"]').forEach(l => { l.style.zoom = e.target.value; });
+  });
+
+  let ctxBgType = 'color';
+  const ctxCards = () => document.querySelectorAll('.ctx-card');
+  document.querySelectorAll('.bg-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.bg-type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      ctxBgType = btn.dataset.bg;
+      applyContextBg();
+    });
+  });
+  $('bg-color').addEventListener('input', applyContextBg);
+  $('bg-image').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => ctxCards().forEach(card => {
+      card.style.backgroundImage = `url('${ev.target.result}')`;
+      card.style.backgroundSize = 'cover';
+      card.style.backgroundPosition = 'center';
+      card.style.backgroundRepeat = 'no-repeat';
+    });
+    reader.readAsDataURL(file);
+  });
+  function applyContextBg() {
+    if (ctxBgType === 'color') {
+      ctxCards().forEach(card => { card.style.backgroundImage = ''; });
+    } else if (ctxBgType === 'gradient') {
+      ctxCards().forEach(card => { card.style.background = 'linear-gradient(135deg, #1a1c1c 0%, #d34000 45%, #f7f5f3 100%)'; });
+    }
+  }
+
+  $('display-ot-toggle').addEventListener('click', () => {
+    const panel = $('display-ot-panel');
+    const open = panel.style.display === 'none';
+    panel.style.display = open ? 'flex' : 'none';
+    $('display-ot-toggle').classList.toggle('active', open);
+  });
+  $('display-ot-panel').addEventListener('change', e => {
+    const cb = e.target;
+    if (!cb.dataset.feat) return;
+    displayOTState[cb.dataset.feat] = cb.checked;
+    applyDisplayOT();
+  });
+
+  $('export-web-all').addEventListener('click', async () => {
+    const ids = ['hero','article','dark','pricing','app','mobile'];
+    for (let i = 0; i < ids.length; i++) {
+      const card = $(`mock-${ids[i]}`);
+      if (!card) continue;
+      const layout = card.querySelector('.layout-hero,.layout-article,.layout-dark,.layout-pricing,.layout-app,.layout-mobile');
+      if (layout) await pngFromNode(layout, `typetest-kannada-web-${i + 1}.png`);
+    }
+  });
+  $('export-web-print').addEventListener('click', () => {
+    const inners = [];
+    ['hero','article','dark','pricing','app','mobile'].forEach(id => {
+      const card = $(`mock-${id}`);
+      if (!card) return;
+      const layout = card.querySelector('.layout-hero,.layout-article,.layout-dark,.layout-pricing,.layout-app,.layout-mobile');
+      if (layout) inners.push(`<div style="page-break-before:always">${layout.outerHTML}</div>`);
+    });
+    buildPrintWindow(inners.join(''), contextExtraCSS());
+  });
+  $('export-print-png').addEventListener('click', async () => {
+    const ids = ['np','mag','book','cover','spec','letter'];
+    for (let i = 0; i < ids.length; i++) {
+      const card = $(`mock-${ids[i]}`);
+      if (!card) continue;
+      const layout = card.querySelector('.layout-newspaper,.layout-magazine,.layout-book,.layout-cover,.layout-spec,.layout-letter');
+      if (layout) await pngFromNode(layout, `typetest-kannada-print-${i + 1}.png`);
+    }
+  });
+  $('export-print-pdf').addEventListener('click', () => {
+    const inners = [];
+    ['np','mag','book','cover','spec','letter'].forEach(id => {
+      const card = $(`mock-${id}`);
+      if (!card) return;
+      const layout = card.querySelector('.layout-newspaper,.layout-magazine,.layout-book,.layout-cover,.layout-spec,.layout-letter');
+      if (layout) inners.push(`<div style="page-break-before:always">${layout.outerHTML}</div>`);
+    });
+    buildPrintWindow(inners.join(''), contextExtraCSS());
+  });
+}
+
 
 // ── controls ──────────────────────────────────────────────
 $('size-slider').addEventListener('input', e => {
@@ -1482,8 +2723,10 @@ $('custom-input').addEventListener('input', e => {
 
 // ── reset ─────────────────────────────────────────────────
 $('reset-btn').addEventListener('click', () => {
-  if (!confirm('Reset all fonts and settings?')) return;
+  if (!confirm('Reset all fonts and settings? This also clears fonts saved in this browser.')) return;
   fontCache.revokeAll();
+  clearFontsDB();
+  fontBuffers.clear();
   Object.assign(state, {
     currentFont: null, versions: [],
     fontSize: 32, lineHeight: 1.4, letterSpacing: 0, wordSpacing: 1,
@@ -1526,16 +2769,19 @@ $('font-input').addEventListener('change', e => {
 const tabButtons = document.querySelectorAll('.tab-btn');
 const tabPanels = document.querySelectorAll('.tab-panel');
 
+function switchTab(tabId) {
+  tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+  tabPanels.forEach(p => p.classList.toggle('active', p.id === `panel-${tabId}`));
+  toggleSidebar(false);
+  updateUrl();
+}
+
 tabButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tabId = btn.dataset.tab;
-    tabButtons.forEach(b => b.classList.remove('active'));
-    tabPanels.forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(`panel-${tabId}`).classList.add('active');
-    toggleSidebar(false);
-    updateUrl();
-  });
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+});
+
+document.querySelectorAll('.persona-card').forEach(card => {
+  card.addEventListener('click', () => switchTab(card.dataset.tab));
 });
 
 // ── URL Session Sharing ──────────────────────────────────
@@ -1719,6 +2965,15 @@ let parsedFontData = null;
 
 function parseFontMetadata(fontFamily) {
   const styleEl = document.querySelector(`style[id="ff-${fontFamily}"]`);
+  const meta = $('font-metadata');
+  const otSection = $('ot-features-section');
+  if (!meta) return;
+
+  if (fontBuffers.has(fontFamily)) {
+    processFontFromBuffer(fontBuffers.get(fontFamily), fontFamily, meta, otSection);
+    return;
+  }
+
   if (!styleEl) return;
 
   const match = styleEl.textContent.match(/url\(['"]?([^'")\s]+)['"]?\)/);
@@ -1727,10 +2982,6 @@ function parseFontMetadata(fontFamily) {
   activeOtFeatures.clear();
   activeOtFeatures.add('liga');
   activeOtFeatures.add('kern');
-
-  const meta = $('font-metadata');
-  const otSection = $('ot-features-section');
-  if (!meta) return;
 
   meta.innerHTML = '<div class="metadata-empty">Loading font data...</div>';
 
@@ -1903,6 +3154,28 @@ function renderFontRules() {
     7: 'Contextual Positioning', 8: 'Chained Contextual', 9: 'Extension'
   };
 
+  function aggregateFeatures(features, lookups, typeNames) {
+    const map = new Map();
+    features.forEach(({ tag, feature }) => {
+      const count = feature.lookupListIndex ? feature.lookupListIndex.length : 0;
+      const types = [];
+      if (feature.lookupListIndex && lookups) {
+        feature.lookupListIndex.forEach(li => {
+          const lookup = lookups[li];
+          if (lookup && lookup.lookupType) types.push(typeNames[lookup.lookupType] || `Type ${lookup.lookupType}`);
+        });
+      }
+      if (map.has(tag)) {
+        const entry = map.get(tag);
+        entry.count += count;
+        types.forEach(t => { if (!entry.types.includes(t)) entry.types.push(t); });
+      } else {
+        map.set(tag, { count, types });
+      }
+    });
+    return map;
+  }
+
   if (gsub && gsub.features) {
     const section = document.createElement('div');
     section.className = 'rules-section';
@@ -1918,18 +3191,8 @@ function renderFontRules() {
 
     allFontFeatures = [];
 
-    gsub.features.forEach((feat, idx) => {
-      const { tag, feature } = feat;
-      const lookupCount = feature.lookupListIndex ? feature.lookupListIndex.length : 0;
-      const lookupTypes = [];
-      if (feature.lookupListIndex && gsub.lookups) {
-        feature.lookupListIndex.forEach(li => {
-          const lookup = gsub.lookups[li];
-          if (lookup && lookup.lookupType) {
-            lookupTypes.push(lookupTypeNames[lookup.lookupType] || `Type ${lookup.lookupType}`);
-          }
-        });
-      }
+    aggregateFeatures(gsub.features, gsub.lookups, lookupTypeNames).forEach((agg, tag) => {
+      const { count: lookupCount, types: lookupTypes } = agg;
 
       allFontFeatures.push(tag);
       if (['liga','kern'].includes(tag)) activeOtFeatures.add(tag);
@@ -1984,19 +3247,8 @@ function renderFontRules() {
     header.innerHTML = '<span>Tag</span><span>Feature</span><span>Lookups</span><span>Type</span>';
     table.appendChild(header);
 
-    gpos.features.forEach(feat => {
-      const { tag, feature } = feat;
-      const lookupCount = feature.lookupListIndex ? feature.lookupListIndex.length : 0;
-      const lookupTypes = [];
-      if (feature.lookupListIndex && gpos.lookups) {
-        feature.lookupListIndex.forEach(li => {
-          const lookup = gpos.lookups[li];
-          if (lookup && lookup.lookupType) {
-            lookupTypes.push(gposLookupTypeNames[lookup.lookupType] || `Type ${lookup.lookupType}`);
-          }
-        });
-      }
-
+    aggregateFeatures(gpos.features, gpos.lookups, gposLookupTypeNames).forEach((agg, tag) => {
+      const { count: lookupCount, types: lookupTypes } = agg;
       const row = document.createElement('div');
       row.className = 'rules-row';
       const isKern = tag === 'kern';
@@ -2121,7 +3373,7 @@ function renderDecompose() {
     const conjSpan = document.createElement('div');
     conjSpan.className = 'decompose-conjunct';
     conjSpan.textContent = conjunct;
-    conjSpan.style.fontFamily = `'${state.currentFont || 'sans-serif'}, sans-serif`;
+    conjSpan.style.fontFamily = `'${state.currentFont || 'sans-serif'}', sans-serif`;
 
     const breakdown = document.createElement('div');
     breakdown.className = 'decompose-breakdown';
@@ -2140,7 +3392,7 @@ function renderDecompose() {
       const pChar = document.createElement('span');
       pChar.className = 'decompose-part-char';
       pChar.textContent = p.char;
-      pChar.style.fontFamily = `'${state.currentFont || 'sans-serif'}, sans-serif`;
+      pChar.style.fontFamily = `'${state.currentFont || 'sans-serif'}', sans-serif`;
 
       const pName = document.createElement('span');
       pName.className = 'decompose-part-name';
@@ -2158,7 +3410,7 @@ function renderDecompose() {
     const render = document.createElement('div');
     render.className = 'decompose-conjunct';
     render.textContent = conjunct;
-    render.style.fontFamily = `'${state.currentFont || 'sans-serif'}, sans-serif`;
+    render.style.fontFamily = `'${state.currentFont || 'sans-serif'}', sans-serif`;
     render.style.textAlign = 'right';
 
     row.appendChild(conjSpan);
@@ -2169,6 +3421,345 @@ function renderDecompose() {
   });
 }
 
+// ── Export utilities ─────────────────────────────────────
+function uint8ToB64(bytes) {
+  let s = ''; const chunk = 8192;
+  for (let i = 0; i < bytes.length; i += chunk)
+    s += String.fromCharCode(...bytes.subarray(i, Math.min(i + chunk, bytes.length)));
+  return btoa(s);
+}
+function collectPageCSS() {
+  let css = '';
+  for (const sheet of document.styleSheets) {
+    try { for (const rule of sheet.cssRules) css += rule.cssText + '\n'; } catch (e) {}
+  }
+  return css;
+}
+function currentFontEmbedCSS() {
+  const buf = fontBuffers.get(state.currentFont) || loadedFontBuffer;
+  if (!buf || !state.currentFont) return '';
+  return `@font-face{font-family:'${state.currentFont}';src:url('data:font/truetype;base64,${uint8ToB64(new Uint8Array(buf))}')}\n`;
+}
+
+async function pngFromNode(node, filename) {
+  if (!node) return;
+  await document.fonts.ready;
+  const canvas = await html2canvas(node, {
+    scale: 2, useCORS: true, allowTaint: true,
+    onclone: (_doc, el) => {
+      el.querySelectorAll('*').forEach(n => {
+        const cs = window.getComputedStyle(n);
+        if (parseFloat(cs.letterSpacing) === 0 || cs.letterSpacing === 'normal') {
+          n.style.letterSpacing = '0.01px';
+        }
+        n.style.wordSpacing = '0px';
+      });
+    }
+  });
+  const a = document.createElement('a');
+  a.download = filename;
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+async function exportActiveTabPNG() {
+  const panel = document.querySelector('.tab-panel.active');
+  if (!panel) return;
+  const tabId = document.querySelector('.tab-btn.active')?.dataset.tab || 'tab';
+  await pngFromNode(panel, `typetest-kannada-${tabId}.png`);
+}
+
+async function buildPrintWindow(panelsHtml, extraCSS) {
+  const fontCSS = currentFontEmbedCSS();
+  const pageCSS = collectPageCSS();
+  const cs = getComputedStyle(document.documentElement);
+  const dark = state.darkBg ? `html{background:#1a1a1e}` : '';
+  const win = window.open('', '_blank', 'width=1100,height=800');
+  if (!win) { alert('Please allow pop-ups to export a PDF.'); return; }
+  win.document.write(`<!DOCTYPE html><html lang="kn"><head><meta charset="UTF-8">
+    <title>Type Test — Kannada · ${state.currentFont ? 'Print' : 'No font loaded'}</title>
+    <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    ${pageCSS}${fontCSS}${extraCSS || ''}
+    body{margin:0;background:white;padding:24px}
+    .tab-nav,.export-bar,.sidebar-overlay,.version-list,.metadata-empty,.empty-state{display:none!important}
+    .tab-panel{display:block!important}
+    .tab-panel+.tab-panel{page-break-before:always}
+    input,select,textarea,button,.compare-select,.glyph-search,.custom-input,.weight-presets{display:none!important}
+    .glyph-cell{break-inside:avoid}
+    .syllabic-table{break-inside:avoid}
+    @media print{@page{size:auto;margin:8mm}body{padding:0;background:white}}
+    ${dark}
+    </style></head><body>${panelsHtml}
+    <script>window.addEventListener('load',()=>{document.fonts.ready.then(()=>window.print());})<\/script>
+  </body></html>`);
+  win.document.close();
+}
+
+function exportAllPrint() {
+  const panels = Array.from(document.querySelectorAll('.tab-panel')).map(p => p.outerHTML);
+  buildPrintWindow(panels.join(''));
+}
+
+function exportNodePrint(node, title) {
+  const extraCSS = (typeof contextExtraCSS === 'function') ? contextExtraCSS() : '';
+  buildPrintWindow(node.outerHTML, extraCSS);
+}
+
+$('export-png-btn').addEventListener('click', exportActiveTabPNG);
+$('export-print-btn').addEventListener('click', exportAllPrint);
+
+document.querySelectorAll('.mock-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (!target) return;
+    const layout = target.querySelector('.layout-hero,.layout-article,.layout-dark,.layout-pricing,.layout-app,.layout-mobile,.layout-newspaper,.layout-magazine,.layout-book,.layout-cover,.layout-spec,.layout-letter,.layout-features');
+    if (!layout) return;
+    if (btn.dataset.fmt === 'png') {
+      pngFromNode(layout, `typetest-kannada-${btn.dataset.target}.png`);
+    } else {
+      exportNodePrint(layout, btn.dataset.target);
+    }
+  });
+});
+
+// ── Syllabic grid generator ──────────────────────────────
+const SYLLABIC_TEMPLATES = {
+  kannada: {
+    name: 'Kannada Akshara',
+    consonants: ['ಕ','ಖ','ಗ','ಘ','ಙ','ಚ','ಛ','ಜ','ಝ','ಞ','ಟ','ಠ','ಡ','ಢ','ಣ','ತ','ಥ','ದ','ಧ','ನ','ಪ','ಫ','ಬ','ಭ','ಮ','ಯ','ರ','ಲ','ವ','ಶ','ಷ','ಸ','ಹ','ಳ'],
+    vowelSigns: [
+      { label: '—', sign: '' }, { label: 'ā', sign: 'ಾ' }, { label: 'i', sign: 'ಿ' },
+      { label: 'ī', sign: 'ೀ' }, { label: 'u', sign: 'ು' }, { label: 'ū', sign: 'ೂ' },
+      { label: 'ṛ', sign: 'ೃ' }, { label: 'e', sign: 'ೆ' }, { label: 'ē', sign: 'ೇ' },
+      { label: 'ai', sign: 'ೈ' }, { label: 'o', sign: 'ೊ' }, { label: 'ō', sign: 'ೋ' },
+      { label: 'au', sign: 'ೌ' }, { label: 'ಂ', sign: 'ಂ' }, { label: 'ಃ', sign: 'ಃ' },
+      { label: '್', sign: '್' }
+    ]
+  }
+};
+
+let gridFontSize = 32;
+function gridFontFamily() {
+  return state.currentFont ? `'${state.currentFont}', sans-serif` : 'system-ui, sans-serif';
+}
+function splitTokens(raw) {
+  return (raw || '').split(/[\s,\n]+/).map(t => t.trim()).filter(Boolean);
+}
+function toUnicode(str) {
+  return [...str].map(ch => 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0')).join(' ');
+}
+
+function makeSyllableCell(text) {
+  const inner = document.createElement('div');
+  inner.className = 'grid-cell-inner';
+
+  const syl = document.createElement('span');
+  syl.className = 'grid-syllable';
+  syl.contentEditable = true;
+  syl.spellcheck = false;
+  syl.textContent = text;
+  syl.style.fontFamily = gridFontFamily();
+  syl.style.fontSize = gridFontSize + 'px';
+  syl.style.wordSpacing = 'normal';
+  syl.addEventListener('paste', e => {
+    e.preventDefault();
+    document.execCommand('insertText', false, e.clipboardData.getData('text/plain'));
+  });
+
+  const uni = document.createElement('span');
+  uni.className = 'grid-unicode';
+  uni.textContent = toUnicode(text);
+
+  syl.addEventListener('input', () => { uni.textContent = toUnicode(syl.textContent); });
+
+  inner.appendChild(syl);
+  inner.appendChild(uni);
+  return inner;
+}
+
+function generateGrid() {
+  const consonants = splitTokens($('ctrl-consonants').value);
+  const vowelLines = $('ctrl-vowels').value.split('\n').map(s => s.trim());
+  const vowels = vowelLines.filter((_, i) => i === 0 || vowelLines[i] !== '').map(v => ({
+    label: v === '' ? '—' : v,
+    sign: v,
+  }));
+  const conjuncts = splitTokens($('ctrl-conjuncts').value);
+
+  if (!consonants.length || !vowels.length) {
+    alert('Enter consonants and at least one vowel sign first.');
+    return;
+  }
+
+  $('grid-empty').style.display = 'none';
+  const output = $('grid-output');
+  output.style.display = 'block';
+  output.innerHTML = '';
+
+  const section = document.createElement('div');
+  section.className = 'syllabic-section';
+
+  const secTitle = document.createElement('div');
+  secTitle.className = 'syllabic-section-title';
+  secTitle.textContent = 'Barakhadi / Akshara Grid';
+  section.appendChild(secTitle);
+
+  const table = document.createElement('table');
+  table.className = 'syllabic-table';
+
+  const thead = document.createElement('thead');
+  const hrow = document.createElement('tr');
+  const corner = document.createElement('th');
+  corner.className = 'corner';
+  corner.textContent = '';
+  hrow.appendChild(corner);
+  vowels.forEach(v => {
+    const th = document.createElement('th');
+    th.style.fontFamily = gridFontFamily();
+    th.style.fontSize = Math.min(gridFontSize, 18) + 'px';
+    th.textContent = v.label;
+    hrow.appendChild(th);
+  });
+  thead.appendChild(hrow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  consonants.forEach(cons => {
+    const tr = document.createElement('tr');
+    const rowHdr = document.createElement('th');
+    rowHdr.style.fontFamily = gridFontFamily();
+    rowHdr.style.fontSize = Math.min(gridFontSize, 18) + 'px';
+    rowHdr.textContent = cons;
+    tr.appendChild(rowHdr);
+    vowels.forEach(v => {
+      const td = document.createElement('td');
+      td.appendChild(makeSyllableCell(cons + v.sign));
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  section.appendChild(table);
+  output.appendChild(section);
+
+  if (conjuncts.length) {
+    const cSection = document.createElement('div');
+    cSection.className = 'syllabic-section conjunct-section';
+    const ct = document.createElement('div');
+    ct.className = 'syllabic-section-title';
+    ct.textContent = 'Conjuncts / Compounds';
+    cSection.appendChild(ct);
+    const cg = document.createElement('div');
+    cg.className = 'conjunct-grid';
+    conjuncts.forEach(conj => {
+      const cell = document.createElement('div');
+      cell.className = 'conjunct-cell';
+      cell.appendChild(makeSyllableCell(conj));
+      cg.appendChild(cell);
+    });
+    cSection.appendChild(cg);
+    output.appendChild(cSection);
+  }
+}
+
+function applyGridTemplate(data) {
+  $('ctrl-consonants').value = data.consonants.join('\n');
+  $('ctrl-vowels').value = (data.vowelSigns || []).map(v => v.sign).join('\n');
+  $('ctrl-conjuncts').value = '';
+  generateGrid();
+}
+
+$('btn-generate').addEventListener('click', generateGrid);
+$('grid-size-range').addEventListener('input', () => {
+  gridFontSize = +$('grid-size-range').value;
+  $('grid-size-num').value = gridFontSize;
+  $('grid-size-num').dispatchEvent(new Event('input'));
+});
+$('grid-size-num').addEventListener('input', () => {
+  gridFontSize = Math.max(12, Math.min(96, +$('grid-size-num').value || 12));
+  $('grid-size-range').value = gridFontSize;
+  document.querySelectorAll('.grid-syllable').forEach(el => { el.style.fontSize = gridFontSize + 'px'; });
+  document.querySelectorAll('.syllabic-table th').forEach(th => { th.style.fontSize = Math.min(gridFontSize, 18) + 'px'; });
+});
+document.querySelectorAll('.template-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const data = SYLLABIC_TEMPLATES[btn.dataset.template];
+    if (data) applyGridTemplate(data);
+  });
+});
+$('grid-png-btn').addEventListener('click', () => {
+  pngFromNode($('grid-output'), 'typetest-kannada-syllabic-grid.png');
+});
+$('grid-print-btn').addEventListener('click', () => {
+  exportNodePrint($('grid-output'), 'syllabic-grid');
+});
+applyGridTemplate(SYLLABIC_TEMPLATES.kannada);
+
+// ── Reference grids (gunitakshara & ottakshara) ───────────
+function buildAksharaGrid(container, rows, columns, cellFn, opts) {
+  opts = opts || {};
+  container.innerHTML = '';
+  const table = document.createElement('table');
+  table.className = 'syllabic-table akshara-grid' + (opts.compact ? ' compact' : '');
+
+  const thead = document.createElement('thead');
+  const hrow = document.createElement('tr');
+  const corner = document.createElement('th');
+  corner.className = 'corner';
+  corner.textContent = opts.corner || '';
+  hrow.appendChild(corner);
+  columns.forEach(c => {
+    const th = document.createElement('th');
+    th.textContent = c;
+    hrow.appendChild(th);
+  });
+  thead.appendChild(hrow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  rows.forEach((r, ri) => {
+    const tr = document.createElement('tr');
+    const rowHead = document.createElement('th');
+    rowHead.textContent = r;
+    tr.appendChild(rowHead);
+    columns.forEach((c, ci) => {
+      const td = document.createElement('td');
+      const inner = document.createElement('div');
+      inner.className = 'grid-cell-inner';
+      const syl = document.createElement('span');
+      syl.className = 'grid-syllable';
+      syl.textContent = cellFn(r, c, ri, ci);
+      inner.appendChild(syl);
+      td.appendChild(inner);
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
+function renderGunitaGrid() {
+  const container = $('render-gunita-grid');
+  if (!container) return;
+  const { consonants, vowelSigns } = SYLLABIC_TEMPLATES.kannada;
+  buildAksharaGrid(container, consonants, vowelSigns.map(v => v.sign || '—'), (c, sign) => sign === '—' ? c : c + sign, { corner: 'ಕ × ಮಾತ್ರೆ' });
+}
+
+function renderConjunctsGrid() {
+  const container = $('render-conjuncts-grid');
+  if (!container) return;
+  const lines = testSet.conjuncts.map(l => l.split(/\s+/).filter(Boolean));
+  if (!lines.length || !lines[0].length) return;
+  const second = lines[0].map(cj => cj[cj.length - 1]);
+  const rows = lines.map(cells => {
+    const firstCell = cells[0];
+    const idx = firstCell.indexOf('್');
+    return idx > 0 ? firstCell[idx - 1] : firstCell[0];
+  });
+  buildAksharaGrid(container, rows, second, (base, sec) => base + '್' + sec, { corner: '×', compact: true });
+}
+
 // ── Initialize with default font ──────────────────────────
 window.addEventListener('load', () => {
   applyUrlState();
@@ -2176,6 +3767,8 @@ window.addEventListener('load', () => {
   if (state.currentFont) applyUrlState();
   updateCompareSelects();
   updateUrl();
+  restorePersistedFonts();
+  initContextEngine();
 });
 
 // ── Close sidebar on resize to desktop ───────────────────
