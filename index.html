@@ -94,6 +94,18 @@
       </div>
     </div>
 
+    <div class="source-block">
+      <div class="source-title">System fonts</div>
+      <div class="source-row">
+        <button class="btn" id="system-font-btn">Browse installed fonts</button>
+      </div>
+      <div class="source-row" id="system-fonts-row" hidden>
+        <select id="system-font-select" class="source-select"></select>
+        <button class="btn" id="system-font-load">Load</button>
+      </div>
+      <div class="source-hint">Chrome / Edge only · choose from your device</div>
+    </div>
+
     <div class="source-status" id="source-status"></div>
   </div>
 
@@ -206,6 +218,7 @@
       <span class="export-hint">Export</span>
       <button class="btn export-btn" id="export-png-btn" title="Save the active tab as a PNG image">PNG</button>
       <button class="btn export-btn" id="export-print-btn" title="Open a print window with every tab (browser → Save as PDF)">Print / PDF</button>
+      <button class="btn export-btn" id="feedback-btn" title="Designer → tester feedback workflow">Feedback ▸<span id="fb-count" hidden>0</span></button>
       <span class="export-note">PNG saves the active tab · Print/PDF exports all tabs</span>
     </div>
 
@@ -233,6 +246,7 @@
       <button class="tab-btn" data-tab="decompose">Decompose</button>
       <button class="tab-btn" data-tab="font-rules">Font Rules</button>
       <button class="tab-btn" data-tab="waterfall">Waterfall</button>
+      <button class="tab-btn" data-tab="hinting">Hinting</button>
       <button class="tab-btn" data-tab="custom">Custom</button>
     </div>
 
@@ -493,6 +507,13 @@
           <span class="section-desc">Extended vocabulary with complex conjuncts</span>
         </div>
         <div class="test-text" id="render-words2" style="line-height:1.9"></div>
+      </div>
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Size Ladder</span>
+          <span class="section-desc">Same text at descending sizes — judge colour and spacing at a glance</span>
+        </div>
+        <div id="render-words-ladder"></div>
       </div>
     </div>
 
@@ -1204,9 +1225,32 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Waterfall</span>
-          <span class="section-desc">Size progression</span>
+          <span class="section-desc">Size progression — drag the range, type a sample, or click any line to edit it</span>
+        </div>
+        <div class="waterfall-toolbar">
+          <label class="wf-ctl">Min <span id="wf-min-val" class="wf-num">8px</span>
+            <input type="range" id="wf-min" min="6" max="60" step="1" value="8">
+          </label>
+          <label class="wf-ctl">Max <span id="wf-max-val" class="wf-num">96px</span>
+            <input type="range" id="wf-max" min="12" max="140" step="1" value="96">
+          </label>
+          <label class="wf-ctl wf-text">Sample
+            <input type="text" id="wf-text" value="ಕನ್ನಡ ಭಾಷೆ ಕರ್ನಾಟಕ">
+          </label>
+          <button class="btn" id="wf-reset" title="Restore edited lines to the shared sample">Reset lines</button>
         </div>
         <div id="render-waterfall"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-hinting">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Hinting</span>
+          <span class="section-desc">Fine pixel sizes — where screen rendering is decided</span>
+        </div>
+        <div id="render-hinting"></div>
+        <div class="hinting-ua" id="hinting-ua"></div>
       </div>
     </div>
 
@@ -1253,6 +1297,23 @@
       <button class="tour-next" id="tour-next" type="button">Continue →</button>
     </div>
   </div>
+</div>
+
+<!-- FEEDBACK DRAWER -->
+<div class="fb-drawer" id="fb-drawer" role="dialog" aria-label="Feedback workflow" hidden>
+  <div class="fb-head">
+    <div>
+      <span class="fb-title">Feedback</span>
+      <span class="fb-sub">Designer → Tester proofing loop</span>
+    </div>
+    <button class="fb-close" id="fb-close" type="button">✕</button>
+  </div>
+  <div class="fb-mode">
+    <button class="fb-mode-btn active" id="fb-mode-designer" type="button">Designer</button>
+    <button class="fb-mode-btn" id="fb-mode-tester" type="button">Tester</button>
+  </div>
+  <div class="fb-body" id="fb-body"></div>
+  <div class="fb-foot" id="fb-foot"></div>
 </div>
 
 <script>
@@ -1617,8 +1678,7 @@ const testSet = {
   paragraph: "ಕನ್ನಡ ಭಾಷೆಯು ದ್ರಾವಿಡ ಭಾಷಾ ಕುಟುಂಬಕ್ಕೆ ಸೇರಿದ ಒಂದು ಪ್ರಮುಖ ಭಾಷೆ. ಇದು ಕರ್ನಾಟಕ ರಾಜ್ಯದ ಅಧಿಕೃತ ಭಾಷೆಯಾಗಿದ್ದು, ಸರಿಸುಮಾರು ನಾಲ್ಕು ಕೋಟಿ ಜನರು ಈ ಭಾಷೆಯನ್ನು ಮಾತನಾಡುತ್ತಾರೆ. ಕನ್ನಡ ಲಿಪಿಯು ಬ್ರಾಹ್ಮಿ ಲಿಪಿಯಿಂದ ವಿಕಸನಗೊಂಡಿದ್ದು, ಇದರಲ್ಲಿ ೪೯ ಅಕ್ಷರಗಳಿವೆ. ಕನ್ನಡ ಸಾಹಿತ್ಯಕ್ಕೆ ಎಂಟು ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿಗಳು ಲಭಿಸಿದ್ದು, ಇದು ಭಾರತದ ಯಾವುದೇ ಭಾಷೆಗೆ ದೊರೆತ ಅತ್ಯಧಿಕ ಸಂಖ್ಯೆ. ಕವಿರಾಜಮಾರ್ಗ ಕನ್ನಡ ಸಾಹಿತ್ಯದ ಮೊದಲ ಲಭ್ಯ ಗ್ರಂಥ."
 };
 
-const waterfallSizes = [12, 14, 18, 24, 32, 48, 64];
-const waterfallText = "ಕನ್ನಡ ಭಾಷೆ";
+const waterfallState = { min: 8, max: 96, text: "ಕನ್ನಡ ಭಾಷೆ ಕರ್ನಾಟಕ", edited: new Map() };
 
 // ── Kannada Unicode Block (U+0C80–U+0CFF) ──────────────────
 const kannadaUnicode = [
@@ -1859,13 +1919,21 @@ const allTestTexts = () => document.querySelectorAll('.test-text');
 // ── renderer ──────────────────────────────────────────────
 let waterfallItems = [];
 
+function wfSizes() {
+  const sizes = [];
+  const steps = [1, 2, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48];
+  let s = waterfallState.min, i = 0;
+  while (s <= waterfallState.max) { sizes.push(s); s += steps[i % steps.length]; i++; }
+  return sizes;
+}
+
 function renderWaterfall() {
   const container = $('render-waterfall');
   if (!container) return;
   container.innerHTML = '';
   waterfallItems = [];
 
-  waterfallSizes.forEach(size => {
+  wfSizes().forEach(size => {
     const row = document.createElement('div');
     row.className = 'waterfall-item';
 
@@ -1873,8 +1941,16 @@ function renderWaterfall() {
     sizeLabel.className = 'waterfall-size';
     sizeLabel.textContent = size + 'px';
 
-    const textEl = makeTestEl('span', waterfallText);
+    const textEl = makeTestEl('span', waterfallState.edited.get(size) || waterfallState.text);
     textEl.style.fontSize = size + 'px';
+    textEl.contentEditable = 'true';
+    textEl.title = 'Click to edit this line';
+    textEl.dataset.size = size;
+    textEl.addEventListener('blur', () => {
+      const v = (textEl.textContent || '').trim();
+      if (v) waterfallState.edited.set(size, v);
+      else waterfallState.edited.delete(size);
+    });
 
     row.appendChild(sizeLabel);
     row.appendChild(textEl);
@@ -1883,6 +1959,25 @@ function renderWaterfall() {
   });
 
   updateWaterfall();
+}
+
+function updateWaterfall() {
+  if (waterfallItems.length === 0) return;
+  const feat = buildFeatureSettings();
+  waterfallItems.forEach(txt => {
+    if (state.currentFont) {
+      txt.style.fontFamily = `'${state.currentFont}', sans-serif`;
+    }
+    txt.style.lineHeight = 1.2;
+    txt.style.letterSpacing = '0.02em';
+    txt.style.fontFeatureSettings = feat;
+    if (state.isVariable) {
+      txt.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+      txt.style.fontWeight = state.fontWeight;
+    } else {
+      txt.style.fontWeight = '';
+    }
+  });
 }
 
 function applyFont(fontFamily) {
@@ -1895,6 +1990,7 @@ function applyFont(fontFamily) {
   });
   applyFontToAll();
   updateWaterfall();
+  refreshLadderAndHinting();
   renderDecompose();
   if (fontGlyphs.length > 0) renderGlyphMap();
 }
@@ -1961,6 +2057,7 @@ function applyControls() {
   $('st-ls').textContent = ls.toFixed(3) + 'em';
   $('st-lig').textContent = state.ligatures ? 'on' : 'off';
   updateWaterfall();
+  refreshLadderAndHinting();
 }
 
 function makeTestEl(tag, text) {
@@ -2061,28 +2158,11 @@ function renderContent() {
   parseFontMetadata(state.currentFont);
   renderDecompose();
   renderWaterfall();
+  renderWordsLadder();
+  renderHinting();
   renderFontRules();
   updateCompareSelects();
   buildProfile();
-}
-
-function updateWaterfall() {
-  if (waterfallItems.length === 0) return;
-  const feat = buildFeatureSettings();
-  waterfallItems.forEach(txt => {
-    if (state.currentFont) {
-      txt.style.fontFamily = `'${state.currentFont}', sans-serif`;
-    }
-    txt.style.lineHeight = 1.2;
-    txt.style.letterSpacing = '0.02em';
-    txt.style.fontFeatureSettings = feat;
-    if (state.isVariable) {
-      txt.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
-      txt.style.fontWeight = state.fontWeight;
-    } else {
-      txt.style.fontWeight = '';
-    }
-  });
 }
 
 // ── Glyph Coverage ────────────────────────────────────────
@@ -2752,7 +2832,7 @@ async function loadRemoteFont(entry) {
   return { family, name: entry.name, buffer };
 }
 
-async function activateFontRecord(rec, isVariable) {
+async function activateFontRecord(rec, isVariable, skipPersist) {
   fontBuffers.set(rec.family, rec.buffer);
   loadedFontBuffer = rec.buffer;
   state.currentFont = rec.family;
@@ -2763,7 +2843,7 @@ async function activateFontRecord(rec, isVariable) {
   const record = { fontFamily: rec.family, name: rec.name, timestamp: ts, source: rec.source || 'remote' };
   state.versions.unshift(record);
   if (state.versions.length > 8) state.versions.pop();
-  saveFontToDB({ ...record, buffer: rec.buffer });
+  if (!skipPersist) saveFontToDB({ ...record, buffer: rec.buffer });
   renderVersionList();
   $('empty-state').style.display = 'none';
   $('test-area').classList.add('visible');
@@ -2834,6 +2914,762 @@ $('gf-load-btn').addEventListener('click', handleGoogleLoad);
 $('gf-name').addEventListener('keydown', e => { if (e.key === 'Enter') handleGoogleLoad(); });
 $('remote-load-btn').addEventListener('click', handleRemoteLoad);
 populateRemoteCatalog();
+
+
+// ── Waterfall toolbar (min / max / sample / edit lines) ───
+$('wf-min').addEventListener('input', e => {
+  waterfallState.min = +e.target.value;
+  if (waterfallState.max < waterfallState.min) {
+    waterfallState.max = waterfallState.min;
+    $('wf-max').value = waterfallState.max;
+  }
+  $('wf-min-val').textContent = waterfallState.min + 'px';
+  $('wf-max-val').textContent = waterfallState.max + 'px';
+  renderWaterfall();
+});
+$('wf-max').addEventListener('input', e => {
+  waterfallState.max = +e.target.value;
+  if (waterfallState.min > waterfallState.max) {
+    waterfallState.min = waterfallState.max;
+    $('wf-min').value = waterfallState.min;
+  }
+  $('wf-min-val').textContent = waterfallState.min + 'px';
+  $('wf-max-val').textContent = waterfallState.max + 'px';
+  renderWaterfall();
+});
+$('wf-text').addEventListener('input', e => {
+  waterfallState.text = e.target.value;
+  waterfallState.edited.clear();
+  renderWaterfall();
+});
+$('wf-reset').addEventListener('click', () => {
+  waterfallState.edited.clear();
+  waterfallState.text = $('wf-text').value;
+  renderWaterfall();
+});
+
+// ── Words Size Ladder ─────────────────────────────────────
+let ladderItems = [];
+const LADDER_SIZES = [48, 36, 28, 22, 18, 14, 12];
+
+function styleCustomEl(el, fontSize) {
+  if (state.currentFont) el.style.fontFamily = `'${state.currentFont}', sans-serif`;
+  if (state.isVariable) {
+    el.style.fontVariationSettings = `'wght' ${state.fontWeight}`;
+    el.style.fontWeight = state.fontWeight;
+  } else {
+    el.style.fontWeight = '';
+  }
+  if (fontSize) el.style.fontSize = fontSize + 'px';
+  el.style.fontFeatureSettings = buildFeatureSettings();
+}
+
+function renderWordsLadder() {
+  const host = $('render-words-ladder');
+  if (!host) return;
+  host.innerHTML = '';
+  ladderItems = [];
+  const word = (testSet.words[0] || '').trim();
+  if (!word) return;
+  LADDER_SIZES.forEach(size => {
+    const row = document.createElement('div');
+    row.className = 'ladder-row';
+    const lz = document.createElement('span');
+    lz.className = 'lz';
+    lz.textContent = size + 'px';
+    const tx = document.createElement('span');
+    tx.className = 'ladder-text';
+    tx.dataset.size = size;
+    tx.textContent = word;
+    styleCustomEl(tx, size);
+    ladderItems.push(tx);
+    row.appendChild(lz);
+    row.appendChild(tx);
+    host.appendChild(row);
+  });
+}
+
+function refreshLadderAndHinting() {
+  ladderItems.forEach(el => styleCustomEl(el, +el.dataset.size));
+  hintingItems.forEach(el => styleCustomEl(el, +el.dataset.size));
+}
+
+// ── Hinting panel ─────────────────────────────────────────
+let hintingItems = [];
+const HINTING_SIZES = [9, 10, 11, 12, 13, 14, 15, 16, 18];
+const HINTING_TEXT = 'ಕನ್ನಡ ಭಾಷೆ ಕರ್ನಾಟಕ ೦೧೨೩';
+
+function renderHinting() {
+  const host = $('render-hinting');
+  if (!host) return;
+  host.innerHTML = '';
+  hintingItems = [];
+  HINTING_SIZES.forEach(size => {
+    const row = document.createElement('div');
+    row.className = 'hint-row';
+    const hz = document.createElement('span');
+    hz.className = 'hz';
+    hz.textContent = size + 'px';
+    const tx = document.createElement('span');
+    tx.className = 'hint-text';
+    tx.dataset.size = size;
+    tx.textContent = HINTING_TEXT;
+    styleCustomEl(tx, size);
+    hintingItems.push(tx);
+    row.appendChild(hz);
+    row.appendChild(tx);
+    host.appendChild(row);
+  });
+  const ua = $('hinting-ua');
+  if (ua) ua.textContent = navigator.userAgent + ' · hinting outcome depends on the OS & browser rendering engine';
+}
+
+// ── System fonts (Local Font Access) ──────────────────────
+async function handleSystemFonts() {
+  const row = $('system-fonts-row');
+  const sel = $('system-font-select');
+  try {
+    if (!window.queryLocalFonts) throw new Error('Local Font Access API unavailable');
+    const fonts = await window.queryLocalFonts();
+    const sorted = fonts.slice().sort((a, b) => {
+      const ka = /kannada/i.test((a.family || '') + ' ' + (a.fullName || '')) ? 0 : 1;
+      const kb = /kannada/i.test((b.family || '') + ' ' + (b.fullName || '')) ? 0 : 1;
+      return ka - kb || (a.family || '').localeCompare(b.family || '');
+    });
+    sel.innerHTML = '';
+    sorted.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f.postscriptName;
+      opt.textContent = f.fullName || f.family || f.postscriptName;
+      sel.appendChild(opt);
+    });
+    if (!sorted.length) {
+      setSourceStatus('No fonts found on this device', 'error');
+      return;
+    }
+    row.hidden = false;
+    setSourceStatus(`${sorted.length} system fonts available`, 'ok');
+  } catch (e) {
+    row.hidden = true;
+    setSourceStatus('System font browsing needs Chrome/Edge with Local Font Access enabled', 'error');
+    console.warn('System fonts:', e.message);
+  }
+}
+
+async function handleSystemFontLoad() {
+  const sel = $('system-font-select');
+  if (!sel || !sel.value) return;
+  setSourceStatus('Loading system font…');
+  try {
+    if (!window.queryLocalFonts) throw new Error('Local Font Access API unavailable');
+    const fonts = await window.queryLocalFonts();
+    const match = fonts.find(f => f.postscriptName === sel.value);
+    if (!match) throw new Error('Selected font not found');
+    const displayName = match.fullName || match.family || match.postscriptName;
+    const family = slugFamily(match.postscriptName, 'Sys_');
+    if (!fontBuffers.has(family)) {
+      const buffer = await match.arrayBuffer();
+      await registerFontFace(family, buffer);
+      fontBuffers.set(family, buffer);
+    }
+    await activateFontRecord({ family, name: displayName, buffer: fontBuffers.get(family), source: 'System' }, false, true);
+  } catch (e) {
+    setSourceStatus('Failed to load system font: ' + e.message, 'error');
+    console.warn('System font load:', e.message);
+  }
+}
+
+$('system-font-btn').addEventListener('click', handleSystemFonts);
+$('system-font-load').addEventListener('click', handleSystemFontLoad);
+
+// ── Feedback workflow (Designer → Tester) ─────────────────
+const FB_KEY = 'ttk_feedback_v1';
+let fbQuestionSeq = 0;
+const feedbackState = {
+  mode: 'designer',
+  questions: [],
+  answers: {},
+  annotations: [],
+  annTool: 'pen',
+  annColor: '#e11d48'
+};
+let annDraft = null;
+
+function downloadTextFile(name, content) {
+  const blob = new Blob([content], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+function fbLoad() {
+  try {
+    const raw = localStorage.getItem(FB_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (Array.isArray(data.questions)) feedbackState.questions = data.questions;
+    if (data.answers && typeof data.answers === 'object') feedbackState.answers = data.answers;
+    if (Array.isArray(data.annotations)) feedbackState.annotations = data.annotations;
+    fbQuestionSeq = feedbackState.questions.reduce((m, q) => Math.max(m, (parseInt(q.id || '0', 10) || 0)), 0);
+  } catch (e) {}
+}
+function fbSave() {
+  try {
+    localStorage.setItem(FB_KEY, JSON.stringify({ questions: feedbackState.questions, answers: feedbackState.answers, annotations: feedbackState.annotations }));
+  } catch (e) {}
+}
+function updateFbCount() {
+  const n = feedbackState.questions.length;
+  const c = $('fb-count');
+  if (c) { c.hidden = n === 0; c.textContent = n; }
+}
+
+function fbQuestionEl(q, i, onRemove) {
+  const card = document.createElement('div');
+  card.className = 'fb-question';
+  const row = document.createElement('div');
+  row.className = 'fb-q-row';
+  const typeSel = document.createElement('select');
+  [['text', 'Free text'], ['rating', 'Rating 1–10'], ['choice', 'Multiple choice']].forEach(([t, label]) => {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = label;
+    if (t === q.type) opt.selected = true;
+    typeSel.appendChild(opt);
+  });
+  typeSel.addEventListener('change', () => { q.type = typeSel.value; fbSave(); fbRender(); });
+  const qText = document.createElement('input');
+  qText.type = 'text';
+  qText.value = q.q;
+  qText.placeholder = 'Question text…';
+  qText.addEventListener('input', () => { q.q = qText.value; fbSave(); });
+  const rm = document.createElement('button');
+  rm.type = 'button';
+  rm.className = 'fb-q-remove';
+  rm.title = 'Remove question';
+  rm.textContent = '✕';
+  rm.addEventListener('click', onRemove);
+  row.appendChild(typeSel);
+  row.appendChild(qText);
+  row.appendChild(rm);
+  card.appendChild(row);
+  if (q.type === 'choice') {
+    const opts = document.createElement('div');
+    opts.className = 'fb-q-options';
+    (q.options || []).forEach((o, j) => {
+      const chip = document.createElement('span');
+      chip.className = 'fb-q-option';
+      chip.textContent = o;
+      const x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'fb-q-remove';
+      x.style.cssText = 'padding:0 4px;margin-left:4px;';
+      x.textContent = '✕';
+      x.title = 'Remove option';
+      x.addEventListener('click', () => { q.options.splice(j, 1); fbSave(); fbRender(); });
+      chip.appendChild(x);
+      opts.appendChild(chip);
+    });
+    const addOpt = document.createElement('input');
+    addOpt.type = 'text';
+    addOpt.placeholder = 'Add option… (Enter)';
+    addOpt.style.cssText = 'flex:1;min-width:120px;';
+    addOpt.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && addOpt.value.trim()) {
+        q.options = q.options || [];
+        q.options.push(addOpt.value.trim());
+        addOpt.value = '';
+        fbSave();
+        fbRender();
+      }
+    });
+    opts.appendChild(addOpt);
+    card.appendChild(opts);
+  }
+  return card;
+}
+
+function fbJsonImport(input, mode) {
+  input.addEventListener('change', async () => {
+    try {
+      const data = JSON.parse(await input.files[0].text());
+      if (Array.isArray(data.questions)) {
+        feedbackState.questions = data.questions;
+        fbQuestionSeq = feedbackState.questions.reduce((m, q) => Math.max(m, (parseInt(q.id || '0', 10) || 0)), 0);
+        fbSave();
+        fbRender();
+      } else if (data.answers && typeof data.answers === 'object') {
+        feedbackState.answers = data.answers;
+        if (Array.isArray(data.annotations)) feedbackState.annotations = data.annotations;
+        fbSave();
+        fbRender();
+        annRedraw();
+      } else {
+        alert('That file does not contain a questions or answers payload.');
+      }
+    } catch (e) {
+      alert('Could not read that file: ' + e.message);
+    }
+    input.value = '';
+  });
+}
+
+function fbImportButton(label) {
+  const lbl = document.createElement('label');
+  lbl.className = 'btn';
+  lbl.style.cssText = 'cursor:pointer;';
+  lbl.textContent = label;
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.json,application/json';
+  inp.hidden = true;
+  fbJsonImport(inp, 'mixed');
+  lbl.appendChild(inp);
+  return lbl;
+}
+
+function renderDesignerMode(body, foot) {
+  const qH = document.createElement('div');
+  qH.className = 'fb-h2';
+  qH.textContent = 'Build the questionnaire';
+  body.appendChild(qH);
+  const list = document.createElement('div');
+  if (feedbackState.questions.length === 0) {
+    const empty = document.createElement('p');
+    empty.style.cssText = 'font-size:12px;color:var(--muted);';
+    empty.textContent = 'No questions yet. Add your first proofing question below.';
+    list.appendChild(empty);
+  } else {
+    feedbackState.questions.forEach((q, i) => {
+      list.appendChild(fbQuestionEl(q, i, () => { feedbackState.questions.splice(i, 1); fbSave(); fbRender(); }));
+    });
+  }
+  body.appendChild(list);
+
+  const fH = document.createElement('div');
+  fH.className = 'fb-h2';
+  fH.textContent = 'Add a question';
+  body.appendChild(fH);
+  const qField = document.createElement('div');
+  qField.className = 'fb-field';
+  const qLbl = document.createElement('label');
+  qLbl.textContent = 'Question';
+  const inp = document.createElement('input');
+  inp.type = 'text';
+  inp.id = 'fb-new-q';
+  inp.placeholder = 'e.g. How does the font feel at small sizes?';
+  qField.appendChild(qLbl);
+  qField.appendChild(inp);
+  body.appendChild(qField);
+  const tField = document.createElement('div');
+  tField.className = 'fb-field';
+  const tLbl = document.createElement('label');
+  tLbl.textContent = 'Type';
+  const tsel = document.createElement('select');
+  tsel.id = 'fb-new-type';
+  [['text', 'Free text'], ['rating', 'Rating 1–10'], ['choice', 'Multiple choice']].forEach(([t, label]) => {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = label;
+    tsel.appendChild(opt);
+  });
+  tField.appendChild(tLbl);
+  tField.appendChild(tsel);
+  body.appendChild(tField);
+  const optField = document.createElement('div');
+  optField.className = 'fb-field';
+  optField.hidden = true;
+  const oLbl = document.createElement('label');
+  oLbl.textContent = 'Options (comma separated)';
+  const oinp = document.createElement('input');
+  oinp.type = 'text';
+  oinp.id = 'fb-new-opts';
+  oinp.placeholder = 'Good, OK, Weak';
+  optField.appendChild(oLbl);
+  optField.appendChild(oinp);
+  body.appendChild(optField);
+  tsel.addEventListener('change', () => { optField.hidden = tsel.value !== 'choice'; });
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn primary-btn';
+  addBtn.textContent = '+ Add question';
+  addBtn.addEventListener('click', () => {
+    const q = inp.value.trim();
+    if (!q) { inp.focus(); return; }
+    const type = tsel.value;
+    const options = type === 'choice' ? oinp.value.split(',').map(s => s.trim()).filter(Boolean) : [];
+    feedbackState.questions.push({ id: 'q' + (++fbQuestionSeq), type, q, options });
+    inp.value = '';
+    oinp.value = '';
+    fbSave();
+    fbRender();
+  });
+  const exportBtn = document.createElement('button');
+  exportBtn.className = 'btn';
+  exportBtn.textContent = 'Export questions ▾';
+  exportBtn.title = 'Download the questionnaire as JSON to share with testers';
+  exportBtn.addEventListener('click', () => {
+    downloadTextFile('typetest-feedback.json', JSON.stringify({ format: 'typetest-feedback', version: 1, questions: feedbackState.questions }, null, 2));
+  });
+  foot.appendChild(addBtn);
+  foot.appendChild(exportBtn);
+  foot.appendChild(fbImportButton('Import questions'));
+}
+
+function renderTesterMode(body, foot) {
+  const fH = document.createElement('div');
+  fH.className = 'fb-h2';
+  fH.textContent = 'Proofing';
+  body.appendChild(fH);
+  const note = document.createElement('div');
+  note.className = 'fb-note';
+  const cur = state.versions.find(v => v.fontFamily === state.currentFont);
+  note.textContent = 'Testing font: ' + (cur ? cur.name : (state.currentFont || 'none loaded yet'));
+  body.appendChild(note);
+
+  if (feedbackState.questions.length === 0) {
+    const p = document.createElement('p');
+    p.style.cssText = 'font-size:12px;color:var(--muted);';
+    p.textContent = 'No questions yet — ask the designer to build and share the questionnaire, or import the JSON below.';
+    body.appendChild(p);
+    body.appendChild(fbImportButton('Import questions JSON'));
+  } else {
+    const aH = document.createElement('div');
+    aH.className = 'fb-h2';
+    aH.textContent = 'Questions';
+    body.appendChild(aH);
+    feedbackState.questions.forEach((q, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'fb-answer';
+      const meta = document.createElement('div');
+      meta.className = 'qa-meta';
+      meta.textContent = 'Q' + (i + 1) + ' · ' + (q.type === 'text' ? 'Free text' : q.type === 'rating' ? 'Rating 1–10' : 'Multiple choice');
+      const qt = document.createElement('div');
+      qt.className = 'qa-q';
+      qt.textContent = q.q;
+      wrap.appendChild(meta);
+      wrap.appendChild(qt);
+      const qid = q.id;
+      if (q.type === 'text') {
+        const ta = document.createElement('textarea');
+        ta.placeholder = 'Your notes…';
+        ta.value = feedbackState.answers[qid] || '';
+        ta.addEventListener('input', () => { feedbackState.answers[qid] = ta.value; fbSave(); });
+        wrap.appendChild(ta);
+      } else if (q.type === 'rating') {
+        const rating = document.createElement('div');
+        rating.className = 'fb-rating';
+        for (let v = 1; v <= 10; v++) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'fb-star' + (Number(feedbackState.answers[qid]) === v ? ' on' : '');
+          b.textContent = v;
+          b.title = v + ' / 10';
+          b.addEventListener('click', () => {
+            feedbackState.answers[qid] = Number(feedbackState.answers[qid]) === v ? null : v;
+            fbSave();
+            fbRender();
+          });
+          rating.appendChild(b);
+        }
+        wrap.appendChild(rating);
+      } else {
+        const choice = document.createElement('div');
+        choice.className = 'fb-choice';
+        (q.options || []).forEach(o => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'fb-choice-btn' + (feedbackState.answers[qid] === o ? ' on' : '');
+          b.textContent = o;
+          b.addEventListener('click', () => {
+            feedbackState.answers[qid] = feedbackState.answers[qid] === o ? null : o;
+            fbSave();
+            fbRender();
+          });
+          choice.appendChild(b);
+        });
+        wrap.appendChild(choice);
+      }
+      body.appendChild(wrap);
+    });
+  }
+
+  const aH = document.createElement('div');
+  aH.className = 'fb-h2';
+  aH.textContent = 'Annotate the layouts';
+  body.appendChild(aH);
+  const tools = document.createElement('div');
+  tools.className = 'fb-tools';
+  const mkTool = (id, label) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'fb-tool' + (feedbackState.annTool === id ? ' active' : '');
+    b.textContent = label;
+    b.addEventListener('click', () => { feedbackState.annTool = id; fbRender(); });
+    return b;
+  };
+  tools.appendChild(mkTool('pen', '✏ Pen'));
+  tools.appendChild(mkTool('box', '▭ Box'));
+  const colors = document.createElement('div');
+  colors.className = 'fb-colors';
+  ['#e11d48', '#2563eb', '#16a34a', '#f59e0b', '#000000'].forEach(c => {
+    const sw = document.createElement('span');
+    sw.className = 'fb-color' + (feedbackState.annColor === c ? ' active' : '');
+    sw.style.background = c;
+    sw.addEventListener('click', () => { feedbackState.annColor = c; fbRender(); });
+    colors.appendChild(sw);
+  });
+  tools.appendChild(colors);
+  body.appendChild(tools);
+  const clearBtn = document.createElement('button');
+  clearBtn.type = 'button';
+  clearBtn.className = 'btn fb-clear-ann';
+  clearBtn.textContent = 'Clear annotations';
+  clearBtn.addEventListener('click', () => {
+    feedbackState.annotations = [];
+    fbSave();
+    annRedraw();
+  });
+  body.appendChild(clearBtn);
+
+  const pdfBtn = document.createElement('button');
+  pdfBtn.className = 'btn primary-btn';
+  pdfBtn.textContent = 'Feedback PDF';
+  pdfBtn.title = 'Open a print window with the annotated layouts and the Q&A appendix';
+  pdfBtn.addEventListener('click', exportFeedbackPDF);
+  const expBtn = document.createElement('button');
+  expBtn.className = 'btn';
+  expBtn.textContent = 'Export answers ▾';
+  expBtn.addEventListener('click', () => {
+    downloadTextFile('typetest-answers.json', JSON.stringify({ format: 'typetest-answers', version: 1, answers: feedbackState.answers, annotations: feedbackState.annotations }, null, 2));
+  });
+  foot.appendChild(pdfBtn);
+  foot.appendChild(expBtn);
+  foot.appendChild(fbImportButton('Import answers'));
+}
+
+function fbRender() {
+  const body = $('fb-body');
+  const foot = $('fb-foot');
+  if (!body) return;
+  body.innerHTML = '';
+  foot.innerHTML = '';
+  const d = $('fb-mode-designer'), t = $('fb-mode-tester');
+  d.classList.toggle('active', feedbackState.mode === 'designer');
+  t.classList.toggle('active', feedbackState.mode === 'tester');
+  if (feedbackState.mode === 'designer') renderDesignerMode(body, foot);
+  else renderTesterMode(body, foot);
+  updateFbCount();
+}
+
+// ── Annotation overlays ───────────────────────────────────
+function annLayouts() {
+  return Array.from(document.querySelectorAll('.ctx-card'))
+    .map(card => card.querySelector('[class*="layout-"]'))
+    .filter(Boolean);
+}
+
+function annEnter() {
+  annLayouts().forEach(layout => {
+    layout.style.position = 'relative';
+    if (!layout.querySelector('.fb-svg')) {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.classList.add('fb-svg');
+      svg.setAttribute('viewBox', '0 0 1000 1000');
+      svg.setAttribute('preserveAspectRatio', 'none');
+      svg.addEventListener('pointerdown', annStart);
+      layout.appendChild(svg);
+    }
+  });
+  annRedraw();
+}
+
+function annExit() {
+  annLayouts().forEach(layout => {
+    const svg = layout.querySelector('.fb-svg');
+    if (svg) svg.remove();
+    layout.style.position = '';
+  });
+}
+
+function annRedraw() {
+  document.querySelectorAll('.fb-svg').forEach(svg => {
+    svg.innerHTML = '';
+    const card = svg.closest('.ctx-card');
+    if (!card) return;
+    feedbackState.annotations
+      .filter(a => a.card === card.id)
+      .forEach(a => {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', a.tool === 'box' ? 'rect' : 'path');
+        if (a.tool === 'box') {
+          el.setAttribute('x', a.rect[0]);
+          el.setAttribute('y', a.rect[1]);
+          el.setAttribute('width', a.rect[2]);
+          el.setAttribute('height', a.rect[3]);
+          el.setAttribute('rx', '8');
+          el.setAttribute('fill', a.color + '26');
+        } else {
+          el.setAttribute('d', 'M ' + a.d.map(p => p[0] + ' ' + p[1]).join(' L '));
+        }
+        el.setAttribute('stroke', a.color);
+        el.setAttribute('stroke-width', '5');
+        el.setAttribute('stroke-linecap', 'round');
+        el.setAttribute('stroke-linejoin', 'round');
+        svg.appendChild(el);
+      });
+  });
+}
+
+function annDraftToSvg(svg, draft) {
+  const old = svg.querySelector('.fb-draft');
+  if (old) old.remove();
+  const el = document.createElementNS('http://www.w3.org/2000/svg', draft.tool === 'box' ? 'rect' : 'path');
+  el.classList.add('fb-draft');
+  if (draft.tool === 'box') {
+    el.setAttribute('x', draft.rect[0]);
+    el.setAttribute('y', draft.rect[1]);
+    el.setAttribute('width', draft.rect[2]);
+    el.setAttribute('height', draft.rect[3]);
+    el.setAttribute('rx', '8');
+    el.setAttribute('fill', draft.color + '26');
+  } else {
+    el.setAttribute('d', 'M ' + draft.d.map(p => p[0] + ' ' + p[1]).join(' L '));
+  }
+  el.setAttribute('stroke', draft.color);
+  el.setAttribute('stroke-width', '5');
+  svg.appendChild(el);
+}
+
+function annCoords(ev, svg) {
+  const rect = svg.getBoundingClientRect();
+  const w = rect.width || svg.clientWidth || 1;
+  const h = rect.height || svg.clientHeight || 1;
+  return [(ev.clientX - rect.left) / w * 1000, (ev.clientY - rect.top) / h * 1000];
+}
+
+function annStart(e) {
+  if (feedbackState.mode !== 'tester') return;
+  const svg = e.currentTarget;
+  const rect = svg.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  e.preventDefault();
+  const [nx, ny] = annCoords(e, svg);
+  const card = svg.closest('.ctx-card');
+  const base = { card: card ? card.id : '', tool: feedbackState.annTool, color: feedbackState.annColor };
+  const move = ev => {
+    const [cx, cy] = annCoords(ev, svg);
+    if (feedbackState.annTool === 'pen') {
+      annDraft.d.push([cx, cy]);
+    } else {
+      const x = Math.min(nx, cx), y = Math.min(ny, cy);
+      annDraft.rect = [x, y, Math.abs(cx - nx), Math.abs(cy - ny)];
+    }
+    annDraftToSvg(svg, annDraft);
+  };
+  const up = () => {
+    svg.removeEventListener('pointermove', move);
+    svg.removeEventListener('pointerup', up);
+    if (feedbackState.annTool === 'pen') {
+      if (annDraft.d.length > 1) feedbackState.annotations.push(annDraft);
+    } else if (annDraft.rect[2] > 4 && annDraft.rect[3] > 4) {
+      feedbackState.annotations.push(annDraft);
+    }
+    annDraft = null;
+    fbSave();
+  };
+  if (feedbackState.annTool === 'pen') {
+    annDraft = { ...base, d: [[nx, ny]] };
+  } else {
+    annDraft = { ...base, rect: [nx, ny, 0, 0] };
+  }
+  svg.addEventListener('pointermove', move);
+  svg.addEventListener('pointerup', up);
+}
+
+function annSvgMarkup(cardId) {
+  const anns = feedbackState.annotations.filter(a => a.card === cardId);
+  let inner = '';
+  anns.forEach(a => {
+    if (a.tool === 'box') {
+      inner += `<rect x="${a.rect[0]}" y="${a.rect[1]}" width="${a.rect[2]}" height="${a.rect[3]}" rx="8" fill="${a.color}26" stroke="${a.color}" stroke-width="5"/>`;
+    } else {
+      inner += `<path d="M ${a.d.map(p => p[0] + ' ' + p[1]).join(' L ')}" stroke="${a.color}" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+    }
+  });
+  return `<svg class="fb-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;">${inner}</svg>`;
+}
+
+function exportFeedbackPDF() {
+  const cur = state.versions.find(v => v.fontFamily === state.currentFont);
+  const fontName = cur ? cur.name : (state.currentFont || 'none');
+  const when = new Date().toLocaleString();
+  let qaRows = '';
+  feedbackState.questions.forEach((q, i) => {
+    const a = feedbackState.answers[q.id];
+    const av = (a === undefined || a === null || a === '') ? '—' : a;
+    qaRows += `<div style="margin-bottom:12px;padding:10px 12px;border:1px solid #e2e4ec;border-radius:8px;">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#4361ee;font-weight:700;margin-bottom:3px;">Q${i + 1} · ${q.type === 'text' ? 'Free text' : q.type === 'rating' ? 'Rating 1–10' : 'Multiple choice'}</div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:4px;">${q.q.replace(/</g, '&lt;')}</div>
+      <div style="font-size:13px;">${String(av).replace(/</g, '&lt;')}</div></div>`;
+  });
+  const annotated = [];
+  feedbackState.annotations.forEach(a => { if (!annotated.includes(a.card)) annotated.push(a.card); });
+  let cardsHtml = '';
+  annotated.forEach(cardId => {
+    const node = document.getElementById(cardId);
+    if (!node) return;
+    const clone = node.cloneNode(true);
+    const layout = clone.querySelector('[class*="layout-"]');
+    if (layout) {
+      layout.style.position = 'relative';
+      const wrap = document.createElement('div');
+      wrap.innerHTML = annSvgMarkup(cardId);
+      layout.appendChild(wrap.firstChild);
+    }
+    cardsHtml += clone.outerHTML;
+  });
+  const extraCSS = `
+    .mock-card{break-inside:avoid;border:1px solid #e2e4ec;border-radius:10px;padding:12px;margin-bottom:14px;background:white}
+    .mock-actions,.mock-btn,.mock-tag{display:none!important}
+    .fb-svg{position:absolute;inset:0;width:100%;height:100%}
+    .fb-report{font-family:system-ui,sans-serif;color:#1a1a2e}
+    .fb-report h1{font-size:18px;margin-bottom:2px}
+    .fb-report .meta{font-size:11px;color:#6b7280;margin-bottom:14px}
+    .fb-report h2{font-size:13px;margin:16px 0 8px;text-transform:uppercase;letter-spacing:.08em;color:#4361ee}
+  `;
+  const report = `
+    <div class="fb-report">
+      <h1>Type Test — Kannada · Feedback report</h1>
+      <div class="meta">Font: ${fontName} · ${when}</div>
+      <h2>Annotations</h2>
+      ${cardsHtml || '<div style="font-size:12px;color:#6b7280">No annotations yet.</div>'}
+      <h2>Questions &amp; answers</h2>
+      ${qaRows || '<div style="font-size:12px;color:#6b7280">No questions in this session.</div>'}
+    </div>`;
+  buildPrintWindow(report, extraCSS);
+}
+
+function fbOpen() {
+  $('fb-drawer').hidden = false;
+  if (feedbackState.mode === 'tester') annEnter();
+  fbRender();
+}
+function fbClose() {
+  $('fb-drawer').hidden = true;
+  annExit();
+}
+$('feedback-btn').addEventListener('click', fbOpen);
+$('fb-close').addEventListener('click', fbClose);
+$('fb-mode-designer').addEventListener('click', () => { feedbackState.mode = 'designer'; annExit(); fbRender(); });
+$('fb-mode-tester').addEventListener('click', () => { feedbackState.mode = 'tester'; annEnter(); fbRender(); });
+
+fbLoad();
+updateFbCount();
 
 
 // ── Web Display / context engine ───────────────────────────
@@ -4422,7 +5258,7 @@ const tourSlides = [
     rail: 'ಸಂದರ್ಭ', tag: '08 · ಸಂದರ್ಭ · In context',
     title: 'In the wild',
     kn: 'ವೆಬ್ · ಪ್ರಿಂಟ್ · ಮೊಬೈಲ್ · ಡ್ಯಾಶ್ಬೋರ್ಡ್',
-    narrative: 'A font lives in layouts, not specimen sheets. The Web Display and Print tabs render real pages — hero headers, dashboards, phones and newspapers — all set in your font. See how it holds up in the wild.',
+    narrative: 'A font lives in layouts, not specimen sheets. The Web Display and Print tabs render real pages — hero headers, dashboards, phones and newspapers — all set in your font. See how it holds up in the wild. The Feedback workflow lets a designer hand you questions and you answer them with notes and on-layout annotations.',
     sampleLabel: 'Live · the same font in four places',
     sample() { return `<div class="tour-contexts" id="tour-ctxs"></div>`; },
     after(stage) {
@@ -4437,7 +5273,7 @@ const tourSlides = [
     narrative: 'You have seen the loop: load a font, read its profile, inspect the script, then judge it in context. Everything is one click away. Where would you like to start?',
     sampleLabel: 'Your path forward',
     sample() {
-      return `<div class="ts-body" style="color:var(--muted);font-size:14px">1. Load a font → 2. Read its Overview profile → 3. Walk Alphabet → Gunitakshara → Conjuncts → 4. Try Waterfall & Hinting → 5. See it live in Web &amp; Print.</div>`;
+      return `<div class="ts-body" style="color:var(--muted);font-size:14px">1. Load a font → 2. Read its Overview profile → 3. Walk Alphabet → Gunitakshara → Conjuncts → 4. Try Waterfall &amp; Hinting → 5. See it live in Web &amp; Print → 6. Send feedback with the Feedback workflow.</div>`;
     },
     cta: `<div class="tour-cta">
       <button class="btn primary-btn" id="tour-go-profile" type="button">View my profile</button>
