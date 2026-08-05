@@ -232,6 +232,7 @@
       <button class="tab-btn" data-tab="gunita">Gunitakshara</button>
       <button class="tab-btn" data-tab="conjuncts">Conjuncts</button>
       <button class="tab-btn" data-tab="words">Words</button>
+      <button class="tab-btn" data-tab="lettering">Lettering</button>
       <button class="tab-btn" data-tab="vachana">Vachana</button>
       <button class="tab-btn" data-tab="kuvempu">Kuvempu</button>
       <button class="tab-btn" data-tab="folk">Folk Song</button>
@@ -514,6 +515,16 @@
           <span class="section-desc">Same text at descending sizes — judge colour and spacing at a glance</span>
         </div>
         <div id="render-words-ladder"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-lettering">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Lettering</span>
+          <span class="section-desc">Curated Kannada letter combinations — the font's personality at a glance</span>
+        </div>
+        <div id="render-lettering"></div>
       </div>
     </div>
 
@@ -1990,7 +2001,7 @@ function applyFont(fontFamily) {
   });
   applyFontToAll();
   updateWaterfall();
-  refreshLadderAndHinting();
+  refreshSpecimenFonts();
   renderDecompose();
   if (fontGlyphs.length > 0) renderGlyphMap();
 }
@@ -2057,7 +2068,7 @@ function applyControls() {
   $('st-ls').textContent = ls.toFixed(3) + 'em';
   $('st-lig').textContent = state.ligatures ? 'on' : 'off';
   updateWaterfall();
-  refreshLadderAndHinting();
+  refreshSpecimenFonts();
 }
 
 function makeTestEl(tag, text) {
@@ -2160,6 +2171,7 @@ function renderContent() {
   renderWaterfall();
   renderWordsLadder();
   renderHinting();
+  renderLettering();
   renderFontRules();
   updateCompareSelects();
   buildProfile();
@@ -2989,9 +3001,55 @@ function renderWordsLadder() {
   });
 }
 
-function refreshLadderAndHinting() {
+// ── Lettering specimen ────────────────────────────────────
+const LETTERING_ITEMS = [
+  { text: 'ಕನ್ನಡ', size: 96, caption: 'ಕನ್ನಡ · the script itself' },
+  { text: 'ಅಕ್ಷರಶಿಲ್ಪ', size: 72, caption: 'ಅಕ್ಷರ + ಶಿಲ್ಪ · letter-sculpture' },
+  { text: 'ಸಂಚಯ', size: 88, caption: 'ಸಂಚಯ · a collection' },
+  { text: 'ಗುಣಿತಾಕ್ಷರ', size: 56, caption: 'ಗುಣಿತಾಕ್ಷರ · the syllable matrix' },
+  { text: 'ಒತ್ತಕ್ಷರ', size: 56, caption: 'ಒತ್ತಕ್ಷರ · conjunct forms' },
+  { text: 'ನಮ್ಮ ಭಾಷೆ ನಮ್ಮ ಹೆಮ್ಮೆ', size: 44, caption: 'ನಮ್ಮ ಭಾಷೆ · a sentence of pride' },
+  { text: 'ಸುಂದರ ಕರ್ನಾಟಕ', size: 48, caption: 'ಸುಂದರ · beautiful Karnataka' },
+  { text: 'ಮಾತೃಭಾಷೆ', size: 64, caption: 'ಮಾತೃಭಾಷೆ · mother tongue' },
+  { text: 'ಪ್ರೀತಿ', size: 80, caption: 'ಪ್ರೀತಿ · love' },
+  { text: 'ಅಕ್ಷರಗಳು', size: 68, caption: 'ಅಕ್ಷರಗಳು · letters' }
+];
+let letteringItems = [];
+
+function renderLettering() {
+  const host = $('render-lettering');
+  if (!host) return;
+  host.innerHTML = '';
+  letteringItems = [];
+  const grid = document.createElement('div');
+  grid.className = 'lettering-grid';
+  LETTERING_ITEMS.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'lettering-card';
+    const idx = document.createElement('span');
+    idx.className = 'lettering-idx';
+    idx.textContent = String(i + 1).padStart(2, '0');
+    const tx = document.createElement('span');
+    tx.className = 'lettering-text';
+    tx.dataset.size = item.size;
+    tx.textContent = item.text;
+    styleCustomEl(tx, item.size);
+    letteringItems.push(tx);
+    const cap = document.createElement('span');
+    cap.className = 'lettering-cap';
+    cap.textContent = item.caption;
+    card.appendChild(idx);
+    card.appendChild(tx);
+    card.appendChild(cap);
+    grid.appendChild(card);
+  });
+  host.appendChild(grid);
+}
+
+function refreshSpecimenFonts() {
   ladderItems.forEach(el => styleCustomEl(el, +el.dataset.size));
   hintingItems.forEach(el => styleCustomEl(el, +el.dataset.size));
+  letteringItems.forEach(el => styleCustomEl(el, +el.dataset.size));
 }
 
 // ── Hinting panel ─────────────────────────────────────────
@@ -5237,7 +5295,7 @@ const tourSlides = [
     rail: 'ಶಬ್ದ', tag: '06 · ಶಬ್ದ · Words',
     title: 'Words, rhythm, rag',
     kn: 'ಸತತ ಪಠ್ಯ ಮತ್ತು ಅಕ್ಷರ ವಿನ್ಯಾಸ',
-    narrative: 'Letters become language in the Words, Vachana and Kuvempu tabs — continuous prose where line breaking, rag (colour) and readability show themselves. The Words tab also sets the text in a size ladder, from headline to caption.',
+    narrative: 'Letters become language in the Words, Vachana and Kuvempu tabs — continuous prose where line breaking, rag (colour) and readability show themselves. The Words tab also sets the text in a size ladder, from headline to caption, and the Lettering tab shows hand-picked combinations at display sizes.',
     sampleLabel: 'Live · word sample',
     sample() { return tg(testSet.words[0], 'ts-body'); }
   },
@@ -5273,7 +5331,7 @@ const tourSlides = [
     narrative: 'You have seen the loop: load a font, read its profile, inspect the script, then judge it in context. Everything is one click away. Where would you like to start?',
     sampleLabel: 'Your path forward',
     sample() {
-      return `<div class="ts-body" style="color:var(--muted);font-size:14px">1. Load a font → 2. Read its Overview profile → 3. Walk Alphabet → Gunitakshara → Conjuncts → 4. Try Waterfall &amp; Hinting → 5. See it live in Web &amp; Print → 6. Send feedback with the Feedback workflow.</div>`;
+      return `<div class="ts-body" style="color:var(--muted);font-size:14px">1. Load a font → 2. Read its Overview profile → 3. Walk Alphabet → Lettering → Gunitakshara → Conjuncts → 4. Try Waterfall &amp; Hinting → 5. See it live in Web &amp; Print → 6. Send feedback with the Feedback workflow.</div>`;
     },
     cta: `<div class="tour-cta">
       <button class="btn primary-btn" id="tour-go-profile" type="button">View my profile</button>

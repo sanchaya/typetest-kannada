@@ -2,13 +2,16 @@
 
 [**Live Demo →**](https://typetest.sanchaya.net) · [Kannada Fonts →](https://fonts.sanchaya.net) · [ಸಂಚಯ →](https://sanchaya.org)
 
-A single-page application for inspecting, testing, and comparing Kannada fonts. Upload any TTF/OTF/WOFF/WOFF2 font and preview it across 21 curated test tabs covering the full range of Kannada script — vowels, consonants, conjuncts, matras, literature, and more.
+A single-page application for inspecting, testing, and comparing Kannada fonts. Upload any TTF/OTF/WOFF/WOFF2 font and preview it across 25 curated test tabs covering the full range of Kannada script — vowels, consonants, conjuncts, matras, literature, and more.
 
 ## Features
 
 ### Font Loading
 - **Drag & drop** or click to upload font files (TTF, OTF, WOFF, WOFF2)
 - **26 built-in Kannada fonts** from [fonts.sanchaya.net](https://fonts.sanchaya.net) loaded automatically on startup
+- **Google Fonts source** — load any Kannada font by name from Google Fonts
+- **ಸಂಚಯ catalog** — browse and load fonts from the [fonts.sanchaya.net](https://fonts.sanchaya.net) collection
+- **System fonts** — browse fonts installed on your device via the Local Font Access API (Chrome/Edge)
 - **Variable font support** with interactive weight slider and presets (Thin → Black)
 - **Session history** — tracks up to 8 recently loaded fonts, switchable with one click
 - **Dynamic font naming** — avoids browser cache conflicts on re-upload
@@ -22,11 +25,11 @@ A single-page application for inspecting, testing, and comparing Kannada fonts. 
 - **Kerning toggle** — enable/disable `kern` OpenType feature
 - **Dark background toggle** — switch to dark render area for contrast testing
 
-### 21 Test Tabs
+### 25 Test Tabs
 
 | Tab | Content |
 |-----|---------|
-| **Overview** | Vowels, numbers, and sample paragraph at a glance |
+| **Overview** | Type profile dashboard — scores, suitability, coverage, and diagnostics — plus vowels, numbers, and sample paragraph |
 | **Font Info** | Metadata (name, version, designer), OpenType features, and GSUB/GPOS rules |
 | **Alphabet** | Swaras (vowels), Vyanjanas (consonants in rows), and labelled Varga groups |
 | **Numbers** | Kannada numerals (೧-೦) and English numerals side by side |
@@ -34,6 +37,7 @@ A single-page application for inspecting, testing, and comparing Kannada fonts. 
 | **Gunitakshara** | All 36 consonants × 16 vowel matras + halant |
 | **Conjuncts** | Full ottakshara matrix — every consonant combined with every other consonant |
 | **Words** | Two vocabulary sets with common words and complex conjuncts |
+| **Lettering** | Curated Kannada letter combinations at display sizes — the font's personality at a glance |
 | **Vachana** | Basavanna's Vachana literature (Kannada + English translation) |
 | **Kuvempu** | Vishwa Manava Sandesha prose passage |
 | **Folk Song** | Mannina Haadu — traditional folk poetry |
@@ -43,10 +47,28 @@ A single-page application for inspecting, testing, and comparing Kannada fonts. 
 | **Glyph Coverage** | Visual map of full Kannada Unicode block (U+0C80–U+0CFF) with supported/fallback indicators |
 | **Glyph Map** | Searchable grid of every glyph in the loaded font |
 | **Compare** | Side-by-side comparison of any two fonts from the collection |
+| **Web Display** | The loaded font in 6 realistic web layouts — assign fonts per role, edit copy, and export each card |
+| **Print** | The loaded font in 6 print layouts — newspaper, magazine, book, cover, spec, stationery |
 | **Decompose** | Conjunct decomposition showing half-forms and component breakdown |
 | **Font Rules** | Full GSUB/GPOS lookup tables with feature tags, types, and interactive toggles |
-| **Waterfall** | Size progression from 12px to 64px |
+| **Waterfall** | Interactive size progression from 8px to 96px with min/max sliders and click-to-edit lines |
+| **Hinting** | Same text at 9px to 18px sizes with your browser's rendering engine shown |
 | **Custom** | Free-form text input with live preview |
+
+### Type Profile
+- **Overview dashboard** — headline readability, suitability scores per use (headline, body, subheading, caption), character coverage, shaping quality, and diagnostics
+- **Loaded fonts comparison** — quick list of fonts currently in the session
+- **Export** — download a profile report and JSON data for any loaded font
+
+### Walkthrough Tour
+- **First-run guided tour** — steps through every tab with a narrative, automatically offered on first visit
+- **Replayable** — restart the tour anytime from the help button
+
+### Feedback Workflow
+- **Designer mode** — build a question set (free text, rating, multiple choice) and export/import it as JSON
+- **Tester mode** — answer the questions and add annotations (pen/box, 5 colours) directly on each layout
+- **Annotations persist** across reloads via localStorage; answers export as JSON
+- **PDF export** — one click produces a print-ready report with annotated layouts and a Q&A appendix
 
 ### OpenType Inspection
 - **Font metadata** — family name, version, designer, foundry, license
