@@ -121,8 +121,8 @@
 
     <div class="control-row">
       <label>Word Space</label>
-      <span class="val" id="ws-val">1.0</span>
-      <input type="range" id="ws-slider" min="0.5" max="3" step="0.05" value="1">
+      <span class="val" id="ws-val">0.0</span>
+      <input type="range" id="ws-slider" min="0" max="3" step="0.05" value="0">
     </div>
   </div>
 
@@ -186,6 +186,7 @@
 
   <!-- Reset — sticky at the bottom of the sidebar -->
   <div class="sidebar-actions">
+    <button class="btn" id="tour-btn" title="Play the walkthrough again">→ Walkthrough</button>
     <button class="btn danger" id="reset-btn">↺ Reset all</button>
   </div>
 
@@ -237,6 +238,47 @@
 
     <!-- Tab Panels -->
     <div class="tab-panel active" id="panel-overview">
+      <div class="section profile-section" id="profile-section">
+        <div class="profile-hero">
+          <div class="profile-ident">
+            <span class="section-tag">Typesetting Profile · ಲಿಪಿ ವಿಶ್ಲೇಷಣೆ</span>
+            <h2 class="profile-name" id="pf-name">No font loaded</h2>
+            <p class="profile-meta" id="pf-meta">Load a font or pick a default to generate a quantitative typesetting profile — metrics, coverage, shaping, diagnostics and suitability scores.</p>
+          </div>
+          <div class="profile-score">
+            <div class="score-ring"><span class="score-num" id="pf-overall">&mdash;</span><em class="score-unit">/100</em></div>
+            <span class="score-label">Overall · ಒಟ್ಟು</span>
+          </div>
+          <div class="profile-actions">
+            <button class="btn export-btn" id="pf-report">Report</button>
+            <button class="btn export-btn" id="pf-json">JSON</button>
+          </div>
+        </div>
+
+        <div class="metric-grid" id="pf-metrics"></div>
+
+        <div class="profile-duo">
+          <div class="score-panel">
+            <div class="profile-sub"><span class="section-tag">Suitability · ಯೋಗ್ಯತೆ</span></div>
+            <div class="score-list" id="pf-scores"></div>
+          </div>
+          <div class="score-panel">
+            <div class="profile-sub"><span class="section-tag">Coverage &amp; Shaping · ವ್ಯಾಪ್ತಿ</span></div>
+            <div class="prog-list" id="pf-coverage"></div>
+          </div>
+        </div>
+
+        <div class="profile-block">
+          <div class="profile-sub"><span class="section-tag">Diagnostics · ಪರೀಕ್ಷೆ</span></div>
+          <div class="diag-grid" id="pf-diag"></div>
+        </div>
+
+        <div class="profile-block">
+          <div class="profile-sub"><span class="section-tag">Loaded Fonts · ಹೋಲಿಕೆ</span></div>
+          <div class="pf-compare-wrap" id="pf-compare"></div>
+        </div>
+      </div>
+
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Personas · ಗಮನಕೇಂದ್ರ</span>
@@ -366,7 +408,7 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Syllabic Grid Generator</span>
-          <span class="section-desc">Barakhadi / akshara grid — edit any cell, U+ labels shown, export to PNG or PDF</span>
+          <span class="section-desc">ಕನ್ನಡ ಗುಣಿತಾಕ್ಷರಗಳು / akshara grid — edit any cell, U+ labels shown, export to PNG or PDF</span>
         </div>
         <div class="syllabic-toolbar">
           <div class="syllabic-row">
@@ -400,16 +442,9 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಗುಣಿತಾಕ್ಷರ ಜಾಲರಿ</span>
-          <span class="section-desc">Consonant × 16 matras grid — the full barakhadi table in the loaded font</span>
+          <span class="section-desc">Consonant + all 16 vowel matras + halant (static reference) — the full ಕನ್ನಡ ಗುಣಿತಾಕ್ಷರಗಳು table in the loaded font</span>
         </div>
         <div id="render-gunita-grid" class="akshara-grid"></div>
-      </div>
-      <div class="section">
-        <div class="section-meta">
-          <span class="section-tag">ಕನ್ನಡ ಗುಣಿತಾಕ್ಷರಗಳು</span>
-          <span class="section-desc">Consonant + all 16 vowel matras + halant (static reference)</span>
-        </div>
-        <div id="render-gunita"></div>
       </div>
     </div>
 
@@ -423,31 +458,24 @@
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಕನ್ನಡ ಒತ್ತಕ್ಷರಗಳು</span>
-          <span class="section-desc">Ottakshara — full conjunct consonant combinations</span>
-        </div>
-        <div id="render-conjuncts"></div>
-      </div>
-      <div class="section">
-        <div class="section-meta">
           <span class="section-tag">Special Conjuncts</span>
-          <span class="section-desc">Complex conjunct clusters</span>
+          <span class="section-desc">Complex conjunct clusters — rya, rthya, jña and multi-consonant forms</span>
         </div>
-        <div class="test-text" id="render-special-conjuncts"></div>
+        <div id="render-special-conjuncts" class="akshara-grid"></div>
       </div>
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಎರೆಡನೆ ಒತ್ತಕ್ಷರಗಳು</span>
           <span class="section-desc">Secondary conjunct examples</span>
         </div>
-        <div id="render-second-conjuncts"></div>
+        <div id="render-second-conjuncts" class="akshara-grid"></div>
       </div>
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Complex Conjunct Groups</span>
           <span class="section-desc">Consonant + tr, jña, kr, pr, shr, sn, dr, dhr conjunct series</span>
         </div>
-        <div id="render-complex-conjuncts"></div>
+        <div id="render-complex-conjuncts" class="akshara-grid"></div>
       </div>
     </div>
 
@@ -713,7 +741,7 @@
               <button class="bg-type-btn active" data-bg="color">Color</button>
               <button class="bg-type-btn" data-bg="gradient">Grad</button>
               <button class="bg-type-btn" data-bg="image">Image</button>
-              <span class="color-swatch" title="Pick color"><input type="color" id="bg-color" value="#f7f5f3"></span>
+              <span class="color-swatch" title="Pick color"><input type="color" id="bg-color" value="#f8f9fa"></span>
               <input type="file" class="bg-img-input" id="bg-image" accept="image/*">
             </div>
           </div>
@@ -760,7 +788,7 @@
               <p class="hero-deck typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</p>
               <span class="hero-cta typo-heading text-heading">ಲೇಖನ ಓದಿ</span>
               <div class="hero-byline">
-                <span class="typo-sub">ಸಂಚಯ · O Foundation</span>
+                <span class="typo-sub">ಸಂಚಯ · Sanchi Foundation</span>
                 <span class="typo-body">ಜೂನ್ 2026 · 12 ನಿಮಿಷಗಳ ಓದು</span>
               </div>
             </div>
@@ -1206,6 +1234,25 @@
   <div class="status-item">tracking <span id="st-ls">—</span></div>
   <div class="status-item">ligatures <span id="st-lig">on</span></div>
   <div class="status-item" style="margin-left:auto;" id="st-font">—</div>
+</div>
+
+<!-- WALKTHROUGH TOUR -->
+<div class="tour-overlay" id="tour-overlay" role="dialog" aria-modal="true" aria-label="Portal walkthrough" hidden>
+  <div class="tour-deck">
+    <div class="tour-head">
+      <span class="tour-brand">Type Test · ಕನ್ನಡ <em>journey</em></span>
+      <button class="tour-skip" id="tour-skip" type="button">Skip walkthrough ✕</button>
+    </div>
+    <div class="tour-body">
+      <div class="tour-rail" id="tour-rail"></div>
+      <div class="tour-stage" id="tour-stage"></div>
+    </div>
+    <div class="tour-foot">
+      <button class="tour-prev" id="tour-prev" type="button">← Back</button>
+      <span class="tour-count" id="tour-count"></span>
+      <button class="tour-next" id="tour-next" type="button">Continue →</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1801,7 +1848,7 @@ function loadFont(file) {
 // ── state ─────────────────────────────────────────────────
 const state = {
   currentFont: null, fontSize: 32, lineHeight: 1.4,
-  letterSpacing: 0, wordSpacing: 1,
+  letterSpacing: 0, wordSpacing: 0,
   fontWeight: 400, isVariable: false,
   ligatures: true, kerning: true, darkBg: false, versions: []
 };
@@ -1853,7 +1900,7 @@ function applyFont(fontFamily) {
 }
 
 function applyFontToAll() {
-  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
+  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-second-conjuncts', 'render-complex-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
   directElements.forEach(id => {
     const el = $(id);
     if (el && state.currentFont) {
@@ -1897,7 +1944,7 @@ function applyControls() {
     }
   });
   // Also update direct elements
-  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
+  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-second-conjuncts', 'render-complex-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
   directElements.forEach(id => {
     const el = $(id);
     if (el) {
@@ -1961,25 +2008,15 @@ function renderContent() {
   mixedEl.innerHTML = '';
   testSet.mixedLetters.forEach(row => mixedEl.appendChild(makeTestEl('div', row)));
 
-  const guEl = $('render-gunita');
-  guEl.innerHTML = '';
-  testSet.gunita.forEach(row => guEl.appendChild(makeTestEl('div', row)));
   renderGunitaGrid();
 
-  const conjEl = $('render-conjuncts');
-  conjEl.innerHTML = '';
-  testSet.conjuncts.forEach(row => conjEl.appendChild(makeTestEl('div', row)));
   renderConjunctsGrid();
 
-  $('render-special-conjuncts').textContent = testSet.specialConjuncts;
-
-  const secondConjEl = $('render-second-conjuncts');
-  secondConjEl.innerHTML = '';
-  testSet.secondConjuncts.forEach(row => secondConjEl.appendChild(makeTestEl('div', row)));
-
-  const complexConjEl = $('render-complex-conjuncts');
-  complexConjEl.innerHTML = '';
-  testSet.complexConjuncts.forEach(row => complexConjEl.appendChild(makeTestEl('div', row)));
+  renderClusterGrid($('render-special-conjuncts'), testSet.specialConjuncts, { chunk: 8 });
+  renderClusterGrid($('render-second-conjuncts'), testSet.secondConjuncts, { chunk: 8 });
+  renderClusterGrid($('render-complex-conjuncts'), testSet.complexConjuncts, {
+    rowHeader: ['ತ್ರ', 'ಜ್ಞ', 'ಕ್ರ', 'ಪ್ರ', 'ಶ್ರ', 'ಸ್ನ', 'ದ್ರ', 'ಧ್ರ']
+  });
 
   $('render-words').textContent = testSet.words[0];
   $('render-words2').textContent = testSet.words[1];
@@ -2026,6 +2063,7 @@ function renderContent() {
   renderWaterfall();
   renderFontRules();
   updateCompareSelects();
+  buildProfile();
 }
 
 function updateWaterfall() {
@@ -2151,6 +2189,417 @@ function renderCoverage() {
     <div class="coverage-bar-segment supported" style="width: ${pctSupported}%"></div>
     <div class="coverage-bar-segment fallback" style="width: ${pctFallback}%"></div>
   `;
+}
+
+// ── Typesetting Profile engine ───────────────────────────
+// Objective profiling of the loaded font: table metrics, cmap
+// coverage, conjunct shaping integrity, OpenType features,
+// layout statistics and per-role suitability scores.
+const PROFILE_INDIC_FEATURES = ['akhn', 'rphf', 'pref', 'blwf', 'pstf', 'haln', 'cjct', 'pres', 'abvs', 'blws', 'psts', 'ccmp'];
+const PROFILE_LATIN_FEATURES = ['liga', 'calt', 'dlig', 'kern', 'mark', 'mkmk', 'frac', 'sups', 'subs', 'tnum', 'lnum', 'onum', 'pnum', 'zero'];
+
+const profileState = { family: null, buildId: 0, lastProfile: null, lastCompare: [] };
+
+function profileFontLabel(family) {
+  const v = state.versions.find(x => x.fontFamily === family);
+  return v ? v.name.replace(/\.[^.]+$/, '') : family.replace(/^TestFont_/, 'Uploaded font');
+}
+
+async function ensureProfileBuffer(family) {
+  if (fontBuffers.has(family)) return fontBuffers.get(family);
+  if (family === state.currentFont && loadedFontBuffer) return loadedFontBuffer;
+  const styleEl = document.querySelector(`style[id="ff-${family}"]`);
+  if (!styleEl) return null;
+  const m = styleEl.textContent.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+  if (!m) return null;
+  try {
+    const r = await fetch(m[1]);
+    if (!r.ok) return null;
+    const buf = await r.arrayBuffer();
+    if (fontBuffers.size < 40) fontBuffers.set(family, buf);
+    if (family === state.currentFont) loadedFontBuffer = buf;
+    return buf;
+  } catch (e) { return null; }
+}
+
+function profileFontMetrics(font) {
+  const head = font.tables.head || {};
+  const hhea = font.tables.hhea || {};
+  const os2 = font.tables.os2 || {};
+  const upm = head.unitsPerEm || 1000;
+  const featSet = new Set();
+  ((font.tables.gsub || {}).features || []).forEach(f => featSet.add(f.tag));
+  ((font.tables.gpos || {}).features || []).forEach(f => featSet.add(f.tag));
+  return {
+    upm,
+    numGlyphs: font.numGlyphs || 0,
+    ascender: hhea.ascender ?? null,
+    descender: hhea.descender ?? null,
+    xHeight: os2.sxHeight ?? null,
+    capHeight: os2.sCapHeight ?? null,
+    weight: os2.usWeightClass ?? null,
+    features: [...featSet]
+  };
+}
+
+function profileCoverage(font) {
+  let supported = 0;
+  const missing = [];
+  for (const { cp, name } of assignedKannada) {
+    if (font.charToGlyph(String.fromCodePoint(cp)).index > 0) supported++;
+    else if (missing.length < 80) missing.push({ cp, name });
+  }
+  const total = assignedKannada.length;
+  return { supported, total, pct: total ? (supported / total) * 100 : 0, missing };
+}
+
+function profileAksharaCount() {
+  const set = new Set();
+  const add = txt => [...String(txt || '')].forEach(ch => set.add(ch));
+  add(testSet.vowels);
+  (testSet.consonantRows || []).forEach(add);
+  (testSet.vargaRows || []).forEach(r => add(r.text));
+  (testSet.gunita || []).forEach(add);
+  (testSet.conjuncts || []).forEach(add);
+  add(testSet.specialConjuncts);
+  (testSet.secondConjuncts || []).forEach(add);
+  (testSet.complexConjuncts || []).forEach(add);
+  return set.size;
+}
+
+function profileShaping(font, family) {
+  const clusterList = [];
+  (testSet.complexConjuncts || []).forEach(row =>
+    String(row).split(/\s+/).filter(Boolean).forEach(c => clusterList.push(c)));
+  const unique = [...new Set(clusterList)];
+  const upm = (font.tables.head || {}).unitsPerEm || 1000;
+  const size = 32;
+  const span = document.createElement('span');
+  span.style.cssText = 'position:absolute;left:-9999px;top:-9999px;font-size:' + size + 'px;line-height:1;white-space:nowrap;';
+  span.style.fontFamily = `'${family}', sans-serif`;
+  document.body.appendChild(span);
+  let shaped = 0, total = 0, sumRatio = 0, worst = null;
+  for (const c of unique) {
+    span.textContent = c;
+    const w = span.getBoundingClientRect().width;
+    const naive = [...c].reduce((a, ch) => a + (font.charToGlyph(ch).advanceWidth || 0), 0) * size / upm;
+    if (naive <= 0) continue;
+    const ratio = w / naive;
+    sumRatio += ratio; total++;
+    if (ratio < 0.85) shaped++;
+    if (!worst || ratio > worst.ratio) worst = { cluster: c, ratio };
+  }
+  document.body.removeChild(span);
+  return {
+    shaped, total,
+    pct: total ? Math.round((shaped / total) * 100) : 0,
+    avgRatio: total ? sumRatio / total : 1,
+    worst
+  };
+}
+
+function profileFeatures(font) {
+  const have = new Set(profileFontMetrics(font).features);
+  const indic = {
+    present: PROFILE_INDIC_FEATURES.filter(f => have.has(f)),
+    missing: PROFILE_INDIC_FEATURES.filter(f => !have.has(f))
+  };
+  const latin = {
+    present: PROFILE_LATIN_FEATURES.filter(f => have.has(f)),
+    missing: PROFILE_LATIN_FEATURES.filter(f => !have.has(f))
+  };
+  return {
+    indic, latin,
+    essentialPct: Math.round((indic.present.length / PROFILE_INDIC_FEATURES.length) * 100)
+  };
+}
+
+function profileLayout() {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:640px;';
+  const p = document.createElement('div');
+  p.style.cssText = 'font-size:18px;line-height:1.6;margin:0;';
+  p.style.fontFamily = `'${state.currentFont}', sans-serif`;
+  p.textContent = (testSet.kuvempu || '') + ' ' + (testSet.words ? testSet.words[0] : '');
+  wrap.appendChild(p);
+  document.body.appendChild(wrap);
+  const h = p.getBoundingClientRect().height;
+  document.body.removeChild(wrap);
+  const text = p.textContent;
+  const chars = [...text].length;
+  const words = text.trim().split(/\s+/).length;
+  const lines = Math.max(1, Math.round(h / (18 * 1.6)));
+  return {
+    chars, words, lines,
+    charsPerLine: Math.round(chars / lines),
+    measureEm: Math.round((640 / 18) * 10) / 10
+  };
+}
+
+function profileScores(cov, shape, feat, layout) {
+  const coverage = cov.pct;
+  const shaping = shape.pct;
+  const features = feat.essentialPct;
+  const density = Math.max(0, 100 - Math.abs(layout.charsPerLine - 45) * 2);
+  const display = Math.round(0.30 * coverage + 0.30 * features + 0.20 * shaping + 0.20 * density);
+  const body = Math.round(0.40 * coverage + 0.25 * shaping + 0.15 * features + 0.20 * density);
+  const ui = Math.round(0.30 * coverage + 0.25 * features + 0.25 * shaping + 0.20 * density);
+  const print = Math.round(0.35 * coverage + 0.30 * shaping + 0.20 * features + 0.15 * density);
+  const overall = Math.round(0.25 * display + 0.30 * body + 0.20 * ui + 0.25 * print);
+  return { display, body, ui, print, overall };
+}
+
+const PROFILE_ROLE_LABELS = {
+  display: { label: 'Display', kn: 'ಶೀರ್ಷಿಕೆ', hint: 'Posters · headers · large sizes' },
+  body: { label: 'Body', kn: 'ಪಠ್ಯ', hint: 'Paragraph text · continuous reading' },
+  ui: { label: 'Interface', kn: 'ಸಂವಹನ', hint: 'Apps · dashboards · data' },
+  print: { label: 'Print', kn: 'ಮುದ್ರಣ', hint: 'Books · newspapers · documents' }
+};
+
+function profileMetricCards(m, shape, layout) {
+  const cards = [];
+  const push = (label, value, sub, hint) => cards.push({ label, value, sub, hint });
+  push('Units per Em', m.upm || '—', 'design grid', 'Coordinate system of the font');
+  push('Glyphs', m.numGlyphs || '—', 'total outlines', 'Number of glyphs in the font');
+  push('Ascender', m.ascender ?? '—', `${m.upm ? ((m.ascender / m.upm) * 100).toFixed(0) + '% em' : ''}`, 'Distance above baseline');
+  push('Descender', m.descender ?? '—', `${m.upm ? ((m.descender / m.upm) * 100).toFixed(0) + '% em' : ''}`, 'Distance below baseline');
+  push('x-height', m.xHeight ?? '—', `${m.upm && m.xHeight ? (m.xHeight / m.upm).toFixed(3) + ' em' : ''}`, 'Height of lowercase x');
+  push('Cap height', m.capHeight ?? '—', `${m.upm && m.capHeight ? (m.capHeight / m.upm).toFixed(3) + ' em' : ''}`, 'Height of capitals');
+  push('Weight class', m.weight ?? '—', 'OS/2 usWeightClass', 'Nominal stroke weight');
+  push('Measure', layout.measureEm + ' em', `${layout.charsPerLine} chars/line`, 'Body measure at 18px / 640px');
+  return cards;
+}
+
+function profileCompare() {
+  const wrap = $('pf-compare');
+  if (!wrap) return;
+  const families = new Set();
+  state.versions.forEach(v => families.add(v.fontFamily));
+  fontBuffers.forEach((_, fam) => families.add(fam));
+  Promise.all([...families].map(async fam => {
+    let buf = fontBuffers.get(fam) || (fam === state.currentFont ? loadedFontBuffer : null);
+    if (!buf) buf = await ensureProfileBuffer(fam);
+    if (!buf) return null;
+    try {
+      const font = opentype.parse(buf);
+      const m = profileFontMetrics(font);
+      const cov = profileCoverage(font);
+      const shape = profileShaping(font, fam);
+      return {
+        fam,
+        name: profileFontLabel(fam),
+        current: fam === state.currentFont,
+        upm: m.upm, glyphs: m.numGlyphs,
+        coverage: cov.pct, shaping: shape.pct,
+        features: m.features.length,
+        xRatio: (m.xHeight && m.upm) ? m.xHeight / m.upm : null
+      };
+    } catch (e) { return null; }
+  })).then(rows => {
+    rows = rows.filter(Boolean);
+    profileState.lastCompare = rows;
+    if (!wrap) return;
+    if (!rows.length) { wrap.innerHTML = '<div class="pf-empty">Load fonts to compare metrics across them.</div>'; return; }
+    const rowHtml = (r) => `<tr class="${r.current ? 'pf-current' : ''}">
+      <td><span class="pf-fname">${r.name}</span>${r.current ? '<em class="pf-now">active</em>' : ''}</td>
+      <td>${r.upm}</td><td>${r.glyphs}</td>
+      <td><b>${r.coverage.toFixed(1)}%</b></td>
+      <td>${r.shaping}%</td>
+      <td>${r.features}</td>
+      <td>${r.xRatio ? r.xRatio.toFixed(3) : '—'}</td>
+    </tr>`;
+    wrap.innerHTML = `<div class="pf-table-scroll"><table class="pf-table">
+      <thead><tr><th>Font</th><th>UPM</th><th>Glyphs</th><th>Coverage</th><th>Shaping</th><th>Features</th><th>x-h / em</th></tr></thead>
+      <tbody>${rows.map(rowHtml).join('')}</tbody></table></div>`;
+  }).catch(() => {});
+}
+
+function renderProfile(profile) {
+  const { metrics: m, coverage: cov, features: feat, shaping: shape, layout: layout, scores } = profile;
+
+  const nameEl = $('pf-name');
+  if (nameEl) nameEl.textContent = profileFontLabel(profile.family);
+  const metaEl = $('pf-meta');
+  if (metaEl) {
+    metaEl.textContent = `${m.numGlyphs} glyphs · ${cov.supported}/${cov.total} Unicode codepoints · ${shape.pct}% conjunct shaping · ${m.features.length} OpenType features`;
+  }
+  const overallEl = $('pf-overall');
+  if (overallEl) overallEl.textContent = scores.overall;
+  const ring = document.querySelector('.score-ring');
+  if (ring) ring.style.setProperty('--score', (scores.overall / 100) * 360 + 'deg');
+
+  const metricEl = $('pf-metrics');
+  if (metricEl) {
+    metricEl.innerHTML = profileMetricCards(m, shape, layout).map(c =>
+      `<div class="metric-card" title="${c.hint}"><span class="metric-label">${c.label}</span><span class="metric-value">${c.value}</span><span class="metric-sub">${c.sub}</span></div>`
+    ).join('');
+  }
+
+  const scoreEl = $('pf-scores');
+  if (scoreEl) {
+    scoreEl.innerHTML = Object.keys(PROFILE_ROLE_LABELS).map(role => {
+      const r = PROFILE_ROLE_LABELS[role];
+      const s = scores[role];
+      return `<div class="score-row">
+        <span class="score-role">${r.label}<em>${r.kn}</em></span>
+        <span class="score-bar"><span class="score-fill" style="width:${s}%;background:var(--accent)"></span></span>
+        <span class="score-val">${s}</span>
+      </div>`;
+    }).join('');
+  }
+
+  const covEl = $('pf-coverage');
+  if (covEl) {
+    const bars = [
+      { label: 'Unicode coverage', kn: 'ಕನ್ನಡ ಕೋಡ್‌ಪಾಯಿಂಟ್‌ಗಳು', pct: cov.pct, txt: `${cov.supported} / ${cov.total} codepoints` },
+      { label: 'Conjunct shaping', kn: 'ಒತ್ತಕ್ಷರ ರಚನೆ', pct: shape.pct, txt: `${shape.shaped} / ${shape.total} complex clusters shaped` },
+      { label: 'Indic features', kn: 'ಇಂಡಿಕ್ OpenType', pct: feat.essentialPct, txt: `${feat.indic.present.length} / ${PROFILE_INDIC_FEATURES.length} essential features` }
+    ];
+    covEl.innerHTML = bars.map(b =>
+      `<div class="prog-block"><div class="prog-head"><span class="prog-label">${b.label} <em>${b.kn}</em></span><span class="prog-val">${b.pct}%</span></div>
+       <span class="prog-bar"><span class="prog-fill" style="width:${b.pct}%"></span></span>
+       <span class="prog-sub">${b.txt}</span></div>`
+    ).join('');
+  }
+
+  const diagEl = $('pf-diag');
+  if (diagEl) {
+    const missing = cov.missing.slice(0, 12);
+    const chips = missing.map(x => `<span class="diag-chip miss" title="U+${x.cp.toString(16).toUpperCase()}">${String.fromCodePoint(x.cp)}</span>`).join('');
+    const indicChips = feat.indic.present.map(f => `<span class="diag-chip ok">${f}</span>`).join('')
+      + feat.indic.missing.slice(0, 10).map(f => `<span class="diag-chip no">${f}</span>`).join('');
+    const worst = shape.worst;
+    diagEl.innerHTML = `
+      <div class="diag-card ${cov.missing.length ? 'warn' : 'ok'}">
+        <span class="diag-title">Tofu risk · ${cov.missing.length}${cov.missing.length ? ' missing' : ' none'}</span>
+        ${cov.missing.length ? `<div class="diag-body">${chips}</div>` : '<div class="diag-body diag-clean">Every assigned Kannada codepoint maps to a real glyph in the cmap.</div>'}
+      </div>
+      <div class="diag-card ${shape.pct >= 85 ? 'ok' : 'warn'}">
+        <span class="diag-title">Conjunct integrity · ${shape.pct}% shaped</span>
+        <div class="diag-body">${worst ? `Widest cluster ratio: <b class="pf-mono">${worst.cluster}</b> at ${worst.ratio.toFixed(2)}× the naive advance — clusters should compress well below 1× when the shaper forms conjuncts.` : 'No clusters measured.'}</div>
+      </div>
+      <div class="diag-card ${feat.indic.missing.length ? 'warn' : 'ok'}">
+        <span class="diag-title">Indic features · ${feat.indic.present.length}/${PROFILE_INDIC_FEATURES.length}</span>
+        <div class="diag-body">${indicChips || '<span class="diag-clean">None declared</span>'}</div>
+      </div>`;
+  }
+
+  profileState.lastProfile = profile;
+}
+
+function renderProfileEmpty() {
+  const nameEl = $('pf-name');
+  if (nameEl) nameEl.textContent = 'No font loaded';
+  const metaEl = $('pf-meta');
+  if (metaEl) metaEl.textContent = 'Load a font or pick a default to generate a quantitative typesetting profile.';
+  const overallEl = $('pf-overall');
+  if (overallEl) overallEl.textContent = '—';
+  const ring = document.querySelector('.score-ring');
+  if (ring) ring.style.setProperty('--score', '0deg');
+  ['pf-metrics', 'pf-scores', 'pf-coverage', 'pf-diag'].forEach(id => {
+    const el = $(id);
+    if (el) el.innerHTML = '<div class="pf-empty">Load a font to populate this profile.</div>';
+  });
+  profileState.lastProfile = null;
+}
+
+async function buildProfile() {
+  const section = $('profile-section');
+  if (!section) return;
+  const family = state.currentFont;
+  const buildId = ++profileState.buildId;
+  if (!family) {
+    profileState.family = null;
+    renderProfileEmpty();
+    profileCompare();
+    return;
+  }
+  profileState.family = family;
+  const buf = await ensureProfileBuffer(family);
+  if (buildId !== profileState.buildId) return;
+  if (!buf) {
+    renderProfileEmpty();
+    return;
+  }
+  let font;
+  try { font = opentype.parse(buf); } catch (e) {
+    renderProfileEmpty();
+    return;
+  }
+  parsedFontData = font;
+  const metrics = profileFontMetrics(font);
+  const coverage = profileCoverage(font);
+  const features = profileFeatures(font);
+  const shaping = profileShaping(font, state.currentFont);
+  const layout = profileLayout();
+  const scores = profileScores(coverage, shaping, features, layout);
+  renderProfile({ family, metrics, coverage, features, shaping, layout, scores });
+  profileCompare();
+}
+
+function profileReportHTML(profile) {
+  const { metrics: m, coverage: cov, features: feat, shaping: shape, layout: layout, scores } = profile;
+  const roleRows = Object.keys(PROFILE_ROLE_LABELS).map(role => {
+    const r = PROFILE_ROLE_LABELS[role];
+    return `<div class="score-row"><span class="score-role">${r.label} <em>${r.kn}</em> — ${r.hint}</span>
+      <span class="score-bar"><span class="score-fill" style="width:${scores[role]}%;background:#4361ee"></span></span>
+      <span class="score-val">${scores[role]}</span></div>`;
+  }).join('');
+  const metricCards = profileMetricCards(m, shape, layout).map(c =>
+    `<div class="metric-card"><span class="metric-label">${c.label}</span><span class="metric-value">${c.value}</span><span class="metric-sub">${c.sub}</span></div>`
+  ).join('');
+  const compareRows = profileState.lastCompare.length ? `<h3 class="pf-r-head">Loaded fonts comparison</h3>
+    <table class="pf-table"><thead><tr><th>Font</th><th>UPM</th><th>Glyphs</th><th>Coverage</th><th>Shaping</th><th>Features</th></tr></thead><tbody>
+    ${profileState.lastCompare.map(r => `<tr><td>${r.name}${r.current ? ' (active)' : ''}</td><td>${r.upm}</td><td>${r.glyphs}</td><td>${r.coverage.toFixed(1)}%</td><td>${r.shaping}%</td><td>${r.features}</td></tr>`).join('')}
+    </tbody></table>` : '';
+  return `<div class="profile-wrap">
+    <div class="profile-hero">
+      <div class="profile-ident">
+        <span class="section-tag">Typesetting Profile · ಲಿಪಿ ವಿಶ್ಲೇಷಣೆ</span>
+        <h2 class="profile-name">${profileFontLabel(profile.family)}</h2>
+        <p class="profile-meta">${m.numGlyphs} glyphs · ${cov.supported}/${cov.total} Unicode codepoints · ${shape.pct}% conjunct shaping · ${m.features.length} OpenType features</p>
+      </div>
+      <div class="profile-score">
+        <div class="score-ring"><span class="score-num">${scores.overall}</span><em class="score-unit">/100</em></div>
+        <span class="score-label">Overall · ಒಟ್ಟು</span>
+      </div>
+    </div>
+    <div class="metric-grid">${metricCards}</div>
+    <div class="profile-duo">
+      <div class="score-panel"><div class="profile-sub"><span class="section-tag">Suitability · ಯೋಗ್ಯತೆ</span></div><div class="score-list">${roleRows}</div></div>
+      <div class="score-panel"><div class="profile-sub"><span class="section-tag">Coverage &amp; Shaping · ವ್ಯಾಪ್ತಿ</span></div>
+        <div class="prog-list">
+          ${[['Unicode coverage', cov.pct, `${cov.supported} / ${cov.total} codepoints`], ['Conjunct shaping', shape.pct, `${shape.shaped} / ${shape.total} clusters`], ['Indic features', feat.essentialPct, `${feat.indic.present.length} / ${PROFILE_INDIC_FEATURES.length}`]].map(b =>
+            `<div class="prog-block"><div class="prog-head"><span class="prog-label">${b[0]}</span><span class="prog-val">${b[1]}%</span></div><span class="prog-bar"><span class="prog-fill" style="width:${b[1]}%"></span></span><span class="prog-sub">${b[2]}</span></div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="profile-block"><div class="profile-sub"><span class="section-tag">Diagnostics · ಪರೀಕ್ಷೆ</span></div>
+      <div class="diag-grid">
+        <div class="diag-card"><span class="diag-title">Tofu risk · ${cov.missing.length ? cov.missing.length + ' missing' : 'none'}</span>
+          <div class="diag-body">${cov.missing.length ? cov.missing.slice(0, 30).map(x => `<span class="diag-chip miss">${String.fromCodePoint(x.cp)}</span>`).join('') : 'All assigned Kannada codepoints mapped.'}</div></div>
+        <div class="diag-card"><span class="diag-title">Indic features · ${feat.indic.present.length}/${PROFILE_INDIC_FEATURES.length}</span>
+          <div class="diag-body">${feat.indic.present.map(f => `<span class="diag-chip ok">${f}</span>`).join('')}${feat.indic.missing.map(f => `<span class="diag-chip no">${f}</span>`).join('')}</div></div>
+      </div>
+    </div>
+    ${compareRows}
+    <p class="pf-r-foot">Generated by Type Test — Kannada · ಸಂಚಯ ಫಾಂಟ್‌ಸ್ ಸಂಚಯ · ${new Date().toLocaleString('kn-IN')}</p>
+  </div>`;
+}
+
+function exportProfileReport() {
+  if (!profileState.lastProfile) return;
+  buildPrintWindow(profileReportHTML(profileState.lastProfile), '');
+}
+
+function exportProfileJSON() {
+  if (!profileState.lastProfile) return;
+  const blob = new Blob([JSON.stringify(profileState.lastProfile, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.download = 'typetest-kannada-profile.json';
+  a.href = URL.createObjectURL(blob);
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 // ── uploader ──────────────────────────────────────────────
@@ -2608,7 +3057,7 @@ function initContextEngine() {
     if (ctxBgType === 'color') {
       ctxCards().forEach(card => { card.style.backgroundImage = ''; });
     } else if (ctxBgType === 'gradient') {
-      ctxCards().forEach(card => { card.style.background = 'linear-gradient(135deg, #1a1c1c 0%, #d34000 45%, #f7f5f3 100%)'; });
+      ctxCards().forEach(card => { card.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #4361ee 45%, #f8f9fa 100%)'; });
     }
   }
 
@@ -2781,13 +3230,13 @@ $('reset-btn').addEventListener('click', () => {
   fontBuffers.clear();
   Object.assign(state, {
     currentFont: null, versions: [],
-    fontSize: 32, lineHeight: 1.4, letterSpacing: 0, wordSpacing: 1,
+    fontSize: 32, lineHeight: 1.4, letterSpacing: 0, wordSpacing: 0,
     ligatures: true, kerning: true
   });
   $('size-slider').value = 32;   $('size-val').textContent = '32px';
   $('lh-slider').value = 1.4;    $('lh-val').textContent = '1.40';
   $('ls-slider').value = 0;      $('ls-val').textContent = '0em';
-  $('ws-slider').value = 1;      $('ws-val').textContent = '1.0';
+  $('ws-slider').value = 0;      $('ws-val').textContent = '0.0';
   $('lig-toggle').checked = true;
   $('kern-toggle').checked = true;
   $('test-area').classList.remove('visible');
@@ -2843,7 +3292,7 @@ function encodeState() {
   if (state.fontSize !== 32) params.set('size', state.fontSize);
   if (state.lineHeight !== 1.4) params.set('lh', state.lineHeight);
   if (state.letterSpacing !== 0) params.set('ls', state.letterSpacing);
-  if (state.wordSpacing !== 1) params.set('ws', state.wordSpacing);
+  if (state.wordSpacing !== 0) params.set('ws', state.wordSpacing);
   if (!state.ligatures) params.set('liga', 0);
   if (!state.kerning) params.set('kern', 0);
   if (state.darkBg) params.set('dark', 1);
@@ -3560,6 +4009,9 @@ function exportNodePrint(node, title) {
 $('export-png-btn').addEventListener('click', exportActiveTabPNG);
 $('export-print-btn').addEventListener('click', exportAllPrint);
 
+if ($('pf-report')) $('pf-report').addEventListener('click', exportProfileReport);
+if ($('pf-json')) $('pf-json').addEventListener('click', exportProfileJSON);
+
 document.querySelectorAll('.mock-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const target = document.getElementById(btn.dataset.target);
@@ -3653,7 +4105,7 @@ function generateGrid() {
 
   const secTitle = document.createElement('div');
   secTitle.className = 'syllabic-section-title';
-  secTitle.textContent = 'Barakhadi / Akshara Grid';
+  secTitle.textContent = 'ಕನ್ನಡ ಗುಣಿತಾಕ್ಷರಗಳು / Akshara Grid';
   section.appendChild(secTitle);
 
   const table = document.createElement('table');
@@ -3812,6 +4264,50 @@ function renderConjunctsGrid() {
   buildAksharaGrid(container, rows, second, (base, sec) => base + '್' + sec, { corner: '×', compact: true });
 }
 
+function renderClusterGrid(container, data, opts) {
+  if (!container) return;
+  opts = opts || {};
+  container.innerHTML = '';
+  let rows;
+  if (opts.chunk) {
+    const flat = (Array.isArray(data) ? data.join(' ') : String(data)).trim().split(/\s+/).filter(Boolean);
+    rows = [];
+    for (let i = 0; i < flat.length; i += opts.chunk) rows.push(flat.slice(i, i + opts.chunk));
+  } else {
+    rows = (Array.isArray(data) ? data : [data]).map(r =>
+      (Array.isArray(r) ? r : String(r).trim().split(/\s+/).filter(Boolean)));
+  }
+  if (!rows.length) return;
+  const colCount = Math.max(...rows.map(r => r.length), 1);
+  const table = document.createElement('table');
+  table.className = 'syllabic-table akshara-grid compact cluster-grid';
+  const tbody = document.createElement('tbody');
+  rows.forEach((row, ri) => {
+    const tr = document.createElement('tr');
+    if (opts.rowHeader) {
+      const th = document.createElement('th');
+      th.textContent = opts.rowHeader[ri] || '';
+      tr.appendChild(th);
+    }
+    for (let ci = 0; ci < colCount; ci++) {
+      const td = document.createElement('td');
+      if (row[ci] !== undefined && row[ci] !== '') {
+        const inner = document.createElement('div');
+        inner.className = 'grid-cell-inner';
+        const syl = document.createElement('span');
+        syl.className = 'grid-syllable';
+        syl.textContent = row[ci];
+        inner.appendChild(syl);
+        td.appendChild(inner);
+      }
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
 // ── Initialize with default font ──────────────────────────
 window.addEventListener('load', () => {
   applyUrlState();
@@ -3822,6 +4318,243 @@ window.addEventListener('load', () => {
   restorePersistedFonts();
   initContextEngine();
 });
+
+// ── Walkthrough tour ────────────────────────────────────
+const TOUR_KEY = 'ttk_tour_v1';
+let tourIdx = 0;
+let tourOpen = false;
+
+function tourFont() {
+  return state.currentFont
+    ? `'${state.currentFont}', 'Noto Sans Kannada', system-ui, sans-serif`
+    : `'Noto Sans Kannada', system-ui, sans-serif`;
+}
+
+function tg(text, cls) {
+  return `<div class="${cls}" style="font-family:${tourFont()}">${text}</div>`;
+}
+
+function tourEls() {
+  return { ov: $('tour-overlay'), stage: $('tour-stage'), rail: $('tour-rail'), next: $('tour-next'), prev: $('tour-prev'), count: $('tour-count') };
+}
+
+const tourSlides = [
+  {
+    rail: 'ಪ್ರವೇಶ', tag: '01 · ಪ್ರವೇಶ · Welcome',
+    title: 'A typesetting lab for Kannada',
+    kn: 'ಅಕ್ಷರಗಳ ಪ್ರಯೋಗಶಾಲೆಗೆ ಸುಸ್ವಾಗತ',
+    narrative: 'You are the typesetter now. This portal is a proofing room where every letter, syllable and page of a Kannada font can be examined. Load a font and it will tell you how it behaves — shape by shape, grid by grid, in print and on screen. Let us walk the room together.',
+    sampleLabel: 'The material you will be testing',
+    sample() { return tg(testSet.words[0].split(' ').slice(0, 20).join(' '), 'ts-body'); },
+    cta: `<div class="tour-cta"><button class="btn primary-btn" id="tour-load-font" type="button">↑ Load a font to begin</button></div>`,
+    after(stage) {
+      const b = stage.querySelector('#tour-load-font');
+      if (b) b.addEventListener('click', () => $('font-input').click());
+    }
+  },
+  {
+    rail: 'ವಿಶ್ಲೇಷಣೆ', tag: '02 · ವಿಶ್ಲೇಷಣೆ · Profile',
+    title: 'Your font, measured',
+    kn: 'ಫಾಂಟಿನ ಪ್ರೊಫೈಲ್ ನೋಡಿ',
+    narrative: 'The Overview is your font\u2019s report card — everything a publisher checks before approving a font: metrics, glyph coverage, conjunct shaping, and a suitability score. This is your home base.',
+    sampleLabel: 'Live profile snapshot',
+    sample() {
+      const p = profileState.lastProfile;
+      if (!p) return `<div class="ts-body" style="color:var(--muted)">No font loaded yet — load one to see its profile here.</div>`;
+      const bar = pct => `<div class="m-bar"><i style="width:${Math.min(100, pct)}%"></i></div>`;
+      const cov = p.coverage && p.coverage.pct != null ? p.coverage.pct : null;
+      const shp = p.shaping && p.shaping.pct != null ? p.shaping.pct : null;
+      return `<div class="tour-metrics">
+        <div class="tour-metric"><div class="m-val">${p.overall != null ? p.overall : '—'}</div><div class="m-label">Overall score</div>${bar(p.overall || 0)}</div>
+        <div class="tour-metric"><div class="m-val">${cov != null ? cov.toFixed(0) + '%' : '—'}</div><div class="m-label">Unicode coverage</div>${bar(cov || 0)}</div>
+        <div class="tour-metric"><div class="m-val">${shp != null ? shp.toFixed(0) + '%' : '—'}</div><div class="m-label">Conjunct shaping</div>${bar(shp || 0)}</div>
+      </div>`;
+    }
+  },
+  {
+    rail: 'ಅಕ್ಷರ', tag: '03 · ಅಕ್ಷರ · Script',
+    title: 'The script, letter by letter',
+    kn: 'ಸ್ವರಗಳು ಮತ್ತು ವ್ಯಂಜನಗಳು',
+    narrative: 'Every font begins here. Vowels and consonants — the atomic shapes of the script. The Alphabet and Numbers tabs show each letter at a set size so you can judge contrast, proportion and spacing.',
+    sampleLabel: 'Live · vowels & consonants',
+    sample() {
+      return tg(testSet.vowels, 'ts-glyphs') + tg(testSet.consonantRows[0] + '   ' + testSet.consonantRows[1], 'ts-glyphs small');
+    }
+  },
+  {
+    rail: 'ಗುಣಿತಾಕ್ಷರ', tag: '04 · ಗುಣಿತಾಕ್ಷರ · Gunitakshara',
+    title: 'The syllable matrix',
+    kn: 'ಪ್ರತಿ ವ್ಯಂಜನ × ಪ್ರತಿ ಸ್ವರ',
+    narrative: 'Kannada is syllabic at heart. The Gunitakshara tab grids every consonant against every vowel sign. This grid is the backbone of the script — if it is off, every word is off.',
+    sampleLabel: 'Live · the ಕ (ka) series',
+    sample() { return tg(testSet.gunita[0], 'ts-glyphs'); }
+  },
+  {
+    rail: 'ಒತ್ತಕ್ಷರ', tag: '05 · ಒತ್ತಕ್ಷರ · Conjuncts',
+    title: 'Where the shaper earns its keep',
+    kn: 'ಸಂಯುಕ್ತಾಕ್ಷರಗಳ ಸವಾಲು',
+    narrative: 'Clusters like ಕ್ರ, ತ್ರ, ಜ್ಞ, ಶ್ರ are the hardest test a Kannada font faces. The shaping engine must collapse several letters into one elegant ligature. The Conjuncts tab throws the full gauntlet at it.',
+    sampleLabel: 'Live · complex clusters',
+    sample() { return tg(testSet.complexConjuncts[0].split(' ').slice(0, 12).join(' '), 'ts-glyphs'); }
+  },
+  {
+    rail: 'ಶಬ್ದ', tag: '06 · ಶಬ್ದ · Words',
+    title: 'Words, rhythm, rag',
+    kn: 'ಸತತ ಪಠ್ಯ ಮತ್ತು ಅಕ್ಷರ ವಿನ್ಯಾಸ',
+    narrative: 'Letters become language in the Words, Vachana and Kuvempu tabs — continuous prose where line breaking, rag (colour) and readability show themselves. The Words tab also sets the text in a size ladder, from headline to caption.',
+    sampleLabel: 'Live · word sample',
+    sample() { return tg(testSet.words[0], 'ts-body'); }
+  },
+  {
+    rail: 'ಗಾತ್ರ', tag: '07 · ಗಾತ್ರ · Every size',
+    title: 'Every size, down to the pixel',
+    kn: 'ವಾಟರ್ಫಾಲ್ ಮತ್ತು ಹಿಂಟಿಂಗ್',
+    narrative: 'A font must survive the full size range. The Waterfall tab steps your text from 96px down to 8px — and every line is editable. The Hinting tab then pushes to the fine pixel sizes where Kannada glyphs must stay crisp on screen.',
+    sampleLabel: 'Live · a size ladder in your font',
+    sample() {
+      const rows = [[40, 'ಕನ್ನಡ ಭಾಷೆ'], [28, 'ಕರ್ನಾಟಕ ಸಕಲ ಜನಾಂಗದ'], [20, 'ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು'], [14, 'ಒತ್ತಕ್ಷರಗಳು, ಗುಣಿತಾಕ್ಷರಗಳು']];
+      return `<div class="tour-sizes">${rows.map(([sz, t]) =>
+        `<div class="ts-row"><span class="sz">${sz}px</span>${tg(t, 'ts-body')}</div>`
+      ).join('')}</div>`;
+    }
+  },
+  {
+    rail: 'ಸಂದರ್ಭ', tag: '08 · ಸಂದರ್ಭ · In context',
+    title: 'In the wild',
+    kn: 'ವೆಬ್ · ಪ್ರಿಂಟ್ · ಮೊಬೈಲ್ · ಡ್ಯಾಶ್ಬೋರ್ಡ್',
+    narrative: 'A font lives in layouts, not specimen sheets. The Web Display and Print tabs render real pages — hero headers, dashboards, phones and newspapers — all set in your font. See how it holds up in the wild.',
+    sampleLabel: 'Live · the same font in four places',
+    sample() { return `<div class="tour-contexts" id="tour-ctxs"></div>`; },
+    after(stage) {
+      const box = stage.querySelector('#tour-ctxs');
+      if (box) renderContextPreviews(box);
+    }
+  },
+  {
+    rail: 'ಪ್ರಾರಂಭ', tag: '09 · ಪ್ರಾರಂಭ · Begin',
+    title: 'Begin your own journey',
+    kn: 'ಈಗ ನಿಮ್ಮ ಸರದಿ',
+    narrative: 'You have seen the loop: load a font, read its profile, inspect the script, then judge it in context. Everything is one click away. Where would you like to start?',
+    sampleLabel: 'Your path forward',
+    sample() {
+      return `<div class="ts-body" style="color:var(--muted);font-size:14px">1. Load a font → 2. Read its Overview profile → 3. Walk Alphabet → Gunitakshara → Conjuncts → 4. Try Waterfall & Hinting → 5. See it live in Web &amp; Print.</div>`;
+    },
+    cta: `<div class="tour-cta">
+      <button class="btn primary-btn" id="tour-go-profile" type="button">View my profile</button>
+      <button class="btn" id="tour-go-waterfall" type="button">Waterfall</button>
+      <button class="btn" id="tour-go-hinting" type="button">Hinting</button>
+      <button class="btn" id="tour-go-web" type="button">Web Display</button>
+    </div>`,
+    after(stage) {
+      const map = { 'tour-go-profile': 'overview', 'tour-go-waterfall': 'waterfall', 'tour-go-hinting': 'hinting', 'tour-go-web': 'web' };
+      Object.keys(map).forEach(id => {
+        const b = stage.querySelector('#' + id);
+        if (b) b.addEventListener('click', () => { closeTour(true); switchTab(map[id]); });
+      });
+    }
+  }
+];
+
+function renderContextPreviews(container) {
+  const specs = [
+    ['web', 'hero', 'Hero header'],
+    ['web', 'app', 'Dashboard'],
+    ['web', 'mobile', 'Mobile'],
+    ['print', 'newspaper', 'Print']
+  ];
+  container.innerHTML = '';
+  specs.forEach(([panel, layout, cap]) => {
+    const src = document.querySelector(`#mock-${layout} .layout-${layout}`);
+    const box = document.createElement('div');
+    box.className = 'ctx-mini';
+    const capEl = document.createElement('span');
+    capEl.className = 'cap';
+    capEl.textContent = cap;
+    const clip = document.createElement('div');
+    clip.className = 'clip';
+    if (src) clip.appendChild(src.cloneNode(true));
+    else clip.textContent = '—';
+    box.appendChild(capEl);
+    box.appendChild(clip);
+    container.appendChild(box);
+  });
+}
+
+function openTour(startIdx) {
+  const els = tourEls();
+  if (!els.ov || tourOpen) return;
+  tourOpen = true;
+  tourIdx = startIdx || 0;
+  els.ov.hidden = false;
+  document.body.style.overflow = 'hidden';
+  renderTour();
+}
+
+function closeTour(save) {
+  const els = tourEls();
+  if (!els.ov) return;
+  tourOpen = false;
+  els.ov.hidden = true;
+  document.body.style.overflow = '';
+  if (save) localStorage.setItem(TOUR_KEY, '1');
+}
+
+function renderTour() {
+  const els = tourEls();
+  const s = tourSlides[tourIdx];
+
+  els.rail.innerHTML = '';
+  tourSlides.forEach((sl, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tour-rail-item' + (i === tourIdx ? ' active' : '') + (i < tourIdx ? ' done' : '');
+    b.innerHTML = `<span class="tnum">${String(i + 1).padStart(2, '0')}</span><span class="tkn">${sl.rail}</span>`;
+    b.addEventListener('click', () => { tourIdx = i; renderTour(); });
+    els.rail.appendChild(b);
+  });
+
+  els.stage.innerHTML = `
+    <span class="tour-tag">${s.tag}</span>
+    <h3 class="tour-title">${s.title}<span class="kn">${s.kn}</span></h3>
+    <p class="tour-narrative">${s.narrative}</p>
+    <div class="tour-sample"><span class="ts-label">${s.sampleLabel}</span><div class="ts-host">${s.sample()}</div></div>
+    ${s.cta || ''}
+  `;
+  if (s.after) s.after(els.stage);
+
+  els.prev.disabled = tourIdx === 0;
+  els.next.textContent = tourIdx === tourSlides.length - 1 ? 'Start exploring ✓' : 'Continue →';
+  els.count.textContent = `${tourIdx + 1} / ${tourSlides.length}`;
+}
+
+function initTour() {
+  const els = tourEls();
+  if (!els.ov) return;
+  els.next.addEventListener('click', () => {
+    if (tourIdx >= tourSlides.length - 1) { closeTour(true); return; }
+    tourIdx++; renderTour();
+  });
+  els.prev.addEventListener('click', () => { if (tourIdx > 0) { tourIdx--; renderTour(); } });
+  const skip = els.ov.querySelector('#tour-skip');
+  if (skip) skip.addEventListener('click', () => closeTour(true));
+  els.ov.addEventListener('click', e => { if (e.target === els.ov) closeTour(true); });
+  document.addEventListener('keydown', e => {
+    if (els.ov.hidden) return;
+    if (e.key === 'Escape') closeTour(true);
+    if (e.key === 'ArrowRight' && tourIdx < tourSlides.length - 1) { tourIdx++; renderTour(); }
+    if (e.key === 'ArrowLeft' && tourIdx > 0) { tourIdx--; renderTour(); }
+  });
+  const tb = $('tour-btn');
+  if (tb) tb.addEventListener('click', () => openTour(0));
+  if (!localStorage.getItem(TOUR_KEY)) {
+    window.addEventListener('load', () => {
+      const show = () => setTimeout(() => { if (!tourOpen) openTour(0); }, 700);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(show);
+      else show();
+    });
+  }
+}
+initTour();
 
 // ── Close sidebar on resize to desktop ───────────────────
 window.addEventListener('resize', () => {
