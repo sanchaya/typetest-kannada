@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Type Test — Kannada</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' blob: data: https://fonts.gstatic.com https://fonts.googleapis.com https://fonts.sanchaya.net https://raw.githubusercontent.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.sanchaya.net https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="icon" type="image/png" href="img/favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="img/app-icon-light.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1328,6 +1329,17 @@
 </div>
 
 <script>
+function esc(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function safeUrl(u) {
+  try { const p = new URL(u, location.href); return (p.protocol === 'http:' || p.protocol === 'https:') ? p.href : ''; } catch (e) { return ''; }
+}
+const RAW_FONT_BASE = 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/';
+const CDN_FONT_BASE = 'https://fonts.sanchaya.net/Fonts/';
+function cdnFallbackUrl(url) {
+  return url.startsWith(RAW_FONT_BASE) ? CDN_FONT_BASE + url.slice(RAW_FONT_BASE.length) : null;
+}
 // ── Load Random Default Font from fonts.sanchaya.net ────────
 const availableFonts = [
   { name: 'Kedage', url: 'https://raw.githubusercontent.com/sanchaya/fonts/main/static/Fonts/Kedage/Kedage-b.ttf', family: 'Kedage', isVariable: false },
@@ -1440,7 +1452,7 @@ function loadDefaultFont() {
   style.textContent = `
     @font-face {
       font-family: '${fontConfig.family}';
-      src: url('${fontConfig.url}');
+      src: url('${fontConfig.url}')${cdnFallbackUrl(fontConfig.url) ? `, url('${cdnFallbackUrl(fontConfig.url)}')` : ''};
       font-display: swap;
     }
   `;
@@ -2493,7 +2505,7 @@ function profileCompare() {
     if (!wrap) return;
     if (!rows.length) { wrap.innerHTML = '<div class="pf-empty">Load fonts to compare metrics across them.</div>'; return; }
     const rowHtml = (r) => `<tr class="${r.current ? 'pf-current' : ''}">
-      <td><span class="pf-fname">${r.name}</span>${r.current ? '<em class="pf-now">active</em>' : ''}</td>
+      <td><span class="pf-fname">${esc(r.name)}</span>${r.current ? '<em class="pf-now">active</em>' : ''}</td>
       <td>${r.upm}</td><td>${r.glyphs}</td>
       <td><b>${r.coverage.toFixed(1)}%</b></td>
       <td>${r.shaping}%</td>
@@ -2642,13 +2654,13 @@ function profileReportHTML(profile) {
   ).join('');
   const compareRows = profileState.lastCompare.length ? `<h3 class="pf-r-head">Loaded fonts comparison</h3>
     <table class="pf-table"><thead><tr><th>Font</th><th>UPM</th><th>Glyphs</th><th>Coverage</th><th>Shaping</th><th>Features</th></tr></thead><tbody>
-    ${profileState.lastCompare.map(r => `<tr><td>${r.name}${r.current ? ' (active)' : ''}</td><td>${r.upm}</td><td>${r.glyphs}</td><td>${r.coverage.toFixed(1)}%</td><td>${r.shaping}%</td><td>${r.features}</td></tr>`).join('')}
+    ${profileState.lastCompare.map(r => `<tr><td>${esc(r.name)}${r.current ? ' (active)' : ''}</td><td>${r.upm}</td><td>${r.glyphs}</td><td>${r.coverage.toFixed(1)}%</td><td>${r.shaping}%</td><td>${r.features}</td></tr>`).join('')}
     </tbody></table>` : '';
   return `<div class="profile-wrap">
     <div class="profile-hero">
       <div class="profile-ident">
         <span class="section-tag">Typesetting Profile · ಲಿಪಿ ವಿಶ್ಲೇಷಣೆ</span>
-        <h2 class="profile-name">${profileFontLabel(profile.family)}</h2>
+        <h2 class="profile-name">${esc(profileFontLabel(profile.family))}</h2>
         <p class="profile-meta">${m.numGlyphs} glyphs · ${cov.supported}/${cov.total} Unicode codepoints · ${shape.pct}% conjunct shaping · ${m.features.length} OpenType features</p>
       </div>
       <div class="profile-score">
@@ -2730,7 +2742,7 @@ function renderVersionList() {
     const item = document.createElement('div');
     item.className = 'version-item' + (v.fontFamily === state.currentFont ? ' active' : '');
     const time = new Date(v.timestamp).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    item.innerHTML = `<span class="v-name">${v.name.replace(/\.[^.]+$/, '')}${v.persisted ? '<i class="v-persist" title="Saved in browser (IndexedDB)">⤓</i>' : ''}</span><span class="v-label">${time}</span><button class="v-remove" title="Remove font">&#215;</button>`;
+    item.innerHTML = `<span class="v-name">${esc(v.name).replace(/\.[^.]+$/, '')}${v.persisted ? '<i class="v-persist" title="Saved in browser (IndexedDB)">⤓</i>' : ''}</span><span class="v-label">${time}</span><button class="v-remove" title="Remove font">&#215;</button>`;
     item.addEventListener('click', e => {
       if (e.target.closest('.v-remove')) return;
       state.currentFont = v.fontFamily;
@@ -2836,9 +2848,22 @@ async function loadGoogleFont(name) {
 }
 
 async function loadRemoteFont(entry) {
-  const res = await fetch(entry.url);
-  if (!res.ok) throw new Error(`Catalog font returned ${res.status}`);
-  const buffer = await res.arrayBuffer();
+  let buffer;
+  try {
+    const res = await fetch(entry.url);
+    if (!res.ok) throw new Error(`Catalog font returned ${res.status}`);
+    buffer = await res.arrayBuffer();
+  } catch (err) {
+    const cdn = cdnFallbackUrl(entry.url) || entry.cdn;
+    if (!cdn) throw err;
+    try {
+      const res = await fetch(cdn);
+      if (!res.ok) throw new Error(`Catalog font (CDN) returned ${res.status}`);
+      buffer = await res.arrayBuffer();
+    } catch (cdnErr) {
+      throw err;
+    }
+  }
   const family = slugFamily(entry.name, 'San_');
   await registerFontFace(family, buffer);
   return { family, name: entry.name, buffer };
@@ -3672,8 +3697,8 @@ function exportFeedbackPDF() {
     const av = (a === undefined || a === null || a === '') ? '—' : a;
     qaRows += `<div style="margin-bottom:12px;padding:10px 12px;border:1px solid #e2e4ec;border-radius:8px;">
       <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#4361ee;font-weight:700;margin-bottom:3px;">Q${i + 1} · ${q.type === 'text' ? 'Free text' : q.type === 'rating' ? 'Rating 1–10' : 'Multiple choice'}</div>
-      <div style="font-weight:600;font-size:13px;margin-bottom:4px;">${q.q.replace(/</g, '&lt;')}</div>
-      <div style="font-size:13px;">${String(av).replace(/</g, '&lt;')}</div></div>`;
+      <div style="font-weight:600;font-size:13px;margin-bottom:4px;">${esc(q.q)}</div>
+      <div style="font-size:13px;">${esc(av)}</div></div>`;
   });
   const annotated = [];
   feedbackState.annotations.forEach(a => { if (!annotated.includes(a.card)) annotated.push(a.card); });
@@ -3703,7 +3728,7 @@ function exportFeedbackPDF() {
   const report = `
     <div class="fb-report">
       <h1>Type Test — Kannada · Feedback report</h1>
-      <div class="meta">Font: ${fontName} · ${when}</div>
+      <div class="meta">Font: ${esc(fontName)} · ${esc(when)}</div>
       <h2>Annotations</h2>
       ${cardsHtml || '<div style="font-size:12px;color:#6b7280">No annotations yet.</div>'}
       <h2>Questions &amp; answers</h2>
@@ -4432,7 +4457,7 @@ function processFontFromBuffer(buffer, fontFamily, metaEl, otSection) {
     const info = [
       { label: 'Font Family', value: names?.fontFamily?.en || fontFamily },
       { label: 'Designer', value: names?.designer?.en || '—' },
-      { label: 'Designer URL', value: names?.designerURL?.en ? `<a href="${names.designerURL.en}" target="_blank" style="color:var(--text-color3);text-decoration:none;">${names.designerURL.en}</a>` : '—' },
+      { label: 'Designer URL', value: names?.designerURL?.en ? safeUrl(names.designerURL.en) : '—', link: true },
       { label: 'Manufacturer', value: names?.manufacturer?.en || '—' },
       { label: 'License', value: names?.license?.en || '—' },
       { label: 'Version', value: names?.version?.en || '—' },
@@ -4445,10 +4470,14 @@ function processFontFromBuffer(buffer, fontFamily, metaEl, otSection) {
     ];
 
     metaEl.innerHTML = '';
-    info.forEach(({ label, value }) => {
+    info.forEach(({ label, value, link }) => {
       const card = document.createElement('div');
       card.className = 'metadata-card';
-      card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${value}</div>`;
+      if (link && value) {
+        card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value"><a href="${esc(value)}" target="_blank" rel="noopener" style="color:var(--text-color3);text-decoration:none;">${esc(value)}</a></div>`;
+      } else {
+        card.innerHTML = `<div class="metadata-label">${label}</div><div class="metadata-value">${esc(value)}</div>`;
+      }
       metaEl.appendChild(card);
     });
 
@@ -4494,7 +4523,7 @@ function processFontFromBuffer(buffer, fontFamily, metaEl, otSection) {
     }
     renderFontRules();
   } catch (e) {
-    metaEl.innerHTML = `<div class="metadata-empty">Could not parse font: ${e.message}</div>`;
+    metaEl.innerHTML = `<div class="metadata-empty">Could not parse font: ${esc(e.message)}</div>`;
   }
 }
 
@@ -4671,7 +4700,7 @@ function updateCompareSelects() {
   const unique = new Map();
   allFonts.forEach(f => { if (!unique.has(f.fontFamily)) unique.set(f.fontFamily, f.name); });
 
-  const opts = Array.from(unique.entries()).map(([fam, name]) => `<option value="${fam}">${name}</option>`).join('');
+  const opts = Array.from(unique.entries()).map(([fam, name]) => `<option value="${esc(fam)}">${esc(name)}</option>`).join('');
   s1.innerHTML = opts;
   s2.innerHTML = opts;
 

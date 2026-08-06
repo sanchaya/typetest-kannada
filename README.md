@@ -124,7 +124,7 @@ open index.html
 
 ## Deploy
 
-Push to `main` — the GitHub Actions workflow (`.github/workflows/sync-pages.yml`) automatically syncs to the `gh-pages` branch.
+Push to `main` — the GitHub Actions workflow (`.github/workflows/sync-pages.yml`) automatically syncs to the `gh-pages` branch, which is what GitHub Pages serves. A CI check job validates the inline script's syntax and structure first, so a broken commit never reaches the live site.
 
 ```bash
 git push origin main
