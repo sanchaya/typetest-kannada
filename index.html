@@ -11,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="typetest-kannada.css">
 <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -1939,7 +1938,13 @@ const state = {
 };
 
 const $ = id => document.getElementById(id);
-const allTestTexts = () => document.querySelectorAll('.test-text');
+let _testTextCache = null;
+const allTestTexts = () => {
+  if (!_testTextCache) _testTextCache = document.querySelectorAll('.test-text');
+  return _testTextCache;
+};
+function invalidateTestTextCache() { _testTextCache = null; }
+function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 
 // ── renderer ──────────────────────────────────────────────
 let waterfallItems = [];
@@ -2100,6 +2105,7 @@ function makeTestEl(tag, text) {
 }
 
 function renderContent() {
+  invalidateTestTextCache();
   $('render-vowels').textContent = testSet.vowels;
 
   $('overview-vowels').textContent = testSet.vowels;
@@ -2223,6 +2229,45 @@ function detectGlyphInFont(char, fontFamily) {
   return true;
 }
 
+function batchDetectGlyphs(chars, fontFamily) {
+  const frag = document.createDocumentFragment();
+  const testSpans = [];
+  const refSpans = [];
+  const fontFamilyStr = `'${fontFamily}'`;
+  const refFontFamily = "'Apple Color Emoji','Segoe UI Emoji','Noto Sans',Arial,sans-serif";
+  const spanStyle = 'position:absolute;left:-9999px;top:-9999px;font-size:80px;line-height:1;white-space:nowrap;';
+
+  for (const { cp } of chars) {
+    const char = String.fromCodePoint(cp);
+    const testSpan = document.createElement('span');
+    testSpan.style.cssText = spanStyle;
+    testSpan.style.fontFamily = fontFamilyStr;
+    testSpan.textContent = char;
+    const refSpan = document.createElement('span');
+    refSpan.style.cssText = spanStyle;
+    refSpan.style.fontFamily = refFontFamily;
+    refSpan.textContent = char;
+    frag.appendChild(testSpan);
+    frag.appendChild(refSpan);
+    testSpans.push(testSpan);
+    refSpans.push(refSpan);
+  }
+
+  document.body.appendChild(frag);
+  const results = new Map();
+  for (let i = 0; i < chars.length; i++) {
+    const tW = testSpans[i].getBoundingClientRect().width;
+    const tH = testSpans[i].getBoundingClientRect().height;
+    const rW = refSpans[i].getBoundingClientRect().width;
+    const rH = refSpans[i].getBoundingClientRect().height;
+    const inFont = (tW === 0 && rW > 0) ? false : (Math.abs(tW - rW) < 1 && Math.abs(tH - rH) < 1) ? false : true;
+    results.set(chars[i].cp, inFont);
+  }
+  for (const s of testSpans) document.body.removeChild(s);
+  for (const s of refSpans) document.body.removeChild(s);
+  return results;
+}
+
 function renderCoverage() {
   const grid = $('coverage-grid');
   const summary = $('coverage-summary');
@@ -2239,21 +2284,20 @@ function renderCoverage() {
   }
 
   const chars = coverageShowReserved ? kannadaUnicode : assignedKannada;
-  let supported = 0;
   let total = assignedKannada.length;
 
-  assignedKannada.forEach(({ cp, name }) => {
-    const char = String.fromCodePoint(cp);
-    if (detectGlyphInFont(char, state.currentFont)) supported++;
-  });
+  const glyphMap = batchDetectGlyphs(assignedKannada, state.currentFont);
+  let supported = 0;
+  for (const inFont of glyphMap.values()) if (inFont) supported++;
 
   coverageSupported = supported;
   coverageTotal = total;
 
+  const gridFrag = document.createDocumentFragment();
   chars.forEach(({ cp, name }) => {
     const isReserved = name.startsWith("RESERVED");
     const char = String.fromCodePoint(cp);
-    const inFont = detectGlyphInFont(char, state.currentFont);
+    const inFont = glyphMap.get(cp) || false;
 
     const cell = document.createElement('div');
     cell.className = 'coverage-cell' + (isReserved ? ' reserved' : (inFont ? ' supported' : ' fallback'));
@@ -2270,8 +2314,9 @@ function renderCoverage() {
 
     cell.appendChild(charSpan);
     cell.appendChild(codeSpan);
-    grid.appendChild(cell);
+    gridFrag.appendChild(cell);
   });
+  grid.appendChild(gridFrag);
 
   const pctSupported = ((supported / total) * 100).toFixed(1);
   const pctFallback = ((100 - pctSupported)).toFixed(1);
@@ -2302,6 +2347,23 @@ function renderCoverage() {
 // coverage, conjunct shaping integrity, OpenType features,
 // layout statistics and per-role suitability scores.
 const PROFILE_INDIC_FEATURES = ['akhn', 'rphf', 'pref', 'blwf', 'pstf', 'haln', 'cjct', 'pres', 'abvs', 'blws', 'psts', 'ccmp'];
+const FEATURE_NAMES = {
+  locl: 'Localized Forms', ccmp: 'Glyph Composition/Decomposition', nukt: 'Nukta Forms',
+  akhn: 'Akhands', rphf: 'Reph Forms', pref: 'Pre-base Forms',
+  blwf: 'Below-base Forms', pstf: 'Post-base Forms', vatu: 'Vattu Variants',
+  cjct: 'Conjunct Forms', haln: 'Halant Forms', init: 'Initial Forms',
+  pres: 'Pre-base Substitutions', abvs: 'Above-base Forms', blws: 'Below-base Substitutions',
+  psts: 'Post-base Substitutions', liga: 'Standard Ligatures', dlig: 'Discretionary Ligatures',
+  hlig: 'Historical Ligatures', clig: 'Contextual Ligatures', calt: 'Contextual Alternates',
+  salt: 'Stylistic Alternates', swsh: 'Swash', cswh: 'Contextual Swashes',
+  ss01: 'Stylistic Set 1', ss02: 'Stylistic Set 2', ss03: 'Stylistic Set 3',
+  ss04: 'Stylistic Set 4', ss05: 'Stylistic Set 5', ss06: 'Stylistic Set 6',
+  kern: 'Kerning', mark: 'Mark Positioning', mkmk: 'Mark-to-Mark',
+  frac: 'Fractions', ordn: 'Ordinals', sups: 'Superscript', subs: 'Subscript',
+  numr: 'Numerator', dnom: 'Denominator', lnum: 'Lining Figures', onum: 'Oldstyle Figures',
+  pnum: 'Proportional Figures', tnum: 'Tabular Figures', zero: 'Slashed Zero',
+  case: 'Case-Sensitive Forms', titl: 'Titling', cpsp: 'Capital Spacing'
+};
 const PROFILE_LATIN_FEATURES = ['liga', 'calt', 'dlig', 'kern', 'mark', 'mkmk', 'frac', 'sups', 'subs', 'tnum', 'lnum', 'onum', 'pnum', 'zero'];
 
 const profileState = { family: null, buildId: 0, lastProfile: null, lastCompare: [] };
@@ -2976,11 +3038,11 @@ $('wf-max').addEventListener('input', e => {
   $('wf-max-val').textContent = waterfallState.max + 'px';
   renderWaterfall();
 });
-$('wf-text').addEventListener('input', e => {
+$('wf-text').addEventListener('input', debounce(e => {
   waterfallState.text = e.target.value;
   waterfallState.edited.clear();
   renderWaterfall();
-});
+}, 200));
 $('wf-reset').addEventListener('click', () => {
   waterfallState.edited.clear();
   waterfallState.text = $('wf-text').value;
@@ -4338,6 +4400,7 @@ function buildGlyphMapFromBuffer(buffer, fontFamily, grid, count) {
     fontGlyphs = sorted.map(cp => ({ cp, char: String.fromCodePoint(cp) }));
 
     grid.innerHTML = '';
+    const gridFrag = document.createDocumentFragment();
     fontGlyphs.forEach(({ cp, char }) => {
       const cell = document.createElement('div');
       cell.className = 'glyph-cell';
@@ -4361,8 +4424,9 @@ function buildGlyphMapFromBuffer(buffer, fontFamily, grid, count) {
         setTimeout(() => cell.style.background = '', 500);
       });
 
-      grid.appendChild(cell);
+      gridFrag.appendChild(cell);
     });
+    grid.appendChild(gridFrag);
 
     count.textContent = sorted.length + ' glyphs';
   } catch (e) {
@@ -4377,12 +4441,12 @@ function renderGlyphMap() {
 }
 
 if ($('glyph-search')) {
-  $('glyph-search').addEventListener('input', e => {
+  $('glyph-search').addEventListener('input', debounce(e => {
     const q = e.target.value.toLowerCase();
     document.querySelectorAll('.glyph-cell').forEach(cell => {
       cell.style.display = cell.dataset.search.includes(q) ? '' : 'none';
     });
-  });
+  }, 150));
 }
 
 // ── Font Metadata ────────────────────────────────────────
@@ -4492,28 +4556,10 @@ function processFontFromBuffer(buffer, fontFamily, metaEl, otSection) {
       otSection.style.display = 'block';
       otGrid.innerHTML = '';
 
-      const featureNames = {
-        locl: 'Localized Forms', ccmp: 'Glyph Composition', nukt: 'Nukta Forms',
-        akhn: 'Akhands', rphf: 'Reph Forms', pref: 'Pre-base Forms',
-        blwf: 'Below-base Forms', pstf: 'Post-base Forms', vatu: 'Vattu Variants',
-        cjct: 'Conjunct Forms', haln: 'Halant Forms', init: 'Initial Forms',
-        pres: 'Pre-base Substitutions', abvs: 'Above-base Forms', blws: 'Below-base Substitutions',
-        psts: 'Post-base Substitutions', liga: 'Standard Ligatures', dlig: 'Discretionary Ligatures',
-        hlig: 'Historical Ligatures', clig: 'Contextual Ligatures', calt: 'Contextual Alternates',
-        salt: 'Stylistic Alternates', swsh: 'Swash', cswh: 'Contextual Swashes',
-        ss01: 'Stylistic Set 1', ss02: 'Stylistic Set 2', ss03: 'Stylistic Set 3',
-        ss04: 'Stylistic Set 4', ss05: 'Stylistic Set 5', ss06: 'Stylistic Set 6',
-        kern: 'Kerning', mark: 'Mark Positioning', mkmk: 'Mark-to-Mark',
-        frac: 'Fractions', ordn: 'Ordinals', sups: 'Superscript', subs: 'Subscript',
-        numr: 'Numerator', dnom: 'Denominator', lnum: 'Lining Figures', onum: 'Oldstyle Figures',
-        pnum: 'Proportional Figures', tnum: 'Tabular Figures', zero: 'Slashed Zero',
-        case: 'Case-Sensitive Forms', titl: 'Titling', cpsp: 'Capital Spacing'
-      };
-
       gsub.features.forEach(({ tag }) => {
         const feat = document.createElement('div');
         feat.className = 'ot-feature';
-        const name = featureNames[tag] || tag;
+        const name = FEATURE_NAMES[tag] || tag;
         const isIndic = ['locl','ccmp','nukt','akhn','rphf','pref','blwf','pstf','vatu','cjct','haln'].includes(tag);
         if (isIndic) feat.classList.add('indic');
 
@@ -4553,24 +4599,6 @@ function renderFontRules() {
     container.innerHTML = '<div class="metadata-empty">No OpenType rules found in this font</div>';
     return;
   }
-
-  const featureNames = {
-    locl: 'Localized Forms', ccmp: 'Glyph Composition/Decomposition', nukt: 'Nukta Forms',
-    akhn: 'Akhands', rphf: 'Reph Forms', pref: 'Pre-base Forms',
-    blwf: 'Below-base Forms', pstf: 'Post-base Forms', vatu: 'Vattu Variants',
-    cjct: 'Conjunct Forms', haln: 'Halant Forms', init: 'Initial Forms',
-    pres: 'Pre-base Substitutions', abvs: 'Above-base Forms', blws: 'Below-base Substitutions',
-    psts: 'Post-base Substitutions', liga: 'Standard Ligatures', dlig: 'Discretionary Ligatures',
-    hlig: 'Historical Ligatures', clig: 'Contextual Ligatures', calt: 'Contextual Alternates',
-    salt: 'Stylistic Alternates', swsh: 'Swash', cswh: 'Contextual Swashes',
-    ss01: 'Stylistic Set 1', ss02: 'Stylistic Set 2', ss03: 'Stylistic Set 3',
-    ss04: 'Stylistic Set 4', ss05: 'Stylistic Set 5', ss06: 'Stylistic Set 6',
-    kern: 'Kerning', mark: 'Mark Positioning', mkmk: 'Mark-to-Mark',
-    frac: 'Fractions', ordn: 'Ordinals', sups: 'Superscript', subs: 'Subscript',
-    numr: 'Numerator', dnom: 'Denominator', lnum: 'Lining Figures', onum: 'Oldstyle Figures',
-    pnum: 'Proportional Figures', tnum: 'Tabular Figures', zero: 'Slashed Zero',
-    case: 'Case-Sensitive Forms', titl: 'Titling', cpsp: 'Capital Spacing'
-  };
 
   const lookupTypeNames = {
     1: 'Single Substitution', 2: 'Multiple Substitution', 3: 'Alternate Substitution',
@@ -4633,7 +4661,7 @@ function renderFontRules() {
 
       row.innerHTML = `
         <span class="rules-tag ${isIndic ? 'indic-tag' : ''}">${tag}</span>
-        <span class="rules-name">${featureNames[tag] || tag}</span>
+        <span class="rules-name">${FEATURE_NAMES[tag] || tag}</span>
         <span class="rules-lookups">${lookupCount}</span>
         <span class="rules-type">${lookupTypes.join(', ') || '—'}</span>
         <span class="rules-toggle">
@@ -4683,7 +4711,7 @@ function renderFontRules() {
       const isKern = tag === 'kern';
       row.innerHTML = `
         <span class="rules-tag ${isKern ? 'kern-tag' : ''}">${tag}</span>
-        <span class="rules-name">${featureNames[tag] || tag}</span>
+        <span class="rules-name">${FEATURE_NAMES[tag] || tag}</span>
         <span class="rules-lookups">${lookupCount}</span>
         <span class="rules-type">${lookupTypes.join(', ') || '—'}</span>
       `;
@@ -4870,9 +4898,24 @@ function currentFontEmbedCSS() {
   return `@font-face{font-family:'${state.currentFont}';src:url('data:font/truetype;base64,${uint8ToB64(new Uint8Array(buf))}')}\n`;
 }
 
+let _h2cPromise = null;
+function ensureHtml2Canvas() {
+  if (window.html2canvas) return Promise.resolve();
+  if (!_h2cPromise) {
+    _h2cPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload = resolve;
+      s.onerror = () => reject(new Error('Failed to load html2canvas'));
+      document.head.appendChild(s);
+    });
+  }
+  return _h2cPromise;
+}
+
 async function pngFromNode(node, filename) {
   if (!node) return;
-  await document.fonts.ready;
+  await Promise.all([document.fonts.ready, ensureHtml2Canvas()]);
   const canvas = await html2canvas(node, {
     scale: 2, useCORS: true, allowTaint: true,
     onclone: (_doc, el) => {
@@ -5107,12 +5150,12 @@ $('grid-size-range').addEventListener('input', () => {
   $('grid-size-num').value = gridFontSize;
   $('grid-size-num').dispatchEvent(new Event('input'));
 });
-$('grid-size-num').addEventListener('input', () => {
+$('grid-size-num').addEventListener('input', debounce(() => {
   gridFontSize = Math.max(12, Math.min(96, +$('grid-size-num').value || 12));
   $('grid-size-range').value = gridFontSize;
   document.querySelectorAll('.grid-syllable').forEach(el => { el.style.fontSize = gridFontSize + 'px'; });
   document.querySelectorAll('.syllabic-table th').forEach(th => { th.style.fontSize = Math.min(gridFontSize, 18) + 'px'; });
-});
+}, 100));
 document.querySelectorAll('.template-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const data = SYLLABIC_TEMPLATES[btn.dataset.template];

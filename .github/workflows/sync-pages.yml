@@ -29,6 +29,7 @@ jobs:
               'esc() escape helper': 'function esc(',
               'safeUrl() href guard': 'function safeUrl(',
               'CDN fallback helper': 'function cdnFallbackUrl(',
+              'html2canvas lazy-load': 'ensureHtml2Canvas',
             })) {
               if (!html.includes(needle)) { console.error('FAIL: missing ' + name); process.exit(1); }
             }
