@@ -14,6 +14,30 @@
 </head>
 <body>
 
+<!-- SANCHAYA BRAND -->
+<div class="flow-brand" id="flow-brand">
+  <span class="flow-brand-sanchaya">ಸಂಚಯ</span>
+  <span class="flow-brand-sep">&gt;</span>
+  <span class="flow-brand-app">Kannada Typesetting Lab</span>
+</div>
+
+<!-- FLOW NAVIGATION -->
+<div class="flow-nav" id="flow-nav" hidden>
+  <button class="flow-nav-btn flow-nav-prev" id="flow-prev" title="Previous step">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M10.3 12.3L5.6 8l4.7-4.3-.8-.9L3.9 8l5.6 5.2z"/></svg>
+    Prev
+  </button>
+  <div class="flow-nav-info">
+    <span class="flow-nav-persona" id="flow-persona-name"></span>
+    <span class="flow-nav-step" id="flow-step-label"></span>
+  </div>
+  <button class="flow-nav-btn flow-nav-next" id="flow-next">
+    Next
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M5.7 12.3L10.4 8 5.7 3.7l.8-.9L12.1 8l-5.6 5.2z"/></svg>
+  </button>
+  <button class="flow-nav-btn flow-nav-exit" id="flow-exit" title="Exit flow">✕</button>
+</div>
+
 <!-- HEADER -->
 <header>
   <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="sidebar">
@@ -224,31 +248,31 @@
 
     <!-- Tab Navigation -->
     <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Test tabs">
-      <button class="tab-btn active" data-tab="overview" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" tabindex="0">Overview</button>
-      <button class="tab-btn" data-tab="font-info" role="tab" aria-selected="false" aria-controls="panel-font-info" id="tab-font-info" tabindex="-1">Font Info</button>
-      <button class="tab-btn" data-tab="alphabet" role="tab" aria-selected="false" aria-controls="panel-alphabet" id="tab-alphabet" tabindex="-1">Alphabet</button>
-      <button class="tab-btn" data-tab="numbers" role="tab" aria-selected="false" aria-controls="panel-numbers" id="tab-numbers" tabindex="-1">Numbers</button>
-      <button class="tab-btn" data-tab="mixed" role="tab" aria-selected="false" aria-controls="panel-mixed" id="tab-mixed" tabindex="-1">Mixed Letters</button>
-      <button class="tab-btn" data-tab="gunita" role="tab" aria-selected="false" aria-controls="panel-gunita" id="tab-gunita" tabindex="-1">Gunitakshara</button>
-      <button class="tab-btn" data-tab="conjuncts" role="tab" aria-selected="false" aria-controls="panel-conjuncts" id="tab-conjuncts" tabindex="-1">Conjuncts</button>
-      <button class="tab-btn" data-tab="words" role="tab" aria-selected="false" aria-controls="panel-words" id="tab-words" tabindex="-1">Words</button>
-      <button class="tab-btn" data-tab="lettering" role="tab" aria-selected="false" aria-controls="panel-lettering" id="tab-lettering" tabindex="-1">Lettering</button>
-      <button class="tab-btn" data-tab="vachana" role="tab" aria-selected="false" aria-controls="panel-vachana" id="tab-vachana" tabindex="-1">Vachana</button>
-      <button class="tab-btn" data-tab="kuvempu" role="tab" aria-selected="false" aria-controls="panel-kuvempu" id="tab-kuvempu" tabindex="-1">Kuvempu</button>
-      <button class="tab-btn" data-tab="folk" role="tab" aria-selected="false" aria-controls="panel-folk" id="tab-folk" tabindex="-1">Folk Song</button>
-      <button class="tab-btn" data-tab="english" role="tab" aria-selected="false" aria-controls="panel-english" id="tab-english" tabindex="-1">English</button>
-      <button class="tab-btn" data-tab="symbols" role="tab" aria-selected="false" aria-controls="panel-symbols" id="tab-symbols" tabindex="-1">Symbols</button>
-      <button class="tab-btn" data-tab="kerning" role="tab" aria-selected="false" aria-controls="panel-kerning" id="tab-kerning" tabindex="-1">Kerning</button>
-      <button class="tab-btn" data-tab="coverage" role="tab" aria-selected="false" aria-controls="panel-coverage" id="tab-coverage" tabindex="-1">Glyph Coverage</button>
-      <button class="tab-btn" data-tab="glyph-picker" role="tab" aria-selected="false" aria-controls="panel-glyph-picker" id="tab-glyph-picker" tabindex="-1">Glyph Map</button>
-      <button class="tab-btn" data-tab="compare" role="tab" aria-selected="false" aria-controls="panel-compare" id="tab-compare" tabindex="-1">Compare</button>
-      <button class="tab-btn" data-tab="web" role="tab" aria-selected="false" aria-controls="panel-web" id="tab-web" tabindex="-1">Web Display</button>
-      <button class="tab-btn" data-tab="print" role="tab" aria-selected="false" aria-controls="panel-print" id="tab-print" tabindex="-1">Print</button>
-      <button class="tab-btn" data-tab="decompose" role="tab" aria-selected="false" aria-controls="panel-decompose" id="tab-decompose" tabindex="-1">Decompose</button>
-      <button class="tab-btn" data-tab="font-rules" role="tab" aria-selected="false" aria-controls="panel-font-rules" id="tab-font-rules" tabindex="-1">Font Rules</button>
-      <button class="tab-btn" data-tab="waterfall" role="tab" aria-selected="false" aria-controls="panel-waterfall" id="tab-waterfall" tabindex="-1">Waterfall</button>
-      <button class="tab-btn" data-tab="hinting" role="tab" aria-selected="false" aria-controls="panel-hinting" id="tab-hinting" tabindex="-1">Hinting</button>
-      <button class="tab-btn" data-tab="custom" role="tab" aria-selected="false" aria-controls="panel-custom" id="tab-custom" tabindex="-1">Custom</button>
+      <button class="tab-btn active" data-tab="overview" data-persona="all" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" tabindex="0">Overview</button>
+      <button class="tab-btn" data-tab="font-info" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-font-info" id="tab-font-info" tabindex="-1">Font Info</button>
+      <button class="tab-btn" data-tab="alphabet" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-alphabet" id="tab-alphabet" tabindex="-1">Alphabet</button>
+      <button class="tab-btn" data-tab="numbers" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-numbers" id="tab-numbers" tabindex="-1">Numbers</button>
+      <button class="tab-btn" data-tab="mixed" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-mixed" id="tab-mixed" tabindex="-1">Mixed Letters</button>
+      <button class="tab-btn" data-tab="gunita" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-gunita" id="tab-gunita" tabindex="-1">Gunitakshara</button>
+      <button class="tab-btn" data-tab="conjuncts" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-conjuncts" id="tab-conjuncts" tabindex="-1">Conjuncts</button>
+      <button class="tab-btn" data-tab="words" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-words" id="tab-words" tabindex="-1">Words</button>
+      <button class="tab-btn" data-tab="lettering" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-lettering" id="tab-lettering" tabindex="-1">Lettering</button>
+      <button class="tab-btn" data-tab="vachana" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-vachana" id="tab-vachana" tabindex="-1">Vachana</button>
+      <button class="tab-btn" data-tab="kuvempu" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-kuvempu" id="tab-kuvempu" tabindex="-1">Kuvempu</button>
+      <button class="tab-btn" data-tab="folk" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-folk" id="tab-folk" tabindex="-1">Folk Song</button>
+      <button class="tab-btn" data-tab="english" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-english" id="tab-english" tabindex="-1">English</button>
+      <button class="tab-btn" data-tab="symbols" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-symbols" id="tab-symbols" tabindex="-1">Symbols</button>
+      <button class="tab-btn" data-tab="kerning" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-kerning" id="tab-kerning" tabindex="-1">Kerning</button>
+      <button class="tab-btn" data-tab="coverage" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-coverage" id="tab-coverage" tabindex="-1">Glyph Coverage</button>
+      <button class="tab-btn" data-tab="glyph-picker" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-glyph-picker" id="tab-glyph-picker" tabindex="-1">Glyph Map</button>
+      <button class="tab-btn" data-tab="compare" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-compare" id="tab-compare" tabindex="-1">Compare</button>
+      <button class="tab-btn" data-tab="web" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-web" id="tab-web" tabindex="-1">Web Display</button>
+      <button class="tab-btn" data-tab="print" data-persona="publisher designer" role="tab" aria-selected="false" aria-controls="panel-print" id="tab-print" tabindex="-1">Print</button>
+      <button class="tab-btn" data-tab="decompose" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-decompose" id="tab-decompose" tabindex="-1">Decompose</button>
+      <button class="tab-btn" data-tab="font-rules" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-font-rules" id="tab-font-rules" tabindex="-1">Font Rules</button>
+      <button class="tab-btn" data-tab="waterfall" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-waterfall" id="tab-waterfall" tabindex="-1">Waterfall</button>
+      <button class="tab-btn" data-tab="hinting" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-hinting" id="tab-hinting" tabindex="-1">Hinting</button>
+      <button class="tab-btn" data-tab="custom" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-custom" id="tab-custom" tabindex="-1">Custom</button>
     </nav>
 
     <h1 class="visually-hidden">Type Test — Kannada Font Inspector</h1>
@@ -299,56 +323,36 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Personas · ಗಮನಕೇಂದ್ರ</span>
-          <span class="section-desc">Pick your focus — each persona jumps to the most relevant test panels</span>
+          <span class="section-desc">Pick your focus — each persona guides you through a curated sequence of tests</span>
         </div>
         <div class="persona-grid">
-          <div class="persona-card" data-tab="web">
+          <div class="persona-card" data-persona="designer">
             <span class="persona-icon">&#9670;</span>
             <span class="persona-title">ವಿನ್ಯಾಸಕ <em>Designer</em></span>
-            <span class="persona-desc">ಓದುವಿಕೆ, ಗಾತ್ರದ ಕ್ರಮ, ಅಕ್ಷರ ಕೂಡುಗಳು — realistic contexts, role fonts, background control.</span>
-            <span class="persona-chips"><span class="chip">Web Display</span><span class="chip">Kerning</span><span class="chip">Waterfall</span></span>
-            <button class="btn persona-go">Open</button>
+            <span class="persona-desc">Display quality, spacing, and rendering across screen and print sizes.</span>
+            <span class="persona-chips"><span class="chip">Web Display</span><span class="chip">Kerning</span><span class="chip">Waterfall</span><span class="chip">Hinting</span><span class="chip">Lettering</span></span>
+            <button class="btn persona-go">Begin</button>
           </div>
-          <div class="persona-card" data-tab="coverage">
+          <div class="persona-card" data-persona="developer">
             <span class="persona-icon">&#9651;</span>
             <span class="persona-title">ಡೆವೆಲಪರ್ <em>Developer</em></span>
-            <span class="persona-desc">ಗ್ಲಿಫ್ ವ್ಯಾಪ್ತಿ, OpenType ಸವಲತ್ತುಗಳು, ನಿಖರ ಲಿಪಿ ಪರಿಶೀಲನೆ.</span>
-            <span class="persona-chips"><span class="chip">Coverage</span><span class="chip">Glyph Map</span><span class="chip">Font Rules</span><span class="chip">Custom</span></span>
-            <button class="btn persona-go">Open</button>
+            <span class="persona-desc">Font internals, coverage, and technical specifications.</span>
+            <span class="persona-chips"><span class="chip">Font Info</span><span class="chip">Coverage</span><span class="chip">Glyph Map</span><span class="chip">Font Rules</span><span class="chip">Decompose</span></span>
+            <button class="btn persona-go">Begin</button>
           </div>
-          <div class="persona-card" data-tab="print">
+          <div class="persona-card" data-persona="publisher">
             <span class="persona-icon">&#9632;</span>
             <span class="persona-title">ಪ್ರಕಾಶಕ <em>Publisher</em></span>
-            <span class="persona-desc">ದಟ್ಟವಾದ ಪಠ್ಯ, ಪತ್ರಿಕೆ, ಪುಸ್ತಕ, ಪಿಂಟ್ ಲೇಔಟ್ಗಳಲ್ಲಿ ದೀರ್ಘ ಓದು.</span>
-            <span class="persona-chips"><span class="chip">Print</span><span class="chip">Vachana</span><span class="chip">Kuvempu</span><span class="chip">Words</span></span>
-            <button class="btn persona-go">Open</button>
+            <span class="persona-desc">Print-readiness — layouts, body text, and publishing contexts.</span>
+            <span class="persona-chips"><span class="chip">Print</span><span class="chip">Words</span><span class="chip">Vachana</span><span class="chip">Kuvempu</span><span class="chip">Folk Song</span></span>
+            <button class="btn persona-go">Begin</button>
           </div>
-          <div class="persona-card" data-tab="alphabet">
+          <div class="persona-card" data-persona="student">
             <span class="persona-icon">&#9633;</span>
             <span class="persona-title">ವಿದ್ಯಾರ್ಥಿ <em>Student</em></span>
-            <span class="persona-desc">ವರ್ಣಮಾಲೆ, ಗುಣಿತಾಕ್ಷರ, ಒತ್ತಕ್ಷರ — ಲಿಪಿಯ ರಚನೆಯನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ.</span>
-            <span class="persona-chips"><span class="chip">Alphabet</span><span class="chip">Gunitakshara</span><span class="chip">Conjuncts</span><span class="chip">Numbers</span></span>
-            <button class="btn persona-go">Open</button>
-          </div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-meta">
-          <span class="section-tag">Quick Overview</span>
-          <span class="section-desc">All key character sets at a glance</span>
-        </div>
-        <div class="overview-grid">
-          <div class="overview-item">
-            <span class="overview-label">Vowels</span>
-            <span class="test-text overview-text" id="overview-vowels"></span>
-          </div>
-          <div class="overview-item">
-            <span class="overview-label">Numbers</span>
-            <span class="test-text overview-text" id="overview-numbers"></span>
-          </div>
-          <div class="overview-item overview-full">
-            <span class="overview-label">Sample Text</span>
-            <span class="test-text overview-text" id="overview-paragraph"></span>
+            <span class="persona-desc">Step through the Kannada script systematically — letters to conjuncts.</span>
+            <span class="persona-chips"><span class="chip">Alphabet</span><span class="chip">Numbers</span><span class="chip">Gunitakshara</span><span class="chip">Conjuncts</span><span class="chip">Mixed Letters</span></span>
+            <button class="btn persona-go">Begin</button>
           </div>
         </div>
       </div>
@@ -1066,9 +1070,10 @@
                   <div class="np-sidebar-item">
                     <div class="np-sidebar-hed typo-heading text-heading">ವೇರಿಯಬಲ್ ಫಾಂಟ್</div>
                     <div class="np-sidebar-txt typo-body text-body">ಒಂದು ವೇರಿಯಬಲ್ ಫಾಂಟ್ ಫೈಲ್ ಇಡೀ ಟೈಪ್ ಕುಟುಂಬವನ್ನು ಬದಲಿಸುತ್ತದೆ.</div>
-                  </div>
-                </div>
-              </div>
+        </div>
+        <p class="persona-print-note">Each flow includes a "Print Specimen" button to export the entire walkthrough as a printable booklet.</p>
+      </div>
+    </div>
               <div class="np-footer">
                 <span class="np-footer-txt typo-body text-title">ಅಕ್ಷರ ಪತ್ರಿಕೆ</span>
                 <span class="np-footer-txt typo-body">ಪುಟ A1</span>
@@ -1282,6 +1287,13 @@
     </div>
 
   </div>
+
+  <!-- Flow Bar (shown during guided persona flows) -->
+  <div class="flow-bar" id="flow-bar" hidden>
+    <div class="flow-bar-desc" id="flow-step-desc"></div>
+    <button class="btn flow-bar-print" id="flow-print-btn" title="Print this flow as a specimen booklet">Print Specimen</button>
+  </div>
+
 </main>
 
 <!-- STATUS BAR -->
@@ -4276,8 +4288,254 @@ tabButtons.forEach(btn => {
 });
 
 document.querySelectorAll('.persona-card').forEach(card => {
-  card.addEventListener('click', () => switchTab(card.dataset.tab));
+  card.addEventListener('click', () => {
+    const persona = card.dataset.persona;
+    if (persona && PERSONA_FLOWS[persona]) {
+      enterFlow(persona);
+    }
+  });
 });
+
+// ── Persona Flow Definitions ──────────────────────────────
+const PERSONA_FLOWS = {
+  publisher: {
+    name: 'ಪ್ರಕಾಶಕ',
+    label: 'Publisher',
+    desc: 'A curated walkthrough for evaluating print-readiness of Kannada typefaces.',
+    steps: [
+      { tab: 'print',      title: 'Print Layouts',   desc: 'Start with print layouts — newspaper, book, and magazine. This is how your font looks in real publishing contexts.' },
+      { tab: 'words',      title: 'Word Samples',     desc: 'Common Kannada words reveal spacing and shaping at typical reading sizes.' },
+      { tab: 'vachana',    title: 'Vachana',          desc: 'Vachana prose tests body text readability — long-form continuous Kannada.' },
+      { tab: 'kuvempu',    title: 'Kuvempu Poetry',   desc: 'Kuvempu\'s poetry pushes line-breaking, hyphenation, and poetic typography.' },
+      { tab: 'folk',       title: 'Folk Song',         desc: 'Folk song lyrics — rhythmic, repetitive, tests consistency of glyph shapes.' }
+    ]
+  },
+  student: {
+    name: 'ವಿದ್ಯಾರ್ಥಿ',
+    label: 'Student',
+    desc: 'Step through the Kannada script systematically — from individual letters to complex conjuncts.',
+    steps: [
+      { tab: 'alphabet',   title: 'Alphabet',         desc: 'Begin with the full Kannada alphabet — vowel signs and consonants.' },
+      { tab: 'numbers',    title: 'Numbers',          desc: 'Kannada numerals — essential for any educational material.' },
+      { tab: 'gunita',     title: 'Gunitakshara',     desc: 'Vowel-conjunct combinations (ಗುಣಾಕ್ಷರ) — the building blocks of Kannada syllables.' },
+      { tab: 'conjuncts',  title: 'Conjuncts',        desc: 'Consonant conjuncts (ಸಂಯುಕ್ತಾಕ್ಷರ) — complex letter combinations that test shaping engine quality.' },
+      { tab: 'mixed',      title: 'Mixed Letters',    desc: 'Mixed letter samples — realistic combinations found in everyday Kannada text.' }
+    ]
+  },
+  designer: {
+    name: 'ವಿನ್ಯಾಸಕ',
+    label: 'Designer',
+    desc: 'Evaluate display quality, spacing, and rendering across screen and print sizes.',
+    steps: [
+      { tab: 'web',        title: 'Web Display',      desc: 'Web-optimized sizes — how your font renders on screens at typical UI sizes.' },
+      { tab: 'kerning',    title: 'Kerning Pairs',    desc: 'Critical kerning pairs — identify spacing issues between common letter combinations.' },
+      { tab: 'waterfall',  title: 'Waterfall',        desc: 'Size waterfall from 8px to 96px — find the sweet spot and spot rendering breakpoints.' },
+      { tab: 'hinting',    title: 'Hinting',          desc: 'Hinting quality at small sizes — pixel-fidelity on low-resolution screens.' },
+      { tab: 'lettering',  title: 'Lettering',        desc: 'Display-size lettering — the hero moments where your font makes a statement.' }
+    ]
+  },
+  developer: {
+    name: 'ಡೆವಲಪರ್',
+    label: 'Developer',
+    desc: 'Inspect font internals, coverage, and technical specifications.',
+    steps: [
+      { tab: 'font-info',  title: 'Font Info',        desc: 'Start with font metadata — family name, version, designer, and technical stats.' },
+      { tab: 'coverage',   title: 'Glyph Coverage',   desc: 'Unicode coverage — which Kannada codepoints are supported and which are missing.' },
+      { tab: 'glyph-picker', title: 'Glyph Map',      desc: 'Visual glyph map — browse every glyph in the font, search by name or codepoint.' },
+      { tab: 'font-rules', title: 'Font Rules',       desc: 'OpenType rules — GSUB/GPOS features, ligatures, and positioning lookups.' },
+      { tab: 'decompose',  title: 'Decompose',        desc: 'Glyph decomposition — how complex glyphs are built from simpler components.' }
+    ]
+  }
+};
+
+// ── Flow State ────────────────────────────────────────────
+let currentFlow = null;
+let currentStepIndex = 0;
+
+function enterFlow(persona) {
+  const flow = PERSONA_FLOWS[persona];
+  if (!flow) return;
+  currentFlow = { persona, ...flow };
+  currentStepIndex = 0;
+  document.body.classList.add('flow-active');
+  $('flow-nav').hidden = false;
+  $('flow-bar').classList.add('is-active');
+  updateFlowUI();
+  filterTabsForFlow(persona);
+  goToStep(0);
+}
+
+function exitFlow() {
+  currentFlow = null;
+  currentStepIndex = 0;
+  document.body.classList.remove('flow-active');
+  $('flow-nav').hidden = true;
+  $('flow-bar').classList.remove('is-active');
+  unfilterTabs();
+}
+
+function nextStep() {
+  if (!currentFlow) return;
+  if (currentStepIndex < currentFlow.steps.length - 1) {
+    goToStep(currentStepIndex + 1);
+  }
+}
+
+function prevStep() {
+  if (!currentFlow) return;
+  if (currentStepIndex > 0) {
+    goToStep(currentStepIndex - 1);
+  }
+}
+
+function goToStep(idx) {
+  if (!currentFlow || idx < 0 || idx >= currentFlow.steps.length) return;
+  currentStepIndex = idx;
+  const step = currentFlow.steps[idx];
+  updateFlowUI();
+  switchTab(step.tab);
+}
+
+function updateFlowUI() {
+  if (!currentFlow) return;
+  const step = currentFlow.steps[currentStepIndex];
+  $('flow-persona-name').textContent = currentFlow.name;
+  $('flow-step-label').textContent = `${currentStepIndex + 1}/${currentFlow.steps.length} — ${step.title}`;
+  $('flow-step-desc').textContent = step.desc;
+  $('flow-prev').disabled = currentStepIndex === 0;
+  $('flow-next').disabled = currentStepIndex === currentFlow.steps.length - 1;
+}
+
+function filterTabsForFlow(persona) {
+  document.querySelectorAll('.tab-btn[data-persona]').forEach(btn => {
+    const personas = btn.dataset.persona.split(/\s+/);
+    if (personas.includes('all') || personas.includes(persona)) {
+      btn.classList.add('persona-visible');
+    } else {
+      btn.classList.remove('persona-visible');
+    }
+  });
+}
+
+function unfilterTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('persona-visible');
+  });
+}
+
+// ── Flow Navigation Event Listeners ──────────────────────
+$('flow-prev')?.addEventListener('click', prevStep);
+$('flow-next')?.addEventListener('click', nextStep);
+$('flow-exit')?.addEventListener('click', exitFlow);
+$('flow-print-btn')?.addEventListener('click', printFlow);
+
+// ── Print Flow as Specimen Booklet ───────────────────────
+function getStepPrintContent(persona, step) {
+  const panel = document.querySelector(`#panel-${step.tab}`);
+  if (!panel) return '<p>Panel not available</p>';
+
+  const clone = panel.cloneNode(true);
+
+  clone.querySelectorAll('input, textarea, select, button').forEach(el => el.remove());
+  clone.querySelectorAll('.toolbar, .controls, .btn, .export-btn').forEach(el => el.remove());
+
+  const testTexts = clone.querySelectorAll('.test-text');
+  testTexts.forEach(el => {
+    el.style.fontFamily = `'${state.currentFont}', sans-serif`;
+    el.style.fontSize = state.fontSize + 'px';
+  });
+
+  return clone.innerHTML;
+}
+
+function printFlow() {
+  if (!currentFlow) return;
+
+  const fontName = state.currentFont || 'Unknown Font';
+  const personaLabel = currentFlow.label;
+  const personaName = currentFlow.name;
+
+  const stepsHtml = currentFlow.steps.map((step, i) => {
+    const content = getStepPrintContent(currentFlow.persona, step);
+    return `
+      <div class="print-step">
+        <div class="print-step-header">
+          <span class="print-step-num">${i + 1}</span>
+          <div class="print-step-title">
+            <h2>${step.title}</h2>
+            <p class="print-step-desc">${step.desc}</p>
+          </div>
+        </div>
+        <div class="print-step-content">${content}</div>
+      </div>
+    `;
+  }).join('');
+
+  const printHtml = `<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <title>${fontName} — ${personaLabel} Specimen</title>
+  <style>
+    @page { size: A4; margin: 20mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; line-height: 1.5; }
+
+    .print-cover {
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      min-height: 100vh; text-align: center; page-break-after: always;
+    }
+    .print-cover-brand { font-size: 14px; color: #666; margin-bottom: 40px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .print-cover h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+    .print-cover .persona { font-size: 24px; color: #4361ee; margin-bottom: 24px; }
+    .print-cover .font-name { font-size: 20px; color: #666; margin-bottom: 48px; }
+    .print-cover .date { font-size: 12px; color: #999; }
+
+    .print-step {
+      page-break-inside: avoid; margin-bottom: 32px; padding-bottom: 24px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .print-step:last-child { border-bottom: none; }
+    .print-step-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+    .print-step-num {
+      width: 32px; height: 32px; border-radius: 50%; background: #4361ee; color: #fff;
+      display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;
+      flex-shrink: 0;
+    }
+    .print-step-title h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .print-step-desc { font-size: 13px; color: #666; }
+    .print-step-content { padding-left: 48px; }
+
+    .test-text { font-family: '${fontName}', sans-serif; }
+    .section { margin-bottom: 16px; }
+    .section-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #999; display: block; margin-bottom: 8px; }
+
+    @media print {
+      .print-cover { min-height: auto; padding: 40mm 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-cover">
+    <div class="print-cover-brand">ಸಂಚಯ · Sanchaya</div>
+    <h1>Kannada Typesetting Lab</h1>
+    <div class="persona">${personaName} · ${personaLabel}</div>
+    <div class="font-name">${esc(fontName)}</div>
+    <div class="date">${new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+  </div>
+  ${stepsHtml}
+</body>
+</html>`;
+
+  const blob = new Blob([printHtml], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const win = window.open(url, '_blank');
+  if (win) {
+    win.addEventListener('load', () => {
+      setTimeout(() => { win.print(); }, 300);
+    });
+  }
+}
 
 // ── URL Session Sharing ──────────────────────────────────
 function encodeState() {
@@ -5416,24 +5674,24 @@ const tourSlides = [
   },
   {
     rail: 'ಪ್ರಾರಂಭ', tag: '09 · ಪ್ರಾರಂಭ · Begin',
-    title: 'Begin your own journey',
-    kn: 'ಈಗ ನಿಮ್ಮ ಸರದಿ',
-    narrative: 'You have seen the loop: load a font, read its profile, inspect the script, then judge it in context. Everything is one click away. Where would you like to start?',
-    sampleLabel: 'Your path forward',
+    title: 'Choose your path',
+    kn: 'ನಿಮ್ಮ ಮಾರ್ಗವನ್ನು ಆರಿಸಿ',
+    narrative: 'You have seen the loop: load a font, read its profile, inspect the script, then judge it in context. Now pick a persona — each one guides you through a curated sequence of tests designed for your role.',
+    sampleLabel: 'Pick a persona to begin',
     sample() {
-      return `<div class="ts-body" style="color:var(--muted);font-size:14px">1. Load a font → 2. Read its Overview profile → 3. Walk Alphabet → Lettering → Gunitakshara → Conjuncts → 4. Try Waterfall &amp; Hinting → 5. See it live in Web &amp; Print → 6. Send feedback with the Feedback workflow.</div>`;
+      return `<div class="tour-personas">
+        <button class="btn tour-persona-btn" data-persona="publisher">ಪ್ರಕಾಶಕ <em>Publisher</em></button>
+        <button class="btn tour-persona-btn" data-persona="student">ವಿದ್ಯಾರ್ಥಿ <em>Student</em></button>
+        <button class="btn tour-persona-btn" data-persona="designer">ವಿನ್ಯಾಸಕ <em>Designer</em></button>
+        <button class="btn tour-persona-btn" data-persona="developer">ಡೆವೆಲಪರ್ <em>Developer</em></button>
+      </div>`;
     },
-    cta: `<div class="tour-cta">
-      <button class="btn primary-btn" id="tour-go-profile" type="button">View my profile</button>
-      <button class="btn" id="tour-go-waterfall" type="button">Waterfall</button>
-      <button class="btn" id="tour-go-hinting" type="button">Hinting</button>
-      <button class="btn" id="tour-go-web" type="button">Web Display</button>
-    </div>`,
     after(stage) {
-      const map = { 'tour-go-profile': 'overview', 'tour-go-waterfall': 'waterfall', 'tour-go-hinting': 'hinting', 'tour-go-web': 'web' };
-      Object.keys(map).forEach(id => {
-        const b = stage.querySelector('#' + id);
-        if (b) b.addEventListener('click', () => { closeTour(true); switchTab(map[id]); });
+      stage.querySelectorAll('.tour-persona-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          closeTour(true);
+          enterFlow(btn.dataset.persona);
+        });
       });
     }
   }
