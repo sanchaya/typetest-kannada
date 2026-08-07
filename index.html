@@ -2011,6 +2011,12 @@ function updateWaterfall() {
 }
 
 function applyFont(fontFamily) {
+  const savedSize = localStorage.getItem('typetest-size-' + fontFamily);
+  if (savedSize) {
+    state.fontSize = +savedSize;
+    $('size-slider').value = state.fontSize;
+    $('size-val').textContent = state.fontSize + 'px';
+  }
   allTestTexts().forEach(el => {
     el.style.fontFamily = `'${fontFamily}', sans-serif`;
     if (state.isVariable) {
@@ -4106,6 +4112,7 @@ function initContextEngine() {
 $('size-slider').addEventListener('input', e => {
   state.fontSize = +e.target.value;
   $('size-val').textContent = state.fontSize + 'px';
+  if (state.currentFont) localStorage.setItem('typetest-size-' + state.currentFont, state.fontSize);
   applyControls();
   updateUrl();
 });
@@ -4131,6 +4138,7 @@ $('lig-toggle').addEventListener('change', e => { state.ligatures = e.target.che
 $('kern-toggle').addEventListener('change', e => { state.kerning = e.target.checked; applyControls(); updateUrl(); });
 $('dark-toggle').addEventListener('change', e => {
   state.darkBg = e.target.checked;
+  localStorage.setItem('typetest-dark', state.darkBg ? '1' : '0');
   const main = document.getElementById('main-area');
   if (state.darkBg) {
     main.style.background = '#0f0e0c';
@@ -4326,6 +4334,11 @@ function applyUrlState() {
   if (params.get('liga') === '0') { state.ligatures = false; $('lig-toggle').checked = false; }
   if (params.get('kern') === '0') { state.kerning = false; $('kern-toggle').checked = false; }
   if (params.get('dark') === '1') {
+    state.darkBg = true;
+    $('dark-toggle').checked = true;
+    document.getElementById('main-area').style.background = '#0f0e0c';
+    document.querySelectorAll('.test-text').forEach(el => el.style.color = '#f5f2ec');
+  } else if (!params.has('dark') && localStorage.getItem('typetest-dark') === '1') {
     state.darkBg = true;
     $('dark-toggle').checked = true;
     document.getElementById('main-area').style.background = '#0f0e0c';
