@@ -2044,7 +2044,7 @@ function applyFont(fontFamily) {
 }
 
 function applyFontToAll() {
-  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-second-conjuncts', 'render-complex-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
+  const directElements = ['render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-second-conjuncts', 'render-complex-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
   directElements.forEach(id => {
     const el = $(id);
     if (el && state.currentFont) {
@@ -2088,7 +2088,7 @@ function applyControls() {
     }
   });
   // Also update direct elements
-  const directElements = ['overview-vowels', 'overview-numbers', 'overview-paragraph', 'render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-second-conjuncts', 'render-complex-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
+  const directElements = ['render-kannada-numbers', 'render-english-numbers', 'render-special-conjuncts', 'render-second-conjuncts', 'render-complex-conjuncts', 'render-words', 'render-words2', 'render-kuvempu', 'render-english-words', 'render-symbols', 'render-kerning', 'render-kerning-kannada', 'custom-render', 'render-gunita-grid', 'render-conjuncts-grid'];
   directElements.forEach(id => {
     const el = $(id);
     if (el) {
@@ -2125,10 +2125,6 @@ function makeTestEl(tag, text) {
 function renderContent() {
   invalidateTestTextCache();
   $('render-vowels').textContent = testSet.vowels;
-
-  $('overview-vowels').textContent = testSet.vowels;
-  $('overview-numbers').textContent = testSet.kannadaNumbers;
-  $('overview-paragraph').textContent = testSet.words[0];
 
   const consEl = $('render-consonants');
   consEl.innerHTML = '';
