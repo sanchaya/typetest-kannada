@@ -4084,15 +4084,18 @@ $('dark-toggle').addEventListener('change', e => {
 function toggleSidebar(open) {
   const sidebar = $('sidebar');
   const overlay = $('sidebar-overlay');
+  const toggle = $('menu-toggle');
   if (open === undefined) {
     open = !sidebar.classList.contains('open');
   }
   if (open) {
     sidebar.classList.add('open');
     overlay.classList.add('active');
+    toggle.setAttribute('aria-expanded', 'true');
   } else {
     sidebar.classList.remove('open');
     overlay.classList.remove('active');
+    toggle.setAttribute('aria-expanded', 'false');
   }
 }
 
