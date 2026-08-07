@@ -17,7 +17,7 @@
 
 <!-- HEADER -->
 <header>
-  <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+  <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="sidebar">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
   <div class="header-brand">
@@ -44,7 +44,7 @@
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <!-- SIDEBAR -->
-<aside id="sidebar">
+<aside id="sidebar" role="dialog" aria-modal="true" aria-label="Font settings and tools">
 
   <!-- Upload -->
   <div>
@@ -224,36 +224,38 @@
     </div>
 
     <!-- Tab Navigation -->
-    <div class="tab-nav" id="tab-nav">
-      <button class="tab-btn active" data-tab="overview">Overview</button>
-      <button class="tab-btn" data-tab="font-info">Font Info</button>
-      <button class="tab-btn" data-tab="alphabet">Alphabet</button>
-      <button class="tab-btn" data-tab="numbers">Numbers</button>
-      <button class="tab-btn" data-tab="mixed">Mixed Letters</button>
-      <button class="tab-btn" data-tab="gunita">Gunitakshara</button>
-      <button class="tab-btn" data-tab="conjuncts">Conjuncts</button>
-      <button class="tab-btn" data-tab="words">Words</button>
-      <button class="tab-btn" data-tab="lettering">Lettering</button>
-      <button class="tab-btn" data-tab="vachana">Vachana</button>
-      <button class="tab-btn" data-tab="kuvempu">Kuvempu</button>
-      <button class="tab-btn" data-tab="folk">Folk Song</button>
-      <button class="tab-btn" data-tab="english">English</button>
-      <button class="tab-btn" data-tab="symbols">Symbols</button>
-      <button class="tab-btn" data-tab="kerning">Kerning</button>
-      <button class="tab-btn" data-tab="coverage">Glyph Coverage</button>
-      <button class="tab-btn" data-tab="glyph-picker">Glyph Map</button>
-      <button class="tab-btn" data-tab="compare">Compare</button>
-      <button class="tab-btn" data-tab="web">Web Display</button>
-      <button class="tab-btn" data-tab="print">Print</button>
-      <button class="tab-btn" data-tab="decompose">Decompose</button>
-      <button class="tab-btn" data-tab="font-rules">Font Rules</button>
-      <button class="tab-btn" data-tab="waterfall">Waterfall</button>
-      <button class="tab-btn" data-tab="hinting">Hinting</button>
-      <button class="tab-btn" data-tab="custom">Custom</button>
-    </div>
+    <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Test tabs">
+      <button class="tab-btn active" data-tab="overview" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" tabindex="0">Overview</button>
+      <button class="tab-btn" data-tab="font-info" role="tab" aria-selected="false" aria-controls="panel-font-info" id="tab-font-info" tabindex="-1">Font Info</button>
+      <button class="tab-btn" data-tab="alphabet" role="tab" aria-selected="false" aria-controls="panel-alphabet" id="tab-alphabet" tabindex="-1">Alphabet</button>
+      <button class="tab-btn" data-tab="numbers" role="tab" aria-selected="false" aria-controls="panel-numbers" id="tab-numbers" tabindex="-1">Numbers</button>
+      <button class="tab-btn" data-tab="mixed" role="tab" aria-selected="false" aria-controls="panel-mixed" id="tab-mixed" tabindex="-1">Mixed Letters</button>
+      <button class="tab-btn" data-tab="gunita" role="tab" aria-selected="false" aria-controls="panel-gunita" id="tab-gunita" tabindex="-1">Gunitakshara</button>
+      <button class="tab-btn" data-tab="conjuncts" role="tab" aria-selected="false" aria-controls="panel-conjuncts" id="tab-conjuncts" tabindex="-1">Conjuncts</button>
+      <button class="tab-btn" data-tab="words" role="tab" aria-selected="false" aria-controls="panel-words" id="tab-words" tabindex="-1">Words</button>
+      <button class="tab-btn" data-tab="lettering" role="tab" aria-selected="false" aria-controls="panel-lettering" id="tab-lettering" tabindex="-1">Lettering</button>
+      <button class="tab-btn" data-tab="vachana" role="tab" aria-selected="false" aria-controls="panel-vachana" id="tab-vachana" tabindex="-1">Vachana</button>
+      <button class="tab-btn" data-tab="kuvempu" role="tab" aria-selected="false" aria-controls="panel-kuvempu" id="tab-kuvempu" tabindex="-1">Kuvempu</button>
+      <button class="tab-btn" data-tab="folk" role="tab" aria-selected="false" aria-controls="panel-folk" id="tab-folk" tabindex="-1">Folk Song</button>
+      <button class="tab-btn" data-tab="english" role="tab" aria-selected="false" aria-controls="panel-english" id="tab-english" tabindex="-1">English</button>
+      <button class="tab-btn" data-tab="symbols" role="tab" aria-selected="false" aria-controls="panel-symbols" id="tab-symbols" tabindex="-1">Symbols</button>
+      <button class="tab-btn" data-tab="kerning" role="tab" aria-selected="false" aria-controls="panel-kerning" id="tab-kerning" tabindex="-1">Kerning</button>
+      <button class="tab-btn" data-tab="coverage" role="tab" aria-selected="false" aria-controls="panel-coverage" id="tab-coverage" tabindex="-1">Glyph Coverage</button>
+      <button class="tab-btn" data-tab="glyph-picker" role="tab" aria-selected="false" aria-controls="panel-glyph-picker" id="tab-glyph-picker" tabindex="-1">Glyph Map</button>
+      <button class="tab-btn" data-tab="compare" role="tab" aria-selected="false" aria-controls="panel-compare" id="tab-compare" tabindex="-1">Compare</button>
+      <button class="tab-btn" data-tab="web" role="tab" aria-selected="false" aria-controls="panel-web" id="tab-web" tabindex="-1">Web Display</button>
+      <button class="tab-btn" data-tab="print" role="tab" aria-selected="false" aria-controls="panel-print" id="tab-print" tabindex="-1">Print</button>
+      <button class="tab-btn" data-tab="decompose" role="tab" aria-selected="false" aria-controls="panel-decompose" id="tab-decompose" tabindex="-1">Decompose</button>
+      <button class="tab-btn" data-tab="font-rules" role="tab" aria-selected="false" aria-controls="panel-font-rules" id="tab-font-rules" tabindex="-1">Font Rules</button>
+      <button class="tab-btn" data-tab="waterfall" role="tab" aria-selected="false" aria-controls="panel-waterfall" id="tab-waterfall" tabindex="-1">Waterfall</button>
+      <button class="tab-btn" data-tab="hinting" role="tab" aria-selected="false" aria-controls="panel-hinting" id="tab-hinting" tabindex="-1">Hinting</button>
+      <button class="tab-btn" data-tab="custom" role="tab" aria-selected="false" aria-controls="panel-custom" id="tab-custom" tabindex="-1">Custom</button>
+    </nav>
+
+    <h1 class="visually-hidden">Type Test — Kannada Font Inspector</h1>
 
     <!-- Tab Panels -->
-    <div class="tab-panel active" id="panel-overview">
+    <div class="tab-panel active" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
       <div class="section profile-section" id="profile-section">
         <div class="profile-hero">
           <div class="profile-ident">
@@ -353,7 +355,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-font-info">
+    <div class="tab-panel" id="panel-font-info" role="tabpanel" aria-labelledby="tab-font-info" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Font Information</span>
@@ -369,7 +371,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-alphabet">
+    <div class="tab-panel" id="panel-alphabet" role="tabpanel" aria-labelledby="tab-alphabet" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಕನ್ನಡ ಅಕ್ಷರಮಾಲೆ</span>
@@ -395,7 +397,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-numbers">
+    <div class="tab-panel" id="panel-numbers" role="tabpanel" aria-labelledby="tab-numbers" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಸಂಖ್ಯೆಗಳು</span>
@@ -410,7 +412,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-mixed">
+    <div class="tab-panel" id="panel-mixed" role="tabpanel" aria-labelledby="tab-mixed" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಒಂದನ್ನೊಂದು ಹೋಲುವ ಮುಲಾಕ್ಷರಗಳ ಗುಂಪು</span>
@@ -420,7 +422,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-gunita">
+    <div class="tab-panel" id="panel-gunita" role="tabpanel" aria-labelledby="tab-gunita" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Syllabic Grid Generator</span>
@@ -464,7 +466,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-conjuncts">
+    <div class="tab-panel" id="panel-conjuncts" role="tabpanel" aria-labelledby="tab-conjuncts" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಒತ್ತಕ್ಷರ ಜಾಲರಿ</span>
@@ -495,7 +497,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-words">
+    <div class="tab-panel" id="panel-words" role="tabpanel" aria-labelledby="tab-words" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Words — Set 1</span>
@@ -519,7 +521,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-lettering">
+    <div class="tab-panel" id="panel-lettering" role="tabpanel" aria-labelledby="tab-lettering" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Lettering</span>
@@ -529,7 +531,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-vachana">
+    <div class="tab-panel" id="panel-vachana" role="tabpanel" aria-labelledby="tab-vachana" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಬಸವಣ್ಣನವರ ವಚನ</span>
@@ -546,7 +548,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-kuvempu">
+    <div class="tab-panel" id="panel-kuvempu" role="tabpanel" aria-labelledby="tab-kuvempu" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಕುವೆಂಪು ಅವರ ವಿಶ್ವ ಮಾನವ ಸಂದೇಶ</span>
@@ -556,7 +558,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-folk">
+    <div class="tab-panel" id="panel-folk" role="tabpanel" aria-labelledby="tab-folk" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಮಣ್ಣಿನ ಹಾಡು (ಜನಪದ)</span>
@@ -566,7 +568,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-english">
+    <div class="tab-panel" id="panel-english" role="tabpanel" aria-labelledby="tab-english" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">English Type Test</span>
@@ -577,7 +579,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-symbols">
+    <div class="tab-panel" id="panel-symbols" role="tabpanel" aria-labelledby="tab-symbols" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">ಅವಶ್ಯಕ ಚಿನ್ಹೆಗಳು</span>
@@ -587,7 +589,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-kerning">
+    <div class="tab-panel" id="panel-kerning" role="tabpanel" aria-labelledby="tab-kerning" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">English Kerning Pairs</span>
@@ -604,7 +606,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-coverage">
+    <div class="tab-panel" id="panel-coverage" role="tabpanel" aria-labelledby="tab-coverage" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Glyph Coverage</span>
@@ -616,7 +618,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-glyph-picker">
+    <div class="tab-panel" id="panel-glyph-picker" role="tabpanel" aria-labelledby="tab-glyph-picker" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Glyph Map</span>
@@ -630,7 +632,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-compare">
+    <div class="tab-panel" id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Compare Fonts</span>
@@ -653,7 +655,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-web">
+    <div class="tab-panel" id="panel-web" role="tabpanel" aria-labelledby="tab-web" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Web Display · ಸಂದರ್ಭ ಪರೀಕ್ಷೆ</span>
@@ -1014,7 +1016,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-print">
+    <div class="tab-panel" id="panel-print" role="tabpanel" aria-labelledby="tab-print" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Print · ಮುದ್ರಣ ಪರೀಕ್ಷೆ</span>
@@ -1211,7 +1213,7 @@
     </div>
 
 
-    <div class="tab-panel" id="panel-decompose">
+    <div class="tab-panel" id="panel-decompose" role="tabpanel" aria-labelledby="tab-decompose" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Conjunct Decomposition</span>
@@ -1221,7 +1223,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-font-rules">
+    <div class="tab-panel" id="panel-font-rules" role="tabpanel" aria-labelledby="tab-font-rules" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Font Rules</span>
@@ -1233,7 +1235,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-waterfall">
+    <div class="tab-panel" id="panel-waterfall" role="tabpanel" aria-labelledby="tab-waterfall" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Waterfall</span>
@@ -1255,7 +1257,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-hinting">
+    <div class="tab-panel" id="panel-hinting" role="tabpanel" aria-labelledby="tab-hinting" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Hinting</span>
@@ -1266,7 +1268,7 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-custom">
+    <div class="tab-panel" id="panel-custom" role="tabpanel" aria-labelledby="tab-custom" tabindex="0">
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Custom Text</span>
