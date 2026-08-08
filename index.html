@@ -79,7 +79,7 @@
     <div class="upload-zone" id="drop-zone">
       <input type="file" id="font-input" accept=".ttf,.otf,.woff,.woff2">
       <span class="upload-icon">↑</span>
-      <p><strong>Drop font file · ಫಾಂಟ್ ಫೈಲ್ ಬಿಟ್ಟು ಬಿಡಿ</strong><br>or click to browse · ಅಥವ ಬ라ೌಸ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ</p>
+      <p><strong>Drop font file · ಫಾಂಟ್ ಫೈಲ್ ಬಿಟ್ಟು ಬಿಡಿ</strong><br>or click to browse · ಅಥವಾ ಬ್ರೌಸ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ</p>
       <div class="file-formats">TTF · OTF · WOFF · WOFF2</div>
     </div>
   </div>
@@ -125,7 +125,7 @@
     <div class="source-block">
       <div class="source-title">System fonts · ಸಿಸ್ಟಮ್ ಫಾಂಟ್‌ಗಳು</div>
       <div class="source-row">
-        <button class="btn" id="system-font-btn">Browse installed fonts · ಸ್ಥಾಪಿತ ಫಾಂಟ್‌ಗಳбраೌಸ್ ಮಾಡಿ</button>
+        <button class="btn" id="system-font-btn">Browse installed fonts · ಸ್ಥಾಪಿತ ಫಾಂಟ್‌ಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ</button>
       </div>
       <div class="source-row" id="system-fonts-row" hidden>
         <select id="system-font-select" class="source-select"></select>
@@ -178,7 +178,7 @@
 
     <div class="weight-presets">
       <button class="weight-preset" data-weight="100">Thin · ಒಲವು</button>
-      <button class="weight-preset" data-weight="300">Light ·λαೆಹೆ</button>
+      <button class="weight-preset" data-weight="300">Light · ಲಘು</button>
       <button class="weight-preset" data-weight="400">Regular · ಸಾಮಾನ್ಯ</button>
       <button class="weight-preset" data-weight="500">Medium · ಮಧ್ಯಮ</button>
       <button class="weight-preset" data-weight="600">SemiBold · ಅರ್ಧ ದೊಡ್ಡ</button>
@@ -208,7 +208,7 @@
     </div>
 
     <div class="toggle-row">
-      <label for="dark-toggle">Dark bg · ಕಪ್ಪು پسರ</label>
+      <label for="dark-toggle">Dark bg · ಕಪ್ಪು ಹಿನ್ನೆಲೆ</label>
       <label class="toggle">
         <input type="checkbox" id="dark-toggle">
         <div class="toggle-track"><div class="toggle-thumb"></div></div>
@@ -218,7 +218,7 @@
 
   <!-- Sessions -->
   <div>
-    <div class="panel-label">Sessions · ಸೆಷನ்கள்</div>
+    <div class="panel-label">Sessions · ಸೆಷನ್ಗಳು</div>
     <div class="version-list" id="version-list">
       <div class="empty-versions">No fonts loaded yet · ಫಾಂಟ್ ಲೋಡ್ ಆಗಿಲ್ಲ</div>
     </div>
@@ -244,9 +244,9 @@
     <!-- Export Toolbar -->
     <div class="export-bar">
       <span class="export-hint">Export · ರಫ್ತು</span>
-      <button class="btn export-btn" id="export-png-btn" title="Save the active tab as a PNG image · সক্রিয় ಟ್ಯಾಬ್ PNG ಆಗಿ ಉಳಿಸಿ">PNG</button>
+      <button class="btn export-btn" id="export-png-btn" title="Save the active tab as a PNG image · ಸಕ್ರಿಯ ಟ್ಯಾಬ್ PNG ಆಗಿ ಉಳಿಸಿ">PNG</button>
       <button class="btn export-btn" id="export-print-btn" title="Open a print window with every tab (browser → Save as PDF) · ಎಲ್ಲಾ ಟ್ಯಾಬ್‌ಗಳೊಂದಿಗೆ ಪ್ರಿಂಟ್ ವಿಂಡೋ ತೆರೆಯಿರಿ">Print / PDF · ಮುದ್ರಣ / PDF</button>
-      <button class="btn export-btn" id="feedback-btn" title="Designer → tester feedback workflow · ವಿನ್ಯಾಸಕ → ಪರೀಕ್ಷಕ ಪ್ರತಿಕ್ರಿಯಾ ಕ్రమ">Feedback ▸<span id="fb-count" hidden>0</span></button>
+      <button class="btn export-btn" id="feedback-btn" title="Designer → tester feedback workflow · ವಿನ್ಯಾಸಕ → ಪರೀಕ್ಷಕ ಪ್ರತಿಕ್ರಿಯಾ ಕ್ರಮ">Feedback ▸<span id="fb-count" hidden>0</span></button>
       <span class="export-note">PNG saves the active tab · Print/PDF exports all tabs. PNG ಸಕ್ರಿಯ ಟ್ಯಾಬ್ ಉಳಿಸುತ್ತದೆ · ಪ್ರಿಂಟ್/PDF ಎಲ್ಲಾ ಟ್ಯಾಬ್‌ಗಳನ್ನು ರಫ್ತು ಮಾಡುತ್ತದೆ</span>
     </div>
 
@@ -871,7 +871,7 @@
           <div class="ctx-cell">
             <span class="ctx-label">Canvas · ಕ್ಯಾನ್ವಾಸ್</span>
             <select class="ctx-select-sm" id="page-size">
-              <option value="1 / 1.35" selected>Portrait · ಪорт್ರೇಟ್</option>
+              <option value="1 / 1.35" selected>Portrait · ಪೋರ್ಟ್ರೇಟ್</option>
               <option value="16 / 9">Desktop 16:9 · ಡೆಸ್ಕ್ಟಾಪ್ 16:9</option>
               <option value="4 / 3">Tablet 4:3 · ಟ್ಯಾಬ್ಲೆಟ್ 4:3</option>
               <option value="9 / 16">Mobile · ಮೊಬೈಲ್</option>
@@ -918,7 +918,7 @@
       <div class="preview-grid" id="render-web-mockups">
 
         <div class="mock-card ctx-card" id="mock-hero">
-          <span class="mock-tag">01 — Hero Header · ಹೀರೋ ہیಡರ್</span>
+          <span class="mock-tag">01 — Hero Header · ಹೀರೋ ಹೆಡರ್</span>
           <div class="mock-actions">
             <button class="btn export-btn mock-btn" data-target="mock-hero" data-fmt="png">PNG</button>
             <button class="btn export-btn mock-btn" data-target="mock-hero" data-fmt="print">Print · ಮುದ್ರಣ</button>
@@ -1414,7 +1414,7 @@
           </div>
 
           <div class="mock-card ctx-card" id="mock-book">
-            <span class="mock-tag">03 — Book / Dense Body · ಪುಸ್ತಕ / ঘন ಪಠ್ಯ</span>
+            <span class="mock-tag">03 — Book / Dense Body · ಪುಸ್ತಕ / ದಟ್ಟ ಪಠ್ಯ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-book" data-fmt="png">PNG</button>
               <button class="btn export-btn mock-btn" data-target="mock-book" data-fmt="print">Print · ಮುದ್ರಣ</button>
@@ -1433,7 +1433,7 @@
           </div>
 
           <div class="mock-card ctx-card" id="mock-cover">
-            <span class="mock-tag">04 — Book / Monograph Cover · ಪುಸ್ತಕ / এক'écriture ಮುಖಪುಟ</span>
+            <span class="mock-tag">04 — Book / Monograph Cover · ಪುಸ್ತಕ / ಏಕಲೇಖನ ಮುಖಪುಟ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-cover" data-fmt="png">PNG</button>
               <button class="btn export-btn mock-btn" data-target="mock-cover" data-fmt="print">Print · ಮುದ್ರಣ</button>
@@ -1453,7 +1453,7 @@
           </div>
 
           <div class="mock-card ctx-card" id="mock-spec">
-            <span class="mock-tag">05 — Dense Specification · ઘನ ತಾಂತ್ರಿಕ ವಿವರಣೆ</span>
+            <span class="mock-tag">05 — Dense Specification · ಘನ ತಾಂತ್ರಿಕ ವಿವರಣೆ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-spec" data-fmt="png">PNG</button>
               <button class="btn export-btn mock-btn" data-target="mock-spec" data-fmt="print">Print · ಮುದ್ರಣ</button>
@@ -1541,7 +1541,7 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Font Rules · ಫಾಂಟ್ ನಿಯಮಗಳು</span>
-          <span class="section-desc">OpenType shaping rules, GSUB/GPOS lookups, and feature definitions. ಓಪನ್‌ಟೈಪ್ ಶೇಪಿಂಗ್ ನಿಯಮಗಳು, GSUB/GPOS ಲುಕപ്പ್‌ಗಳು ಮತ್ತು ವೈಶಿಷ್ಟ್ಯ ವ್ಯಾಖ್ಯಾನಗಳು.</span>
+          <span class="section-desc">OpenType shaping rules, GSUB/GPOS lookups, and feature definitions. ಓಪನ್‌ಟೈಪ್ ಶೇಪಿಂಗ್ ನಿಯಮಗಳು, GSUB/GPOS ಲುಕಪ್ಪ್‌ಗಳು ಮತ್ತು ವೈಶಿಷ್ಟ್ಯ ವ್ಯಾಖ್ಯಾನಗಳು.</span>
         </div>
         <div id="font-rules-content" class="font-rules">
           <div class="metadata-empty">Load a font to view embedded rules. ನಿಯಮಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಫಾಂಟ್ ಲೋಡ್ ಮಾಡಿ.</div>
@@ -1619,8 +1619,8 @@
 <div class="tour-overlay" id="tour-overlay" role="dialog" aria-modal="true" aria-label="Portal walkthrough · ಪೋರ್ಟಲ್ ವಾಕ್‌ಥ್ರು" hidden>
   <div class="tour-deck">
     <div class="tour-head">
-      <span class="tour-brand">Type Test · ಕನ್ನಡ <em>journey · பயண</em></span>
-      <button class="tour-skip" id="tour-skip" type="button">Skip walkthrough ✕ · ವಾಕ್‌ಥ್ರು ತСеಲು ✕</button>
+      <span class="tour-brand">Type Test · ಕನ್ನಡ <em>journey · ಪ್ರಯಾಣ</em></span>
+      <button class="tour-skip" id="tour-skip" type="button">Skip walkthrough ✕ · ವಾಕ್‌ಥ್ರು ಬಿಟ್ಟುಬಿಡಿ ✕</button>
     </div>
     <div class="tour-body">
       <div class="tour-rail" id="tour-rail"></div>
@@ -5489,7 +5489,7 @@ if ($('compare-font-2')) $('compare-font-2').addEventListener('change', renderCo
 
 // ── Decompose ────────────────────────────────────────────
 const decomposeData = [
-  { conjunct: 'ಕ್ಷ', parts: [{ char: 'क्', name: 'Ka + virama' }, { char: 'ष', name: 'Sha' }] },
+  { conjunct: 'ಕ್ಷ', parts: [{ char: 'ಕ್', name: 'Ka + virama' }, { char: 'ಷ', name: 'Sha' }] },
   { conjunct: 'ಜ್ಞ', parts: [{ char: 'ಜ್', name: 'Ja + virama' }, { char: 'ಞ', name: 'Nya' }] },
   { conjunct: 'ತ್ವ', parts: [{ char: 'ತ್', name: 'Ta + virama' }, { char: 'ವ', name: 'Va' }] },
   { conjunct: 'ದ್ವ', parts: [{ char: 'ದ್', name: 'Da + virama' }, { char: 'ವ', name: 'Va' }] },
