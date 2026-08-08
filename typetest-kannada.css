@@ -172,6 +172,48 @@ header {
   width: auto;
 }
 
+/* ── Language toggle ─────────────────────────────────────── */
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  background: var(--paper2);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: var(--muted);
+  padding: 4px 9px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.lang-btn:hover:not([aria-pressed="true"]) {
+  color: var(--ink);
+  background: var(--hover-color);
+}
+
+.lang-btn[aria-pressed="true"] {
+  background: var(--primary-gradient);
+  color: #fff;
+}
+
+html[data-lang="en"] .lang-kn,
+html[data-lang="kn"] .lang-en {
+  display: none;
+}
+
 /* ── SIDEBAR ─────────────────────────────────────────────── */
 
 .sidebar-overlay {

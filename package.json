@@ -1,0 +1,26 @@
+{
+  "name": "typetest-kannada",
+  "version": "1.0.0",
+  "description": "[**Live Demo →**](https://typetest.sanchaya.net) · [Kannada Fonts →](https://fonts.sanchaya.net) · [ಸಂಚಯ →](https://sanchaya.org)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/core.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanchaya/typetest-kannada.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanchaya/typetest-kannada/issues"
+  },
+  "homepage": "https://github.com/sanchaya/typetest-kannada#readme",
+  "devDependencies": {
+    "jsdom": "^30.0.1"
+  }
+}

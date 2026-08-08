@@ -45,17 +45,21 @@
   </button>
   <div class="header-brand">
     <a href="https://typetest.sanchaya.net" target="_blank" class="header-logo-link">
-      <img src="img/app-icon-light.png" alt="ಫಾಂಟ್ಸ್ ಸಂಚಯ" class="header-logo">
+      <img src="img/app-icon-light.png" alt="Fonts Sanchaya" class="header-logo">
     </a>
     <div class="header-text">
       <div class="wordmark">ಟೈಪ್‌ಟೆಸ್ಟ್-ಕನ್ನಡ</div>
-      <div class="tagline">ಫಾಂಟ್ಸ್ ಸಂಚಯ · Kannada Font Inspector</div>
+      <div class="tagline">Fonts Sanchaya · Kannada Font Inspector</div>
     </div>
   </div>
   <div class="header-right">
     <div class="font-badge">
       <div class="dot" id="live-dot"></div>
       <div id="font-name-display">No font loaded</div>
+    </div>
+    <div class="lang-toggle" id="lang-toggle" title="Switch language">
+      <button class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
+      <button class="lang-btn" data-lang="kn" aria-pressed="false">KN</button>
     </div>
     <a href="https://fonts.sanchaya.net" target="_blank" class="sanchaya-link">
       <img src="img/sanchaya-logo.png" alt="Sanchaya" class="sanchaya-logo">
@@ -67,28 +71,28 @@
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <!-- SIDEBAR -->
-<aside id="sidebar" role="dialog" aria-modal="true" aria-label="Font settings and tools">
+<aside id="sidebar" role="dialog" aria-modal="true" aria-label="Font settings and tools · ಫಾಂಟ್ ಸೆಟ್ಟಿಂಗ್ಸ್ ಮತ್ತು ಉಪಕರಣಗಳು">
 
   <!-- Upload -->
   <div>
-    <div class="panel-label">Font</div>
+    <div class="panel-label">Font · ಫಾಂಟ್</div>
     <div class="upload-zone" id="drop-zone">
       <input type="file" id="font-input" accept=".ttf,.otf,.woff,.woff2">
       <span class="upload-icon">↑</span>
-      <p><strong>Drop font file</strong><br>or click to browse</p>
+      <p><strong>Drop font file · ಫಾಂಟ್ ಫೈಲ್ ಬಿಟ್ಟು ಬಿಡಿ</strong><br>or click to browse · ಅಥವ ಬ라ೌಸ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ</p>
       <div class="file-formats">TTF · OTF · WOFF · WOFF2</div>
     </div>
   </div>
 
   <!-- Sources -->
   <div>
-    <div class="panel-label">Sources</div>
+    <div class="panel-label">Sources · ಮೂಲಗಳು</div>
 
     <div class="source-block">
       <div class="source-title">Google Fonts</div>
       <div class="source-row">
-        <input type="text" id="gf-name" class="source-input" placeholder="Font name" list="gf-suggestions" spellcheck="false">
-        <button class="btn" id="gf-load-btn">Load</button>
+        <input type="text" id="gf-name" class="source-input" placeholder="Font name · ಫಾಂಟ್ ಹೆಸರು" list="gf-suggestions" spellcheck="false">
+        <button class="btn" id="gf-load-btn">Load · ಲೋಡ್ ಮಾಡಿ</button>
       </div>
       <datalist id="gf-suggestions">
         <option value="Noto Sans Kannada">
@@ -111,23 +115,23 @@
     </div>
 
     <div class="source-block">
-      <div class="source-title">ಸಂಚಯ Kannada catalog</div>
+      <div class="source-title">Sanchaya Kannada catalog · ಸಂಚಯ ಕನ್ನಡ ಕ್ಯಾಟಲಾಗ್</div>
       <div class="source-row">
         <select id="remote-catalog-select" class="source-select"></select>
-        <button class="btn" id="remote-load-btn">Load</button>
+        <button class="btn" id="remote-load-btn">Load · ಲೋಡ್ ಮಾಡಿ</button>
       </div>
     </div>
 
     <div class="source-block">
-      <div class="source-title">System fonts</div>
+      <div class="source-title">System fonts · ಸಿಸ್ಟಮ್ ಫಾಂಟ್‌ಗಳು</div>
       <div class="source-row">
-        <button class="btn" id="system-font-btn">Browse installed fonts</button>
+        <button class="btn" id="system-font-btn">Browse installed fonts · ಸ್ಥಾಪಿತ ಫಾಂಟ್‌ಗಳбраೌಸ್ ಮಾಡಿ</button>
       </div>
       <div class="source-row" id="system-fonts-row" hidden>
         <select id="system-font-select" class="source-select"></select>
-        <button class="btn" id="system-font-load">Load</button>
+        <button class="btn" id="system-font-load">Load · ಲೋಡ್ ಮಾಡಿ</button>
       </div>
-      <div class="source-hint">Chrome / Edge only · choose from your device</div>
+      <div class="source-hint">Chrome / Edge only · choose from your device. ಕ್ರೋಮ್/ಎಡ್ಜ್ ಮಾತ್ರ · ನಿಮ್ಮ ಸಾಧನದಿಂದ ಆಯ್ಕೆಮಾಡಿ</div>
     </div>
 
     <div class="source-status" id="source-status"></div>
@@ -135,28 +139,28 @@
 
   <!-- Controls -->
   <div>
-    <div class="panel-label">Controls</div>
+    <div class="panel-label">Controls · ನಿಯಂತ್ರಣಗಳು</div>
 
     <div class="control-row">
-      <label>Size</label>
+      <label>Size · ಗಾತ್ರ</label>
       <span class="val" id="size-val">32px</span>
       <input type="range" id="size-slider" min="12" max="120" step="1" value="32">
     </div>
 
     <div class="control-row">
-      <label>Line Height</label>
+      <label>Line Height · ಸಾಲು ಎತ್ತರ</label>
       <span class="val" id="lh-val">1.40</span>
       <input type="range" id="lh-slider" min="0.8" max="3" step="0.05" value="1.4">
     </div>
 
     <div class="control-row">
-      <label>Tracking</label>
+      <label>Tracking · ಟ್ರ್ಯಾಕಿಂಗ್</label>
       <span class="val" id="ls-val">0em</span>
       <input type="range" id="ls-slider" min="-0.1" max="0.3" step="0.005" value="0">
     </div>
 
     <div class="control-row">
-      <label>Word Space</label>
+      <label>Word Space · ಪದ ಅಂತರ</label>
       <span class="val" id="ws-val">0.0</span>
       <input type="range" id="ws-slider" min="0" max="3" step="0.05" value="0">
     </div>
@@ -164,22 +168,22 @@
 
   <!-- Variable Font Controls -->
   <div id="variable-controls" style="display: none;">
-    <div class="panel-label">Variable Font</div>
+    <div class="panel-label">Variable Font · ವೇರಿಯಬಲ್ ಫಾಂಟ್</div>
 
     <div class="control-row">
-      <label>Weight</label>
+      <label>Weight · ತೂಕ</label>
       <span class="val" id="weight-val">400</span>
       <input type="range" id="weight-slider" min="100" max="900" step="1" value="400">
     </div>
 
     <div class="weight-presets">
-      <button class="weight-preset" data-weight="100">Thin</button>
-      <button class="weight-preset" data-weight="300">Light</button>
-      <button class="weight-preset" data-weight="400">Regular</button>
-      <button class="weight-preset" data-weight="500">Medium</button>
-      <button class="weight-preset" data-weight="600">SemiBold</button>
-      <button class="weight-preset" data-weight="700">Bold</button>
-      <button class="weight-preset" data-weight="900">Black</button>
+      <button class="weight-preset" data-weight="100">Thin · ಒಲವು</button>
+      <button class="weight-preset" data-weight="300">Light ·λαೆಹೆ</button>
+      <button class="weight-preset" data-weight="400">Regular · ಸಾಮಾನ್ಯ</button>
+      <button class="weight-preset" data-weight="500">Medium · ಮಧ್ಯಮ</button>
+      <button class="weight-preset" data-weight="600">SemiBold · ಅರ್ಧ ದೊಡ್ಡ</button>
+      <button class="weight-preset" data-weight="700">Bold · ದೊಡ್ಡ</button>
+      <button class="weight-preset" data-weight="900">Black · ಕಪ್ಪು</button>
     </div>
   </div>
 
@@ -188,7 +192,7 @@
     <div class="panel-label">OpenType</div>
 
     <div class="toggle-row">
-      <label for="lig-toggle">Ligatures</label>
+      <label for="lig-toggle">Ligatures · ಲಿಗೇಚರ್ಸ್</label>
       <label class="toggle">
         <input type="checkbox" id="lig-toggle" checked>
         <div class="toggle-track"><div class="toggle-thumb"></div></div>
@@ -196,7 +200,7 @@
     </div>
 
     <div class="toggle-row">
-      <label for="kern-toggle">Kerning</label>
+      <label for="kern-toggle">Kerning · ಕರ್ನಿಂಗ್</label>
       <label class="toggle">
         <input type="checkbox" id="kern-toggle" checked>
         <div class="toggle-track"><div class="toggle-thumb"></div></div>
@@ -204,7 +208,7 @@
     </div>
 
     <div class="toggle-row">
-      <label for="dark-toggle">Dark bg</label>
+      <label for="dark-toggle">Dark bg · ಕಪ್ಪು پسರ</label>
       <label class="toggle">
         <input type="checkbox" id="dark-toggle">
         <div class="toggle-track"><div class="toggle-thumb"></div></div>
@@ -214,16 +218,16 @@
 
   <!-- Sessions -->
   <div>
-    <div class="panel-label">Sessions</div>
+    <div class="panel-label">Sessions · ಸೆಷನ்கள்</div>
     <div class="version-list" id="version-list">
-      <div class="empty-versions">No fonts loaded yet</div>
+      <div class="empty-versions">No fonts loaded yet · ಫಾಂಟ್ ಲೋಡ್ ಆಗಿಲ್ಲ</div>
     </div>
   </div>
 
   <!-- Reset — sticky at the bottom of the sidebar -->
   <div class="sidebar-actions">
-    <button class="btn" id="tour-btn" title="Play the walkthrough again">→ Walkthrough</button>
-    <button class="btn danger" id="reset-btn">↺ Reset all</button>
+    <button class="btn" id="tour-btn" title="Play the walkthrough again · ವಾಕ್‌ಥ್ರು ಪತ್ತಿ ಆಡು">→ Walkthrough · ವಾಕ್‌ಥ್ರು</button>
+    <button class="btn danger" id="reset-btn">↺ Reset all · ಎಲ್ಲವನ್ನು ರೀಸೆಟ್ ಮಾಡಿ</button>
   </div>
 
 </aside>
@@ -239,40 +243,40 @@
 
     <!-- Export Toolbar -->
     <div class="export-bar">
-      <span class="export-hint">Export</span>
-      <button class="btn export-btn" id="export-png-btn" title="Save the active tab as a PNG image">PNG</button>
-      <button class="btn export-btn" id="export-print-btn" title="Open a print window with every tab (browser → Save as PDF)">Print / PDF</button>
-      <button class="btn export-btn" id="feedback-btn" title="Designer → tester feedback workflow">Feedback ▸<span id="fb-count" hidden>0</span></button>
-      <span class="export-note">PNG saves the active tab · Print/PDF exports all tabs</span>
+      <span class="export-hint">Export · ರಫ್ತು</span>
+      <button class="btn export-btn" id="export-png-btn" title="Save the active tab as a PNG image · সক্রিয় ಟ್ಯಾಬ್ PNG ಆಗಿ ಉಳಿಸಿ">PNG</button>
+      <button class="btn export-btn" id="export-print-btn" title="Open a print window with every tab (browser → Save as PDF) · ಎಲ್ಲಾ ಟ್ಯಾಬ್‌ಗಳೊಂದಿಗೆ ಪ್ರಿಂಟ್ ವಿಂಡೋ ತೆರೆಯಿರಿ">Print / PDF · ಮುದ್ರಣ / PDF</button>
+      <button class="btn export-btn" id="feedback-btn" title="Designer → tester feedback workflow · ವಿನ್ಯಾಸಕ → ಪರೀಕ್ಷಕ ಪ್ರತಿಕ್ರಿಯಾ ಕ్రమ">Feedback ▸<span id="fb-count" hidden>0</span></button>
+      <span class="export-note">PNG saves the active tab · Print/PDF exports all tabs. PNG ಸಕ್ರಿಯ ಟ್ಯಾಬ್ ಉಳಿಸುತ್ತದೆ · ಪ್ರಿಂಟ್/PDF ಎಲ್ಲಾ ಟ್ಯಾಬ್‌ಗಳನ್ನು ರಫ್ತು ಮಾಡುತ್ತದೆ</span>
     </div>
 
     <!-- Tab Navigation -->
     <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Test tabs">
-      <button class="tab-btn active" data-tab="overview" data-persona="all" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" tabindex="0">Overview</button>
-      <button class="tab-btn" data-tab="font-info" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-font-info" id="tab-font-info" tabindex="-1">Font Info</button>
-      <button class="tab-btn" data-tab="alphabet" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-alphabet" id="tab-alphabet" tabindex="-1">Alphabet</button>
-      <button class="tab-btn" data-tab="numbers" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-numbers" id="tab-numbers" tabindex="-1">Numbers</button>
-      <button class="tab-btn" data-tab="mixed" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-mixed" id="tab-mixed" tabindex="-1">Mixed Letters</button>
-      <button class="tab-btn" data-tab="gunita" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-gunita" id="tab-gunita" tabindex="-1">Gunitakshara</button>
-      <button class="tab-btn" data-tab="conjuncts" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-conjuncts" id="tab-conjuncts" tabindex="-1">Conjuncts</button>
-      <button class="tab-btn" data-tab="words" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-words" id="tab-words" tabindex="-1">Words</button>
-      <button class="tab-btn" data-tab="lettering" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-lettering" id="tab-lettering" tabindex="-1">Lettering</button>
-      <button class="tab-btn" data-tab="vachana" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-vachana" id="tab-vachana" tabindex="-1">Vachana</button>
-      <button class="tab-btn" data-tab="kuvempu" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-kuvempu" id="tab-kuvempu" tabindex="-1">Kuvempu</button>
-      <button class="tab-btn" data-tab="folk" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-folk" id="tab-folk" tabindex="-1">Folk Song</button>
-      <button class="tab-btn" data-tab="english" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-english" id="tab-english" tabindex="-1">English</button>
-      <button class="tab-btn" data-tab="symbols" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-symbols" id="tab-symbols" tabindex="-1">Symbols</button>
-      <button class="tab-btn" data-tab="kerning" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-kerning" id="tab-kerning" tabindex="-1">Kerning</button>
-      <button class="tab-btn" data-tab="coverage" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-coverage" id="tab-coverage" tabindex="-1">Glyph Coverage</button>
-      <button class="tab-btn" data-tab="glyph-picker" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-glyph-picker" id="tab-glyph-picker" tabindex="-1">Glyph Map</button>
-      <button class="tab-btn" data-tab="compare" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-compare" id="tab-compare" tabindex="-1">Compare</button>
-      <button class="tab-btn" data-tab="web" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-web" id="tab-web" tabindex="-1">Web Display</button>
-      <button class="tab-btn" data-tab="print" data-persona="publisher designer" role="tab" aria-selected="false" aria-controls="panel-print" id="tab-print" tabindex="-1">Print</button>
-      <button class="tab-btn" data-tab="decompose" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-decompose" id="tab-decompose" tabindex="-1">Decompose</button>
-      <button class="tab-btn" data-tab="font-rules" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-font-rules" id="tab-font-rules" tabindex="-1">Font Rules</button>
-      <button class="tab-btn" data-tab="waterfall" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-waterfall" id="tab-waterfall" tabindex="-1">Waterfall</button>
-      <button class="tab-btn" data-tab="hinting" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-hinting" id="tab-hinting" tabindex="-1">Hinting</button>
-      <button class="tab-btn" data-tab="custom" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-custom" id="tab-custom" tabindex="-1">Custom</button>
+      <button class="tab-btn active" data-tab="overview" data-persona="all" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" tabindex="0">Overview · ಅವಲೋಕನ</button>
+      <button class="tab-btn" data-tab="font-info" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-font-info" id="tab-font-info" tabindex="-1">Font Info · ಫಾಂಟ್ ಮಾಹಿತಿ</button>
+      <button class="tab-btn" data-tab="alphabet" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-alphabet" id="tab-alphabet" tabindex="-1">Alphabet · ಅಕ್ಷರಮಾಲೆ</button>
+      <button class="tab-btn" data-tab="numbers" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-numbers" id="tab-numbers" tabindex="-1">Numbers · ಸಂಖ್ಯೆಗಳು</button>
+      <button class="tab-btn" data-tab="mixed" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-mixed" id="tab-mixed" tabindex="-1">Mixed Letters · ಮುಲಾಕ್ಷರಗಳು</button>
+      <button class="tab-btn" data-tab="gunita" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-gunita" id="tab-gunita" tabindex="-1">Gunitakshara · ಗುಣಿತಾಕ್ಷರ</button>
+      <button class="tab-btn" data-tab="conjuncts" data-persona="student" role="tab" aria-selected="false" aria-controls="panel-conjuncts" id="tab-conjuncts" tabindex="-1">Conjuncts · ಒತ್ತಕ್ಷರಗಳು</button>
+      <button class="tab-btn" data-tab="words" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-words" id="tab-words" tabindex="-1">Words · ಪದಗಳು</button>
+      <button class="tab-btn" data-tab="lettering" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-lettering" id="tab-lettering" tabindex="-1">Lettering · ಅಕ್ಷರ ವಿನ್ಯಾಸ</button>
+      <button class="tab-btn" data-tab="vachana" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-vachana" id="tab-vachana" tabindex="-1">Vachana · ವಚನ</button>
+      <button class="tab-btn" data-tab="kuvempu" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-kuvempu" id="tab-kuvempu" tabindex="-1">Kuvempu · ಕುವೆಂಪು</button>
+      <button class="tab-btn" data-tab="folk" data-persona="publisher" role="tab" aria-selected="false" aria-controls="panel-folk" id="tab-folk" tabindex="-1">Folk Song · ಜನಪದ ಹಾಡು</button>
+      <button class="tab-btn" data-tab="english" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-english" id="tab-english" tabindex="-1">English · ಇಂಗ್ಲಿಷ್</button>
+      <button class="tab-btn" data-tab="symbols" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-symbols" id="tab-symbols" tabindex="-1">Symbols · ಚಿನ್ಹೆಗಳು</button>
+      <button class="tab-btn" data-tab="kerning" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-kerning" id="tab-kerning" tabindex="-1">Kerning · ಕರ್ನಿಂಗ್</button>
+      <button class="tab-btn" data-tab="coverage" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-coverage" id="tab-coverage" tabindex="-1">Glyph Coverage · ಲಿಪಿ ವ್ಯಾಪ್ತಿ</button>
+      <button class="tab-btn" data-tab="glyph-picker" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-glyph-picker" id="tab-glyph-picker" tabindex="-1">Glyph Map · ಅಕ್ಷರ ನಕ್ಷೆ</button>
+      <button class="tab-btn" data-tab="compare" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-compare" id="tab-compare" tabindex="-1">Compare · ಹೋಲಿಕೆ</button>
+      <button class="tab-btn" data-tab="web" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-web" id="tab-web" tabindex="-1">Web Display · ಜಾಲತಾಣ</button>
+      <button class="tab-btn" data-tab="print" data-persona="publisher designer" role="tab" aria-selected="false" aria-controls="panel-print" id="tab-print" tabindex="-1">Print · ಮುದ್ರಣ</button>
+      <button class="tab-btn" data-tab="decompose" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-decompose" id="tab-decompose" tabindex="-1">Decompose · ವಿಭಜನೆ</button>
+      <button class="tab-btn" data-tab="font-rules" data-persona="developer" role="tab" aria-selected="false" aria-controls="panel-font-rules" id="tab-font-rules" tabindex="-1">Font Rules · ಫಾಂಟ್ ನಿಯಮಗಳು</button>
+      <button class="tab-btn" data-tab="waterfall" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-waterfall" id="tab-waterfall" tabindex="-1">Waterfall · ಗಾತ್ರ ಶ್ರೇಣಿ</button>
+      <button class="tab-btn" data-tab="hinting" data-persona="designer" role="tab" aria-selected="false" aria-controls="panel-hinting" id="tab-hinting" tabindex="-1">Hinting · ಹಿಂಟಿಂಗ್</button>
+      <button class="tab-btn" data-tab="custom" data-persona="all" role="tab" aria-selected="false" aria-controls="panel-custom" id="tab-custom" tabindex="-1">Custom · ಸ್ವಂತ ಪಠ್ಯ</button>
     </nav>
 
     <h1 class="visually-hidden">Type Test — Kannada Font Inspector</h1>
@@ -284,14 +288,14 @@
           <div class="profile-ident">
             <span class="section-tag">Typesetting Profile · ಲಿಪಿ ವಿಶ್ಲೇಷಣೆ</span>
             <h2 class="profile-name" id="pf-name">No font loaded</h2>
-            <p class="profile-meta" id="pf-meta">Load a font or pick a default to generate a quantitative typesetting profile — metrics, coverage, shaping, diagnostics and suitability scores.</p>
+            <p class="profile-meta" id="pf-meta">Load a font or pick a default to generate a quantitative typesetting profile — metrics, coverage, shaping, diagnostics and suitability scores. ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಫಾಂಟ್ ಲೋಡ್ ಮಾಡಿ.</p>
           </div>
           <div class="profile-score">
             <div class="score-ring"><span class="score-num" id="pf-overall">&mdash;</span><em class="score-unit">/100</em></div>
             <span class="score-label">Overall · ಒಟ್ಟು</span>
           </div>
           <div class="profile-actions">
-            <button class="btn export-btn" id="pf-report">Report</button>
+            <button class="btn export-btn" id="pf-report">Report · ವರದಿ</button>
             <button class="btn export-btn" id="pf-json">JSON</button>
           </div>
         </div>
@@ -323,53 +327,53 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Personas · ಗಮನಕೇಂದ್ರ</span>
-          <span class="section-desc">Pick your focus — each persona guides you through a curated sequence of tests</span>
+          <span class="section-desc">Pick your focus — each persona guides you through a curated sequence of tests. ನಿಮ್ಮ ಉದ್ದೇಶವನ್ನು ಆರಿಸಿ — ಪ್ರತಿ ವ್ಯಕ್ತಿತ್ವವು ಆಯ್ದ ಪರೀಕ್ಷೆಗಳ ಮೂಲಕ ನಿಮಗೆ ಮಾರ್ಗದರ್ಶನ ನೀಡುತ್ತದೆ.</span>
         </div>
         <div class="persona-grid">
           <div class="persona-card" data-persona="designer">
             <span class="persona-icon">&#9670;</span>
-            <span class="persona-title">ವಿನ್ಯಾಸಕ <em>Designer</em></span>
-            <span class="persona-desc">Display quality, spacing, and rendering across screen and print sizes.</span>
+            <span class="persona-title">Designer · ವಿನ್ಯಾಸಕ</span>
+            <span class="persona-desc">Display quality, spacing, and rendering across screen and print sizes. ಪರದೆ ಮತ್ತು ಮುದ್ರಣ ಗಾತ್ರಗಳಲ್ಲಿ ಪ್ರದರ್ಶನ ಗುಣಮಟ್ಟ ಮತ್ತು ಅಂತರದ ಪರೀಕ್ಷೆ.</span>
             <span class="persona-chips"><span class="chip">Web Display</span><span class="chip">Kerning</span><span class="chip">Waterfall</span><span class="chip">Hinting</span><span class="chip">Lettering</span></span>
-            <button class="btn persona-go">Begin</button>
+            <button class="btn persona-go">Begin · ಪ್ರಾರಂಭಿಸಿ</button>
           </div>
           <div class="persona-card" data-persona="developer">
             <span class="persona-icon">&#9651;</span>
-            <span class="persona-title">ಡೆವೆಲಪರ್ <em>Developer</em></span>
-            <span class="persona-desc">Font internals, coverage, and technical specifications.</span>
+            <span class="persona-title">Developer · ಡೆವೆಲಪರ್</span>
+            <span class="persona-desc">Font internals, coverage, and technical specifications. ಫಾಂಟ್‌ನ ಆಂತರಿಕ ಅಂಶಗಳು, ವ್ಯಾಪ್ತಿ ಮತ್ತು ತಾಂತ್ರಿಕ ವಿವರಗಳು.</span>
             <span class="persona-chips"><span class="chip">Font Info</span><span class="chip">Coverage</span><span class="chip">Glyph Map</span><span class="chip">Font Rules</span><span class="chip">Decompose</span></span>
-            <button class="btn persona-go">Begin</button>
+            <button class="btn persona-go">Begin · ಪ್ರಾರಂಭಿಸಿ</button>
           </div>
           <div class="persona-card" data-persona="publisher">
             <span class="persona-icon">&#9632;</span>
-            <span class="persona-title">ಪ್ರಕಾಶಕ <em>Publisher</em></span>
-            <span class="persona-desc">Print-readiness — layouts, body text, and publishing contexts.</span>
+            <span class="persona-title">Publisher · ಪ್ರಕಾಶಕ</span>
+            <span class="persona-desc">Print-readiness — layouts, body text, and publishing contexts. ಮುದ್ರಣ ಸಿದ್ಧತೆ — ವಿನ್ಯಾಸಗಳು, ಪಠ್ಯ ಮತ್ತು ಪ್ರಕಾಶನದ ಸಂದರ್ಭಗಳು.</span>
             <span class="persona-chips"><span class="chip">Print</span><span class="chip">Words</span><span class="chip">Vachana</span><span class="chip">Kuvempu</span><span class="chip">Folk Song</span></span>
-            <button class="btn persona-go">Begin</button>
+            <button class="btn persona-go">Begin · ಪ್ರಾರಂಭಿಸಿ</button>
           </div>
           <div class="persona-card" data-persona="student">
             <span class="persona-icon">&#9633;</span>
-            <span class="persona-title">ವಿದ್ಯಾರ್ಥಿ <em>Student</em></span>
-            <span class="persona-desc">Step through the Kannada script systematically — letters to conjuncts.</span>
+            <span class="persona-title">Student · ವಿದ್ಯಾರ್ಥಿ</span>
+            <span class="persona-desc">Step through the Kannada script systematically — letters to conjuncts. ಕನ್ನಡ ಲಿಪಿಯನ್ನು ವ್ಯವಸ್ಥಿತವಾಗಿ ಕಲಿಯಿರಿ — ಅಕ್ಷರಗಳಿಂದ ಒತ್ತಕ್ಷರಗಳವರೆಗೆ.</span>
             <span class="persona-chips"><span class="chip">Alphabet</span><span class="chip">Numbers</span><span class="chip">Gunitakshara</span><span class="chip">Conjuncts</span><span class="chip">Mixed Letters</span></span>
-            <button class="btn persona-go">Begin</button>
+            <button class="btn persona-go">Begin · ಪ್ರಾರಂಭಿಸಿ</button>
           </div>
         </div>
-        <p class="persona-print-note">Each flow includes a "Print Specimen" button to export the entire walkthrough as a printable booklet.</p>
+        <p class="persona-print-note">Each flow includes a "Print Specimen" button to export the entire walkthrough as a printable booklet. ಪ್ರತಿ ಫ್ಲೋ "Print Specimen" ಬಟನ್ ಅನ್ನು ಒಳಗೊಂಡಿದೆ.</p>
       </div>
     </div>
 
     <div class="tab-panel" id="panel-font-info" role="tabpanel" aria-labelledby="tab-font-info" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Font Information</span>
-          <span class="section-desc">Metadata and OpenType features</span>
+          <span class="section-tag">Font Information · ಫಾಂಟ್ ಮಾಹಿತಿ</span>
+          <span class="section-desc">Metadata and OpenType features. ಮೆಟಾಡೇಟಾ ಮತ್ತು ಓಪನ್‌ಟೈಪ್ ವೈಶಿಷ್ಟ್ಯಗಳು.</span>
         </div>
         <div id="font-metadata" class="font-metadata">
-          <div class="metadata-empty">Load a font or select a default font to view details</div>
+          <div class="metadata-empty">Load a font or select a default font to view details. ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಫಾಂಟ್ ಲೋಡ್ ಮಾಡಿ.</div>
         </div>
         <div class="ot-features-section" id="ot-features-section" style="margin-top:24px;display:none;">
-          <h3 class="ot-features-title">OpenType Features</h3>
+          <h3 class="ot-features-title">OpenType Features · ಓಪನ್‌ಟೈಪ್ ವೈಶಿಷ್ಟ್ಯಗಳು</h3>
           <div class="ot-features-grid" id="ot-features-grid"></div>
         </div>
       </div>
@@ -378,8 +382,8 @@
     <div class="tab-panel" id="panel-alphabet" role="tabpanel" aria-labelledby="tab-alphabet" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಕನ್ನಡ ಅಕ್ಷರಮಾಲೆ</span>
-          <span class="section-desc">Swaras — independent vowel forms</span>
+          <span class="section-tag">Kannada Alphabet · ಕನ್ನಡ ಅಕ್ಷರಮಾಲೆ</span>
+          <span class="section-desc">Swaras — independent vowel forms. ಸ್ವರಗಳು — ಸ್ವತಂತ್ರ ಸ್ವರ ರೂಪಗಳು.</span>
         </div>
         <div class="alphabet-grid">
           <span class="test-text" id="render-vowels"></span>
@@ -387,15 +391,15 @@
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">02 · Consonants</span>
-          <span class="section-desc">Vyanjanas — 5 per varga row</span>
+          <span class="section-tag">02 · Consonants · ವ್ಯಂಜನಗಳು</span>
+          <span class="section-desc">Vyanjanas — 5 per varga row. ವ್ಯಂಜನಗಳು — ಪ್ರತಿ ವರ್ಗ ಸಾಲಿಗೆ ೫ ಅಕ್ಷರಗಳು.</span>
         </div>
         <div id="render-consonants"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">03 · Varga Groups</span>
-          <span class="section-desc">Labelled consonant groups by articulation point</span>
+          <span class="section-tag">03 · Varga Groups · ವರ್ಗ ಗುಂಪುಗಳು</span>
+          <span class="section-desc">Labelled consonant groups by articulation point. ಉಚ್ಚಾರಣಾ ಸ್ಥಾನದ ಆಧಾರದ ಮೇಲೆ ವರ್ಗೀಕರಿಸಿದ ವ್ಯಂಜನಗಳು.</span>
         </div>
         <div id="render-varga"></div>
       </div>
@@ -404,8 +408,8 @@
     <div class="tab-panel" id="panel-numbers" role="tabpanel" aria-labelledby="tab-numbers" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಸಂಖ್ಯೆಗಳು</span>
-          <span class="section-desc">Kannada and English numerals</span>
+          <span class="section-tag">Numbers · ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಸಂಖ್ಯೆಗಳು</span>
+          <span class="section-desc">Kannada and English numerals. ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಅಂಕಿಗಳು.</span>
         </div>
         <div class="alphabet-grid">
           <span class="test-text" id="render-kannada-numbers"></span>
@@ -419,8 +423,8 @@
     <div class="tab-panel" id="panel-mixed" role="tabpanel" aria-labelledby="tab-mixed" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಒಂದನ್ನೊಂದು ಹೋಲುವ ಮುಲಾಕ್ಷರಗಳ ಗುಂಪು</span>
-          <span class="section-desc">Mixed basic letter groups</span>
+          <span class="section-tag">Mixed Letters · ಒಂದನ್ನೊಂದು ಹೋಲುವ ಮುಲಾಕ್ಷರಗಳ ಗುಂಪು</span>
+          <span class="section-desc">Mixed basic letter groups. ಮಿಶ್ರಿತ ಮೂಲ ಅಕ್ಷರಗಳ ಗುಂಪು.</span>
         </div>
         <div id="render-mixed"></div>
       </div>
@@ -429,42 +433,42 @@
     <div class="tab-panel" id="panel-gunita" role="tabpanel" aria-labelledby="tab-gunita" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Syllabic Grid Generator</span>
-          <span class="section-desc">ಕನ್ನಡ ಗುಣಿತಾಕ್ಷರಗಳು / akshara grid — edit any cell, U+ labels shown, export to PNG or PDF</span>
+          <span class="section-tag">Syllabic Grid Generator · ಗುಣಿತಾಕ್ಷರ ಜಾಲರಿ ಜನರೇಟರ್</span>
+          <span class="section-desc">Kannada Gunitakshara grid — edit any cell, U+ labels shown, export to PNG/PDF. ಕನ್ನಡ ಗುಣಿತಾಕ್ಷರಗಳು — ಕೋಶಗಳನ್ನು ಸಂಪಾದಿಸಿ, ಯುನಿಕೋಡ್ ಲೇಬಲ್‌ಗಳು, PNG ಅಥವಾ PDF ರಫ್ತು.</span>
         </div>
         <div class="syllabic-toolbar">
           <div class="syllabic-row">
-            <label class="syllabic-size-label">Size
+            <label class="syllabic-size-label">Size · ಗಾತ್ರ
               <input type="range" id="grid-size-range" min="12" max="96" step="1" value="32">
               <input type="number" id="grid-size-num" value="32" min="12" max="96">
             </label>
-            <button class="btn export-btn" id="grid-png-btn">Save PNG</button>
-            <button class="btn export-btn" id="grid-print-btn">Print / PDF</button>
-            <button class="btn export-btn template-btn" data-template="kannada">Kannada Akshara</button>
+            <button class="btn export-btn" id="grid-png-btn">Save PNG · ಉಳಿಸಿ</button>
+            <button class="btn export-btn" id="grid-print-btn">Print / PDF · ಮುದ್ರಿಸು</button>
+            <button class="btn export-btn template-btn" data-template="kannada">Kannada Akshara · ಕನ್ನಡ ಅಕ್ಷರ</button>
           </div>
           <div class="syllabic-fields">
-            <label class="syllabic-field">Consonants (one per line)
+            <label class="syllabic-field">Consonants · ವ್ಯಂಜನಗಳು (one per line · ಪ್ರತಿ ಸಾಲಿಗೆ ಒಂದು)
               <textarea id="ctrl-consonants" class="syllabic-textarea" rows="6" spellcheck="false"></textarea>
             </label>
-            <label class="syllabic-field">Vowel signs / matras (one per line, empty line = plain consonant)
+            <label class="syllabic-field">Vowel signs · ಸ್ವರ ಮಾತ್ರೆಗಳು (one per line · ಪ್ರತಿ ಸಾಲಿಗೆ ಒಂದು)
               <textarea id="ctrl-vowels" class="syllabic-textarea" rows="6" spellcheck="false"></textarea>
             </label>
-            <label class="syllabic-field">Conjuncts (optional)
+            <label class="syllabic-field">Conjuncts · ಒತ್ತಕ್ಷರಗಳು (optional · ಐಚ್ಛಿಕ)
               <textarea id="ctrl-conjuncts" class="syllabic-textarea" rows="3" spellcheck="false"></textarea>
             </label>
           </div>
           <div class="syllabic-row">
-            <button class="btn export-btn primary-btn" id="btn-generate">Generate Grid</button>
-            <span class="syllabic-note">Cells are editable · uses the currently loaded font (system fallback otherwise)</span>
+            <button class="btn export-btn primary-btn" id="btn-generate">Generate Grid · ಜಾಲರಿ ರಚಿಸಿ</button>
+            <span class="syllabic-note">Cells are editable · uses current font. ಕೋಶಗಳು ಸಂಪಾದಿಸಬಹುದಾದವು · ಪ್ರಸ್ತುತ ಫಾಂಟ್ ಬಳಸಲಾಗುತ್ತದೆ.</span>
           </div>
         </div>
-        <div class="syllabic-empty" id="grid-empty">Enter consonants and vowel signs, then Generate.</div>
+        <div class="syllabic-empty" id="grid-empty">Enter consonants and vowel signs, then Generate. ವ್ಯಂಜನಗಳು ಮತ್ತು ಮಾತ್ರೆಗಳನ್ನು ನಮೂದಿಸಿ, ನಂತರ ಜಾಲರಿ ರಚಿಸಿ.</div>
         <div id="grid-output" class="syllabic-output"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಗುಣಿತಾಕ್ಷರ ಜಾಲರಿ</span>
-          <span class="section-desc">Consonant + all 16 vowel matras + halant (static reference) — the full ಕನ್ನಡ ಗುಣಿತಾಕ್ಷರಗಳು table in the loaded font</span>
+          <span class="section-tag">Gunitakshara Grid · ಗುಣಿತಾಕ್ಷರ ಜಾಲರಿ</span>
+          <span class="section-desc">Consonant + all 16 vowel matras + halant. ವ್ಯಂಜನ + ಎಲ್ಲಾ ೧೬ ಸ್ವರ ಮಾತ್ರೆಗಳು + ಒಟ್ಟು ಗುಣಿತಾಕ್ಷರಗಳ ಕೋಷ್ಟಕ.</span>
         </div>
         <div id="render-gunita-grid" class="akshara-grid"></div>
       </div>
@@ -473,29 +477,29 @@
     <div class="tab-panel" id="panel-conjuncts" role="tabpanel" aria-labelledby="tab-conjuncts" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಒತ್ತಕ್ಷರ ಜಾಲರಿ</span>
-          <span class="section-desc">Full 34 × 34 ottakshara conjunct grid in the loaded font</span>
+          <span class="section-tag">Conjunct Grid · ಒತ್ತಕ್ಷರ ಜಾಲರಿ</span>
+          <span class="section-desc">Full 34 × 34 ottakshara conjunct grid. ಸಂಪೂರ್ಣ ೩೪ × ೩೪ ಒತ್ತಕ್ಷರ ಜಾಲರಿ.</span>
         </div>
         <div id="render-conjuncts-grid" class="akshara-grid"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Special Conjuncts</span>
-          <span class="section-desc">Complex conjunct clusters — rya, rthya, jña and multi-consonant forms</span>
+          <span class="section-tag">Special Conjuncts · ವಿಶೇಷ ಒತ್ತಕ್ಷರಗಳು</span>
+          <span class="section-desc">Complex conjunct clusters — rya, rthya, jña and multi-consonant forms. ಸಂಕೀರ್ಣ ಒತ್ತಕ್ಷರ ಗುಂಪುಗಳು — ರ್ಯ, ರ್ಥ್ಯ, ಜ್ಞ ಮತ್ತು ಸಂಯುಕ್ತ ರೂಪಗಳು.</span>
         </div>
         <div id="render-special-conjuncts" class="akshara-grid"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಎರೆಡನೆ ಒತ್ತಕ್ಷರಗಳು</span>
-          <span class="section-desc">Secondary conjunct examples</span>
+          <span class="section-tag">Secondary Conjuncts · ದ್ವಿತೀಯ ಒತ್ತಕ್ಷರಗಳು</span>
+          <span class="section-desc">Secondary conjunct examples. ದ್ವಿತೀಯ ಒತ್ತಕ್ಷರಗಳ ಉದಾಹರಣೆಗಳು.</span>
         </div>
         <div id="render-second-conjuncts" class="akshara-grid"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Complex Conjunct Groups</span>
-          <span class="section-desc">Consonant + tr, jña, kr, pr, shr, sn, dr, dhr conjunct series</span>
+          <span class="section-tag">Complex Conjunct Groups · ಸಂಕೀರ್ಣ ಒತ್ತಕ್ಷರ ಗುಂಪುಗಳು</span>
+          <span class="section-desc">Consonant + tr, jña, kr, pr, shr, sn, dr, dhr series. ವ್ಯಂಜನ + ತ್ರ, ಜ್ಞ, ಕ್ರ, ಪ್ರ, ಶ್ರ, ಸ್ನ, ದ್ರ, ಧ್ರ ಸರಣಿ.</span>
         </div>
         <div id="render-complex-conjuncts" class="akshara-grid"></div>
       </div>
@@ -504,22 +508,22 @@
     <div class="tab-panel" id="panel-words" role="tabpanel" aria-labelledby="tab-words" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Words — Set 1</span>
-          <span class="section-desc">Common vocabulary and conjunct words</span>
+          <span class="section-tag">Words Set 1 · ಪದಗಳು — ಗುಂಪು ೧</span>
+          <span class="section-desc">Common vocabulary and conjunct words. ಸಾಮಾನ್ಯ ಶಬ್ದಗಳು ಮತ್ತು ಒತ್ತಕ್ಷರ ಪದಗಳು.</span>
         </div>
         <div class="test-text" id="render-words" style="line-height:1.9"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Words — Set 2</span>
-          <span class="section-desc">Extended vocabulary with complex conjuncts</span>
+          <span class="section-tag">Words Set 2 · ಪದಗಳು — ಗುಂಪು ೨</span>
+          <span class="section-desc">Extended vocabulary with complex conjuncts. ಸಂಕೀರ್ಣ ಒತ್ತಕ್ಷರಗಳ ವಿಸ್ತೃತ ಶಬ್ದಕೋಶ.</span>
         </div>
         <div class="test-text" id="render-words2" style="line-height:1.9"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Size Ladder</span>
-          <span class="section-desc">Same text at descending sizes — judge colour and spacing at a glance</span>
+          <span class="section-tag">Size Ladder · ಗಾತ್ರ ಏಣಿ</span>
+          <span class="section-desc">Same text at descending sizes — judge colour and spacing. ಇಳಿಕೆ ಗಾತ್ರಗಳಲ್ಲಿ ಒಂದೇ ಪಠ್ಯ — ಬಣ್ಣ ಮತ್ತು ಅಂತರದ ಪರೀಕ್ಷೆ.</span>
         </div>
         <div id="render-words-ladder"></div>
       </div>
@@ -528,8 +532,8 @@
     <div class="tab-panel" id="panel-lettering" role="tabpanel" aria-labelledby="tab-lettering" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Lettering</span>
-          <span class="section-desc">Curated Kannada letter combinations — the font's personality at a glance</span>
+          <span class="section-tag">Lettering · ಅಕ್ಷರ ವಿನ್ಯಾಸ</span>
+          <span class="section-desc">Curated Kannada letter combinations. ಆಯ್ದ ಕನ್ನಡ ಅಕ್ಷರ ಸಂಯೋಜನೆಗಳು — ಫಾಂಟ್‌ನ ಶೈಲಿ.</span>
         </div>
         <div id="render-lettering"></div>
       </div>
@@ -538,15 +542,15 @@
     <div class="tab-panel" id="panel-vachana" role="tabpanel" aria-labelledby="tab-vachana" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಬಸವಣ್ಣನವರ ವಚನ</span>
-          <span class="section-desc">Basavanna's Vachana literature — texture test</span>
+          <span class="section-tag">Vachana · ಬಸವಣ್ಣನವರ ವಚನ</span>
+          <span class="section-desc">Basavanna's Vachana literature — texture test. ಬಸವಣ್ಣನವರ ವಚನ ಸಾಹಿತ್ಯ — ಟೆಕ್ಸ್ಚರ್ ಪರೀಕ್ಷೆ.</span>
         </div>
         <div id="render-vachana"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Vachana 2</span>
-          <span class="section-desc">Additional Vachana poetry</span>
+          <span class="section-tag">Vachana 2 · ವಚನ ೨</span>
+          <span class="section-desc">Additional Vachana poetry. ಹೆಚ್ಚುವರಿ ವಚನ ಕವಿತೆ.</span>
         </div>
         <div id="render-vachana2"></div>
       </div>
@@ -555,8 +559,8 @@
     <div class="tab-panel" id="panel-kuvempu" role="tabpanel" aria-labelledby="tab-kuvempu" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಕುವೆಂಪು ಅವರ ವಿಶ್ವ ಮಾನವ ಸಂದೇಶ</span>
-          <span class="section-desc">Kuvempu's Vishwa Manava Sandesha — prose test</span>
+          <span class="section-tag">Kuvempu · ಕುವೆಂಪು ಅವರ ವಿಶ್ವ ಮಾನವ ಸಂದೇಶ</span>
+          <span class="section-desc">Kuvempu's Vishwa Manava Sandesha — prose test. ಕುವೆಂಪು ಅವರ ವಿಶ್ವ ಮಾನವ ಸಂದೇಶ — ಗದ್ಯ ಪರೀಕ್ಷೆ.</span>
         </div>
         <div class="test-text paragraph-text" id="render-kuvempu"></div>
       </div>
@@ -565,8 +569,8 @@
     <div class="tab-panel" id="panel-folk" role="tabpanel" aria-labelledby="tab-folk" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಮಣ್ಣಿನ ಹಾಡು (ಜನಪದ)</span>
-          <span class="section-desc">Folk song — Mannina Haadu</span>
+          <span class="section-tag">Folk Song · ಮಣ್ಣಿನ ಹಾಡು (ಜನಪದ)</span>
+          <span class="section-desc">Folk song — Mannina Haadu. ಮಣ್ಣಿನ ಹಾಡು ಜನಪದ ಪಠ್ಯ.</span>
         </div>
         <div id="render-folk"></div>
       </div>
@@ -575,8 +579,8 @@
     <div class="tab-panel" id="panel-english" role="tabpanel" aria-labelledby="tab-english" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">English Type Test</span>
-          <span class="section-desc">Pangrams and word list</span>
+          <span class="section-tag">English Type Test · ಇಂಗ್ಲಿಷ್ ಟೈಪ್ ಪರೀಕ್ಷೆ</span>
+          <span class="section-desc">Pangrams and word list. ಪ್ಯಾಂಗ್ರಾಮ್‌ಗಳು ಮತ್ತು ಪದಗಳ ಪಟ್ಟಿ.</span>
         </div>
         <div id="render-english"></div>
         <div class="test-text paragraph-text" id="render-english-words" style="margin-top: 24px; line-height: 1.8;"></div>
@@ -586,8 +590,8 @@
     <div class="tab-panel" id="panel-symbols" role="tabpanel" aria-labelledby="tab-symbols" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಅವಶ್ಯಕ ಚಿನ್ಹೆಗಳು</span>
-          <span class="section-desc">Essential symbols and special characters</span>
+          <span class="section-tag">Symbols · ಅವಶ್ಯಕ ಚಿನ್ಹೆಗಳು</span>
+          <span class="section-desc">Essential symbols and special characters. ಅವಶ್ಯಕ ಚಿನ್ಹೆಗಳು ಮತ್ತು ವಿಶೇಷ ವರ್ಣಗಳು.</span>
         </div>
         <div class="test-text" id="render-symbols" style="line-height: 2;"></div>
       </div>
@@ -596,15 +600,15 @@
     <div class="tab-panel" id="panel-kerning" role="tabpanel" aria-labelledby="tab-kerning" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">English Kerning Pairs</span>
-          <span class="section-desc">Latin kerning test strings — toggle Kerning in the sidebar to compare spacing</span>
+          <span class="section-tag">English Kerning Pairs · ಲ್ಯಾಟಿನ್ ಕರ್ನಿಂಗ್ ಜೋಡಿಗಳು</span>
+          <span class="section-desc">Latin kerning test strings — toggle Kerning in the sidebar. ಲ್ಯಾಟಿನ್ ಕರ್ನಿಂಗ್ ಪರೀಕ್ಷಾ ಸ್ಟ್ರಿಂಗ್‌ಗಳು — ಅಂತರ ಹೋಲಿಸಲು ಸೈಡ್‌ಬಾರ್‌ನಲ್ಲಿ ಕರ್ನಿಂಗ್ ಟಾಗಲ್ ಮಾಡಿ.</span>
         </div>
         <div class="test-text" id="render-kerning" style="line-height: 2;"></div>
       </div>
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">ಕನ್ನಡ ಕರ್ನಿಂಗ್</span>
-          <span class="section-desc">Kannada kerning pairs — consonant + matra, rakar forms, and difficult clusters</span>
+          <span class="section-tag">Kannada Kerning · ಕನ್ನಡ ಕರ್ನಿಂಗ್</span>
+          <span class="section-desc">Kannada kerning pairs — consonant + matra, rakar forms, and clusters. ಕನ್ನಡ ಕರ್ನಿಂಗ್ ಜೋಡಿಗಳು — ವ್ಯಂಜನ + ಮಾತ್ರೆ, ರಕಾರ ರೂಪಗಳು ಮತ್ತು ಸಂಕೀರ್ಣ ಗುಂಪುಗಳು.</span>
         </div>
         <div class="test-text" id="render-kerning-kannada" style="line-height: 2;"></div>
       </div>
@@ -613,8 +617,8 @@
     <div class="tab-panel" id="panel-coverage" role="tabpanel" aria-labelledby="tab-coverage" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Glyph Coverage</span>
-          <span class="section-desc">Kannada Unicode block (U+0C80–U+0CFF) — 128 code points, 91 assigned</span>
+          <span class="section-tag">Glyph Coverage · ಲಿಪಿ ವ್ಯಾಪ್ತಿ</span>
+          <span class="section-desc">Kannada Unicode block (U+0C80–U+0CFF) — 128 code points, 91 assigned. ಕನ್ನಡ ಯೂನಿಕೋಡ್ ಬ್ಲಾಕ್ (U+0C80–U+0CFF) — ೧೨೮ ಕೋಡ್ ಪಾಯಿಂಟ್‌ಗಳು, ೯೧ ನಿಗದಿತ.</span>
         </div>
         <div class="coverage-summary" id="coverage-summary"></div>
         <div class="coverage-bar" id="coverage-bar"></div>
@@ -625,11 +629,11 @@
     <div class="tab-panel" id="panel-glyph-picker" role="tabpanel" aria-labelledby="tab-glyph-picker" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Glyph Map</span>
-          <span class="section-desc">All glyphs in the loaded font</span>
+          <span class="section-tag">Glyph Map · ಅಕ್ಷರ ನಕ್ಷೆ</span>
+          <span class="section-desc">All glyphs in the loaded font. ಲೋಡ್ ಮಾಡಿದ ಫಾಂಟ್‌ನಲ್ಲಿರುವ ಎಲ್ಲಾ ಅಕ್ಷರಗಳು.</span>
         </div>
         <div class="glyph-picker-controls">
-          <input type="text" class="glyph-search" id="glyph-search" placeholder="Search glyphs or Unicode code point...">
+          <input type="text" class="glyph-search" id="glyph-search" placeholder="Search glyphs or Unicode code point... ಅಕ್ಷರ ಅಥವಾ ಯೂನಿಕೋಡ್ ಕೋಡ್ ಹುಡುಕಿ...">
           <span class="glyph-count" id="glyph-count">—</span>
         </div>
         <div class="glyph-map-grid" id="glyph-map-grid"></div>
@@ -639,9 +643,109 @@
     <div class="tab-panel" id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Compare Fonts</span>
-          <span class="section-desc">Side-by-side font comparison</span>
+          <span class="section-tag">Compare Fonts · ಫಾಂಟ್ ಹೋಲಿಕೆ</span>
+          <span class="section-desc">Side-by-side font comparison. ಪಕ್ಕಪಕ್ಕದಲ್ಲಿ ಫಾಂಟ್ ಹೋಲಿಕೆ.</span>
         </div>
+        <div class="compare-controls">
+          <select id="compare-font-1" class="compare-select"></select>
+          <select id="compare-font-2" class="compare-select"></select>
+        </div>
+        <div class="compare-area" id="compare-area">
+          <div class="compare-panel" id="compare-left">
+            <div class="compare-label" id="compare-label-1">Font 1</div>
+            <div class="compare-text" id="compare-text-1"></div>
+          </div>
+          <div class="compare-panel" id="compare-right">
+            <div class="compare-label" id="compare-label-2">Font 2</div>
+            <div class="compare-text" id="compare-text-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-web" role="tabpanel" aria-labelledby="tab-web" tabindex="0">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Web Display · ಸಂದರ್ಭ ಪರೀಕ್ಷೆ</span>
+          <span class="section-desc">The loaded font in 6 realistic web layouts — assign fonts per role, edit copy, and export each card. ಲೋಡ್ ಮಾಡಿದ ಫಾಂಟ್‌ನ ೬ ವಿವಿಧ ಜಾಲತಾಣ ವಿನ್ಯಾಸಗಳ ಪರೀಕ್ಷೆ.</span>
+        </div>
+      <div class="ctx-toolbar">
+
+        <div class="ctx-row">
+          <div class="ctx-cell">
+            <span class="ctx-label">Title · ಶೀರ್ಷಿಕೆ</span>
+            <input type="text" class="ctx-input wide" id="text-title" value="ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು">
+          </div>
+          <div class="ctx-cell">
+            <span class="ctx-label">Subtitle · ಉಪಶೀರ್ಷಿಕೆ</span>
+            <input type="text" class="ctx-input med" id="text-sub" value="ಆಧುನಿಕತೆ ಒಂದು ಶೈಲಿಯಲ್ಲ; ವಸ್ತುನಿಷ್ಠ ದೃಶ್ಯ ಭಾಷೆಯ ಹುಡುಕಾಟ">
+          </div>
+          <div class="ctx-cell">
+            <span class="ctx-label">Heading · ಉಪತಲೆಬರಹ</span>
+            <input type="text" class="ctx-input sm" id="text-heading" value="ಇದೀಗ ಅನ್ವೇಷಿಸಿ">
+          </div>
+          <div class="ctx-cell grow">
+            <span class="ctx-label">Body · ಪಠ್ಯ</span>
+            <textarea class="ctx-input ctx-textarea" id="text-body">ಕನ್ನಡ ಲಿಪಿಯ ಸೌಂದರ್ಯ, ಅದರ ಒತ್ತಕ್ಷರಗಳು ಮತ್ತು ಗುಣಿತಾಕ್ಷರಗಳ ವಿನ್ಯಾಸವು ಶತಮಾನಗಳ ಪರಂಪರೆ. ಗ್ರಿಡ್, ಕ್ರಮಾನುಗತ, ಕಾರ್ಯ — ಈ ಮೂರು ತತ್ವಗಳು ಎಲ್ಲಾ ಪ್ರವೃತ್ತಿಗಳನ್ನು ಮೀರಿ ಉಳಿದಿವೆ. ಪರದೆಗಳು ಹೆಚ್ಚುತ್ತಿರುವಂತೆ ಮತ್ತು ಗಮನ ಕಡಿಮೆಯಾಗುತ್ತಿರುವಂತೆ, ಆಧಾರಭೂತ ನಿಯಮಗಳು ಇಂದಿಗೂ ಪ್ರಸ್ತುತ.</textarea>
+          </div>
+          <div class="ctx-cell">
+            <span class="ctx-label">Note · ಟಿಪ್ಪಣಿ</span>
+            <input type="text" class="ctx-input xs" id="text-note" value="ವೈಶಿಷ್ಟ್ಯ">
+          </div>
+        </div>
+...
+      </div>
+
+      <div class="subnav" id="web-subnav" data-panel="render-web-mockups">
+        <button class="sub-btn active" data-sub="mock-hero">Hero · ಹೀರೊ</button>
+        <button class="sub-btn" data-sub="mock-article">Article · ಲೇಖನ</button>
+        <button class="sub-btn" data-sub="mock-dark">Dark · ಕಪ್ಪು</button>
+        <button class="sub-btn" data-sub="mock-pricing">Pricing · ದರಪಟ್ಟಿ</button>
+        <button class="sub-btn" data-sub="mock-app">App · ಆಪ್</button>
+        <button class="sub-btn" data-sub="mock-mobile">Mobile · ಮೊಬೈಲ್</button>
+        <button class="sub-btn" data-sub="mock-features">Features · ವೈಶಿಷ್ಟ್ಯಗಳು</button>
+      </div>
+...
+    <div class="tab-panel" id="panel-print" role="tabpanel" aria-labelledby="tab-print" tabindex="0">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Print · ಮುದ್ರಣ ಪರೀಕ್ಷೆ</span>
+          <span class="section-desc">The loaded font in 6 print layouts — newspaper, magazine, book, cover, spec, stationery. ವಿವಿಧ ಮುದ್ರಣ ವಿನ್ಯಾಸಗಳಲ್ಲಿ ಫಾಂಟ್ ಪರೀಕ್ಷೆ.</span>
+        </div>
+        <div class="ctx-actions" style="margin:0 0 12px;">
+          <button class="btn export-btn" id="export-print-png">Export All PNG · ಎಲ್ಲವನ್ನೂ ಸೇವ್ ಮಾಡಿ</button>
+          <button class="btn export-btn" id="export-print-pdf">Print All · ಮುದ್ರಿಸು</button>
+        </div>
+        <div class="subnav" id="print-subnav" data-panel="render-print-mockups">
+          <button class="sub-btn active" data-sub="mock-np">Newspaper · ದಿನಪತ್ರಿಕೆ</button>
+          <button class="sub-btn" data-sub="mock-mag">Magazine · ನಿಯತಕಾಲಿಕೆ</button>
+          <button class="sub-btn" data-sub="mock-book">Book · ಪುಸ್ತಕ</button>
+          <button class="sub-btn" data-sub="mock-cover">Cover · ಮುಖಪುಟ</button>
+          <button class="sub-btn" data-sub="mock-spec">Spec · ತಾಂತ್ರಿಕ</button>
+          <button class="sub-btn" data-sub="mock-letter">Letter · ಪತ್ರ</button>
+        </div>
+...
+    <div class="tab-panel" id="panel-decompose" role="tabpanel" aria-labelledby="tab-decompose" tabindex="0">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Conjunct Decomposition · ಒತ್ತಕ್ಷರ ವಿಭಜನೆ</span>
+          <span class="section-desc">How conjuncts break down into half-forms and full forms. ಒತ್ತಕ್ಷರಗಳು ಅರ್ಧ ರೂಪ ಮತ್ತು ಪೂರ್ಣ ರೂಪಗಳಾಗಿ ಹೇಗೆ ವಿಭಜನೆಯಾಗುತ್ತವೆ ಎಂಬ ವಿವರ.</span>
+        </div>
+        <div class="decompose-grid" id="decompose-grid"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-font-rules" role="tabpanel" aria-labelledby="tab-font-rules" tabindex="0">
+      <div class="section">
+        <div class="section-meta">
+          <span class="section-tag">Font Rules · ಫಾಂಟ್ ನಿಯಮಗಳು</span>
+          <span class="section-desc">OpenType shaping rules, GSUB/GPOS lookups, and feature definitions. ಓಪನ್‌ಟೈಪ್ ಶೇಪಿಂಗ್ ನಿಯಮಗಳು ಮತ್ತು ವೈಶಿಷ್ಟ್ಯಗಳ ವ್ಯಾಖ್ಯಾನಗಳು.</span>
+        </div>
+        <div id="font-rules-content" class="font-rules">
+          <div class="metadata-empty">Load a font to view embedded rules. ನಿಯಮಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಫಾಂಟ್ ಲೋಡ್ ಮಾಡಿ.</div>
+        </div>
+      </div>
+    </div>
         <div class="compare-controls">
           <select id="compare-font-1" class="compare-select"></select>
           <select id="compare-font-2" class="compare-select"></select>
@@ -744,48 +848,48 @@
           </div>
         </div>
 
-        <div class="ot-panel" id="display-ot-panel" style="display:none">
-          <label class="ot-feat-check" title="Kerning"><input type="checkbox" data-feat="kern" checked> kern</label>
-          <label class="ot-feat-check" title="Standard Ligatures"><input type="checkbox" data-feat="liga" checked> liga</label>
-          <label class="ot-feat-check" title="Contextual Alternates"><input type="checkbox" data-feat="calt" checked> calt</label>
-          <label class="ot-feat-check" title="Discretionary Ligatures"><input type="checkbox" data-feat="dlig"> dlig</label>
-          <label class="ot-feat-check" title="Small Caps"><input type="checkbox" data-feat="smcp"> smcp</label>
-          <label class="ot-feat-check" title="Subscript"><input type="checkbox" data-feat="subs"> subs</label>
-          <label class="ot-feat-check" title="Superscript"><input type="checkbox" data-feat="sups"> sups</label>
-          <label class="ot-feat-check" title="Fractions"><input type="checkbox" data-feat="frac"> frac</label>
-          <label class="ot-feat-check" title="Numerator"><input type="checkbox" data-feat="numr"> numr</label>
-          <label class="ot-feat-check" title="Denominator"><input type="checkbox" data-feat="dnom"> dnom</label>
-          <label class="ot-feat-check" title="Ordinals"><input type="checkbox" data-feat="ordn"> ordn</label>
-          <label class="ot-feat-check" title="Old-style Figures"><input type="checkbox" data-feat="onum"> onum</label>
-          <label class="ot-feat-check" title="Lining Figures"><input type="checkbox" data-feat="lnum"> lnum</label>
-          <label class="ot-feat-check" title="Tabular Figures"><input type="checkbox" data-feat="tnum"> tnum</label>
-          <label class="ot-feat-check" title="Slashed Zero"><input type="checkbox" data-feat="zero"> zero</label>
-          <label class="ot-feat-check" title="Swash"><input type="checkbox" data-feat="swsh"> swsh</label>
+<div class="ot-panel" id="display-ot-panel" style="display:none">
+          <label class="ot-feat-check" title="Kerning · ಕರ್ನಿಂಗ್"><input type="checkbox" data-feat="kern" checked> kern</label>
+          <label class="ot-feat-check" title="Standard Ligatures · ಪ್ರಮಾಣ ಲಿಗೇಚರ್ಸ್"><input type="checkbox" data-feat="liga" checked> liga</label>
+          <label class="ot-feat-check" title="Contextual Alternates · ಸಂದರ್ಭ ಆಲ್ಟರ್‌ನೆಟ್ಸ್"><input type="checkbox" data-feat="calt" checked> calt</label>
+          <label class="ot-feat-check" title="Discretionary Ligatures · ವೈವಾರಿಕೆ ಲಿಗೇಚರ್ಸ್"><input type="checkbox" data-feat="dlig"> dlig</label>
+          <label class="ot-feat-check" title="Small Caps · ಚಿಕ್ಕ ಕ್ಯಾಪ್ಸ್"><input type="checkbox" data-feat="smcp"> smcp</label>
+          <label class="ot-feat-check" title="Subscript · ಸುಬ್‌ಸ್ಕ್ರಿಪ್ಟ್"><input type="checkbox" data-feat="subs"> subs</label>
+          <label class="ot-feat-check" title="Superscript · ಸುಪರ್‌ಸ್ಕ್ರಿಪ್ಟ್"><input type="checkbox" data-feat="sups"> sups</label>
+          <label class="ot-feat-check" title="Fractions · ಭಿನ್ನಾಂಶಗಳು"><input type="checkbox" data-feat="frac"> frac</label>
+          <label class="ot-feat-check" title="Numerator · ಅಂಶ"><input type="checkbox" data-feat="numr"> numr</label>
+          <label class="ot-feat-check" title="Denominator · ಹರ"><input type="checkbox" data-feat="dnom"> dnom</label>
+          <label class="ot-feat-check" title="Ordinals · ಕ್ರಮಾವಳಿ"><input type="checkbox" data-feat="ordn"> ordn</label>
+          <label class="ot-feat-check" title="Old-style Figures · ಪುರಾತನ ಸಂಖ್ಯಾ ರೂಪಗಳು"><input type="checkbox" data-feat="onum"> onum</label>
+          <label class="ot-feat-check" title="Lining Figures · ಲೈನಿಂಗ್ ಫಿಗರ್ಸ್"><input type="checkbox" data-feat="lnum"> lnum</label>
+          <label class="ot-feat-check" title="Tabular Figures · ಟ್ಯಾಬ್ಯುಲರ್ ಫಿಗರ್ಸ್"><input type="checkbox" data-feat="tnum"> tnum</label>
+          <label class="ot-feat-check" title="Slashed Zero · ಸ್ಲಾಶ್‌ಡ್ ಸೀೊ"><input type="checkbox" data-feat="zero"> zero</label>
+          <label class="ot-feat-check" title="Swash · ಸ್ವಾಶ"><input type="checkbox" data-feat="swsh"> swsh</label>
         </div>
 
         <div class="ctx-row ctx-options">
           <div class="ctx-cell">
-            <span class="ctx-label">Canvas</span>
+            <span class="ctx-label">Canvas · ಕ್ಯಾನ್ವಾಸ್</span>
             <select class="ctx-select-sm" id="page-size">
-              <option value="1 / 1.35" selected>Portrait</option>
-              <option value="16 / 9">Desktop 16:9</option>
-              <option value="4 / 3">Tablet 4:3</option>
-              <option value="9 / 16">Mobile</option>
-              <option value="1 / 1">Square</option>
+              <option value="1 / 1.35" selected>Portrait · ಪорт್ರೇಟ್</option>
+              <option value="16 / 9">Desktop 16:9 · ಡೆಸ್ಕ್ಟಾಪ್ 16:9</option>
+              <option value="4 / 3">Tablet 4:3 · ಟ್ಯಾಬ್ಲೆಟ್ 4:3</option>
+              <option value="9 / 16">Mobile · ಮೊಬೈಲ್</option>
+              <option value="1 / 1">Square · ವರ್ಗಾಕಾರ</option>
             </select>
           </div>
           <div class="ctx-cell">
-            <span class="ctx-label">BG</span>
+            <span class="ctx-label">BG · ಹಿನ್ನೆಲೆ</span>
             <div class="bg-group">
-              <button class="bg-type-btn active" data-bg="color">Color</button>
-              <button class="bg-type-btn" data-bg="gradient">Grad</button>
-              <button class="bg-type-btn" data-bg="image">Image</button>
-              <span class="color-swatch" title="Pick color"><input type="color" id="bg-color" value="#f8f9fa"></span>
+              <button class="bg-type-btn active" data-bg="color">Color · ವರ್ಣ</button>
+              <button class="bg-type-btn" data-bg="gradient">Grad · ಗ್ರೇಡಿಯೆಂಟ್</button>
+              <button class="bg-type-btn" data-bg="image">Image · ಚಿತ್ರ</button>
+              <span class="color-swatch" title="Pick color · ವರ್ಣ ಆಯ್ಕೆಮಾಡಿ"><input type="color" id="bg-color" value="#f8f9fa"></span>
               <input type="file" class="bg-img-input" id="bg-image" accept="image/*">
             </div>
           </div>
           <div class="ctx-cell">
-            <span class="ctx-label">Size</span>
+            <span class="ctx-label">Size · ಗಾತ್ರ</span>
             <select class="ctx-select-sm" id="ctx-scale">
               <option value="1">100%</option>
               <option value="0.85">85%</option>
@@ -794,21 +898,227 @@
             </select>
           </div>
           <div class="ctx-actions">
-            <button class="btn export-btn" id="export-web-all">Export All PNG</button>
-            <button class="btn export-btn" id="export-web-print">Print All</button>
+            <button class="btn export-btn" id="export-web-all">Export All PNG · ಎಲ್ಲ PNG ರಫ್ತು</button>
+            <button class="btn export-btn" id="export-web-print">Print All · ಎಲ್ಲ ಮುದ್ರಿಸು</button>
           </div>
         </div>
 
       </div>
 
-      <div class="subnav" id="web-subnav" data-panel="render-web-mockups">
-        <button class="sub-btn active" data-sub="mock-hero">Hero</button>
-        <button class="sub-btn" data-sub="mock-article">Article</button>
-        <button class="sub-btn" data-sub="mock-dark">Dark</button>
-        <button class="sub-btn" data-sub="mock-pricing">Pricing</button>
-        <button class="sub-btn" data-sub="mock-app">App</button>
-        <button class="sub-btn" data-sub="mock-mobile">Mobile</button>
-        <button class="sub-btn" data-sub="mock-features">Features</button>
+<div class="subnav" id="web-subnav" data-panel="render-web-mockups">
+        <button class="sub-btn active" data-sub="mock-hero">Hero · ಹೀರೋ</button>
+        <button class="sub-btn" data-sub="mock-article">Article · ಲೇಖನ</button>
+        <button class="sub-btn" data-sub="mock-dark">Dark · ಕಪ್ಪು</button>
+        <button class="sub-btn" data-sub="mock-pricing">Pricing · ದರಪಟ್ಟಿ</button>
+        <button class="sub-btn" data-sub="mock-app">App · ಆಪ್</button>
+        <button class="sub-btn" data-sub="mock-mobile">Mobile · ಮೊಬೈಲ್</button>
+        <button class="sub-btn" data-sub="mock-features">Features · ವೈಶಿಷ್ಟ್ಯಗಳು</button>
+      </div>
+
+      <div class="preview-grid" id="render-web-mockups">
+
+        <div class="mock-card ctx-card" id="mock-hero">
+          <span class="mock-tag">01 — Hero Header · ಹೀರೋ ہیಡರ್</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-hero" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-hero" data-fmt="print">Print · ಮುದ್ರಣ</button>
+          </div>
+          <div class="layout-hero">
+            <div class="hero-stripe"></div>
+            <div class="hero-body">
+              <p class="hero-kicker typo-sub text-note">Feature · ವೈಶಿಷ್ಟ್ಯ</p>
+              <h1 class="hero-hl typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</h1>
+              <p class="hero-deck typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</p>
+              <span class="hero-cta typo-heading text-heading">Read Article · ಲೇಖನ ಓದಿ</span>
+              <div class="hero-byline">
+                <span class="typo-sub">Sanchaya · Sanchi Foundation · ಸಂಚಯ · ಸಂಚಿ ಫೌಂಡೇಷನ್</span>
+                <span class="typo-body">June 2026 · 12 min read · ಜೂನ್ 2026 · 12 ನಿಮಿಷಗಳ ಓದು</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-article">
+          <span class="mock-tag">02 — Long-form Article · ದೀರ್ಘ ಲೇಖನ</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-article" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-article" data-fmt="print">Print · ಮುದ್ರಣ</button>
+          </div>
+          <div class="layout-article">
+            <div class="article-main">
+              <p class="article-meta typo-sub">Typography · June 2026 · ಟೈಪೋಗ್ರಫಿ · ಜೂನ್ 2026</p>
+              <h2 class="article-hl typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</h2>
+              <p class="article-deck typo-sub text-sub">ಆಧುನಿಕತೆ ಒಂದು ಶೈಲಿಯಲ್ಲ; ವಸ್ತುನಿಷ್ಠ ದೃಶ್ಯ ಭಾಷೆಯ ಹುಡುಕಾಟ.</p>
+              <div class="article-rule"></div>
+              <p class="article-body typo-body text-body">ಕನ್ನಡ ಲಿಪಿಯ ಸೌಂದರ್ಯ, ಅದರ ಒತ್ತಕ್ಷರಗಳು ಮತ್ತು ಗುಣಿತಾಕ್ಷರಗಳ ವಿನ್ಯಾಸವು ಶತಮಾನಗಳ ಪರಂಪರೆ.</p>
+            </div>
+            <div class="article-sidebar">
+              <span class="article-sidebar-label typo-heading">In This Issue · ಈ ಸಂಚಿಕೆಯಲ್ಲಿ</span>
+              <div class="sidebar-item">
+                <p class="sidebar-item-hed typo-heading text-heading">Explore Now · ಈಗ ಅನ್ವೇಷಿಸಿ</p>
+                <p class="sidebar-item-txt typo-body text-body">Variable font era changing design studios' work. ವೇರಿಯೇಬಲ್ ಫಾಂಟ್ ಯುಗ ವಿನ್ಯಾಸ ಸ್ಟುಡಿಯೋಗಳ ಕೆಲಸವನ್ನು ಬದಲಿಸುತ್ತಿದೆ.</p>
+              </div>
+              <div class="sidebar-item">
+                <p class="sidebar-item-hed typo-heading text-heading">Explore Now · ಈಗ ಅನ್ವೇಷಿಸಿ</p>
+                <p class="sidebar-item-txt typo-body text-body">Kannada and Devanagari scripts entering global type conversation. ಕನ್ನಡ ಮತ್ತು ದೇವನಾಗರಿ ಲಿಪಿಗಳು ಜಾಗತಿಕ ಟೈಪ್ ಸಂಭಾಷಣೆಗೆ ಪ್ರವೇಶಿಸುತ್ತಿವೆ.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-dark">
+          <span class="mock-tag">03 — Dark Feature · ಕಪ್ಪು ವೈಶಿಷ್ಟ್ಯ</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-dark" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-dark" data-fmt="print">Print · ಮುದ್ರಣ</button>
+          </div>
+          <div class="layout-dark">
+            <div>
+              <p class="dark-eyebrow typo-sub text-sub">Feature · ವೈಶಿಷ್ಟ್ಯ</p>
+              <h2 class="dark-hl typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</h2>
+              <p class="dark-deck typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</p>
+              <span class="dark-btn typo-heading text-heading">Explore Now · ಈಗ ಅನ್ವೇಷಿಸಿ</span>
+            </div>
+            <div class="dark-stats">
+              <div>
+                <span class="dark-stat-val typo-title">2,400</span>
+                <span class="dark-stat-label typo-body text-note">Words · ಪದಗಳು</span>
+              </div>
+              <div>
+                <span class="dark-stat-val typo-title">12 min</span>
+                <span class="dark-stat-label typo-body">Read Time · ಓದುವ ಸಮಯ</span>
+              </div>
+              <div>
+                <span class="dark-stat-val typo-title">84</span>
+                <span class="dark-stat-label typo-body">Reactions · ಪ್ರತಿಕ್ರಿಯೆ</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-pricing">
+          <span class="mock-tag">04 — Pricing · ದರಪಟ್ಟಿ</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-pricing" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-pricing" data-fmt="print">Print · ಮುದ್ರಣ</button>
+          </div>
+          <div class="layout-pricing">
+            <p class="pricing-plan typo-sub text-sub">Professional · ವೃತ್ತಿಪರ</p>
+            <div class="pricing-price typo-title"><sup>₹</sup>499</div>
+            <p class="pricing-period typo-body text-body">Per month, billed annually · ಪ್ರತಿ ತಿಂಗಳು, ವಾರ್ಷಿಕ ಬಿಲ್ಲಿಂಗ್</p>
+            <div class="pricing-rule"></div>
+            <div class="pricing-feat"><span class="pricing-check">✓</span> <span class="typo-body">Unlimited font uploads · ಅನಿಯಮಿತ ಫಾಂಟ್ ಅಪ್ಲೋಡ್</span></div>
+            <div class="pricing-feat"><span class="pricing-check">✓</span> <span class="typo-body">PNG & PDF export · PNG & PDF ರಫ್ತು</span></div>
+            <div class="pricing-feat"><span class="pricing-check">✓</span> <span class="typo-body">All script support · ಎಲ್ಲಾ ಲಿಪಿ ಬೆಂಬಲ</span></div>
+            <button class="pricing-cta typo-heading text-heading">Get Started · ಪ್ರಾರಂಭಿಸಿ</button>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-app">
+          <span class="mock-tag">05 — App / Dashboard · ಆಪ್ / ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-app" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-app" data-fmt="print">Print · ಮುದ್ರಣ</button>
+          </div>
+          <div class="layout-app">
+            <div class="app-nav">
+              <span class="app-brand typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</span>
+              <div class="app-nav-links">
+                <span class="app-nav-link typo-heading">Overview · ಅವಲೋಕನ</span>
+                <span class="app-nav-link typo-heading">Plans · ಯೋಜನೆಗಳು</span>
+                <span class="app-nav-link typo-heading">Settings · ಸೆಟ್ಟಿಂಗ್ಗಳು</span>
+              </div>
+            </div>
+            <div class="app-body">
+              <p class="app-greeting typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</p>
+              <p class="app-sub typo-sub text-sub">ಆಧುನಿಕತೆ ಒಂದು ಶೈಲಿಯಲ್ಲ; ವಸ್ತುನಿಷ್ಠ ದೃಶ್ಯ ಭಾಷೆಯ ಹುಡುಕಾಟ.</p>
+              <div class="app-cards">
+                <div class="app-card accent">
+                  <div class="app-card-val typo-title">1,240</div>
+                  <div class="app-card-label typo-body text-note">Sessions · ಅವಧಿಗಳು</div>
+                </div>
+                <div class="app-card">
+                  <div class="app-card-val typo-title">98%</div>
+                  <div class="app-card-label typo-body text-note">Uptime · ಉಪಲಬ್ಧತೆ</div>
+                </div>
+                <div class="app-card">
+                  <div class="app-card-val typo-title">4.2s</div>
+                  <div class="app-card-label typo-body text-note">Avg Load · ಸರಾಸರಿ ಲೋಡ್</div>
+                </div>
+              </div>
+              <p class="app-section-hed typo-heading text-heading">Recent Sessions · ಇತ್ತೀಚಿನ ಅವಧಿಗಳು</p>
+              <div class="app-row"><span class="typo-body text-body">Bengaluru · 2026 · ಬೆಂಗಳೂರು · 2026</span></div>
+              <div class="app-row"><span class="typo-body text-body">Mysuru · 2025 · ಮೈಸೂರು · 2025</span></div>
+              <div class="app-row"><span class="typo-body text-body">Mangaluru · 2024 · ಮಂಗಳೂರು · 2024</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-mobile">
+          <span class="mock-tag">06 — Mobile UI · ಮೊಬೈಲ್ UI</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-mobile" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-mobile" data-fmt="print">Print · ಮುದ್ರಣ</button>
+          </div>
+          <div class="layout-mobile">
+            <div class="phone-shell">
+              <div class="phone-bar"><div class="phone-notch"></div></div>
+              <div class="phone-body">
+                <p class="phone-kicker typo-sub text-sub">Feature · ವೈಶಿಷ್ಟ್ಯ</p>
+                <div class="phone-hl typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪದ ವಾಸ್ತು</div>
+                <div class="phone-body-txt typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</div>
+                <div class="phone-btn typo-heading text-heading">Explore Now · ಈಗ ಅನ್ವೇಷಿಸಿ</div>
+              </div>
+              <div class="phone-nav">
+                <div class="phone-nav-dot active"></div>
+                <div class="phone-nav-dot"></div>
+                <div class="phone-nav-dot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mock-card ctx-card" id="mock-features">
+          <span class="mock-tag">07 — Type Features · ಅಕ್ಷರ ವೈಶಿಷ್ಟ್ಯಗಳು</span>
+          <div class="mock-actions">
+            <button class="btn export-btn mock-btn" data-target="mock-features" data-fmt="png">PNG</button>
+            <button class="btn export-btn mock-btn" data-target="mock-features" data-fmt="print">Print · ಮುದ್ರಣ</button>
+          </div>
+          <div class="layout-features">
+            <div class="feat-head">
+              <div class="feat-title typo-title">Type Features · ಅಕ್ಷರ ವೈಶಿಷ್ಟ್ಯಗಳು</div>
+              <div class="feat-sub typo-sub">OpenType Features · ಓಪನ್‌ಟೈಪ್ ವೈಶಿಷ್ಟ್ಯಗಳು</div>
+            </div>
+            <div class="feat-grid">
+              <div class="feat-tile">
+                <span class="feat-tag">Fractions · frac · ಭಿನ್ನಾಂಶಗಳು</span>
+                <span class="feat-demo typo-body">1/2 1/4 3/4 1/3 2/3</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Superscript · sups · ಸುಪರ್‌ಸ್ಕ್ರಿಪ್ಟ್</span>
+                <span class="feat-demo typo-body">E=mc2 · 10&#8314; · R&#178;</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Subscript · subs · ಸುಬ್‌ಸ್ಕ್ರಿಪ್ಟ್</span>
+                <span class="feat-demo typo-body">H2O · CO2 · C6H12O6</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Figures · onum / lnum · ಫಿಗರ್ಸ್</span>
+                <span class="feat-demo typo-body">0123456789</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Tabular · tnum · ಟ್ಯಾಬ್ಯುಲರ್</span>
+                <span class="feat-demo typo-body">123.45 1.23 98.7</span>
+              </div>
+              <div class="feat-tile">
+                <span class="feat-tag">Discretionary · dlig · ವೈವಾರಿಕೆ</span>
+                <span class="feat-demo typo-body">ff fi fl ffi ffl</span>
+              </div>
+            </div>
+            <div class="feat-note typo-note">Toggle these in the OpenType panel. Most Kannada fonts ship frac/sups/subs for Latin only — flip the checkboxes to compare. ಓಪನ್‌ಟೈಪ್ ಪ್ಯಾನೆಲ್‌ನಲ್ಲಿ ಇವುಗಳನ್ನು ಟಾಗಲ್ ಮಾಡಿ. ಹೆಚ್ಚಿನ ಕನ್ನಡ ಫಾಂಟ್‌ಗಳು ಲ್ಯಾಟಿನ್‌ಗೆ ಮಾತ್ರ frac/sups/subs ನೀಡುತ್ತವೆ — ಚೆಕ್‌ಬಾಕ್ಸ್‌ಗಳನ್ನು ಬದಲಿಸಿ ಹೋಲಿಸಿ.</div>
+          </div>
+        </div>
+
       </div>
 
       <div class="preview-grid" id="render-web-mockups">
@@ -1024,79 +1334,79 @@
       <div class="section">
         <div class="section-meta">
           <span class="section-tag">Print · ಮುದ್ರಣ ಪರೀಕ್ಷೆ</span>
-          <span class="section-desc">The loaded font in 6 print layouts — newspaper, magazine, book, cover, spec, stationery</span>
+          <span class="section-desc">The loaded font in 6 print layouts — newspaper, magazine, book, cover, spec, stationery. ಲೋಡ್ ಮಾಡಿದ ಫಾಂಟ್ ೬ ಮುದ್ರಣ ವಿನ್ಯಾಸಗಳಲ್ಲಿ — ದಿನಪತ್ರಿಕೆ, ಪತ್ರಿಕೆ, ಪುಸ್ತಕ, ಮುಖಪುಟ, ತಾಂತ್ರಿಕ, ಪತ್ರವ್ಯವಹಾರ.</span>
         </div>
         <div class="ctx-actions" style="margin:0 0 12px;">
-          <button class="btn export-btn" id="export-print-png">Export All PNG</button>
-          <button class="btn export-btn" id="export-print-pdf">Print All</button>
+          <button class="btn export-btn" id="export-print-png">Export All PNG · ಎಲ್ಲ PNG ರಫ್ತು</button>
+          <button class="btn export-btn" id="export-print-pdf">Print All · ಎಲ್ಲ ಮುದ್ರಿಸು</button>
         </div>
         <div class="subnav" id="print-subnav" data-panel="render-print-mockups">
-          <button class="sub-btn active" data-sub="mock-np">Newspaper</button>
-          <button class="sub-btn" data-sub="mock-mag">Magazine</button>
-          <button class="sub-btn" data-sub="mock-book">Book</button>
-          <button class="sub-btn" data-sub="mock-cover">Cover</button>
-          <button class="sub-btn" data-sub="mock-spec">Spec</button>
-          <button class="sub-btn" data-sub="mock-letter">Letter</button>
+          <button class="sub-btn active" data-sub="mock-np">Newspaper · ದಿನಪತ್ರಿಕೆ</button>
+          <button class="sub-btn" data-sub="mock-mag">Magazine · ಪತ್ರಿಕೆ</button>
+          <button class="sub-btn" data-sub="mock-book">Book · ಪುಸ್ತಕ</button>
+          <button class="sub-btn" data-sub="mock-cover">Cover · ಮುಖಪುಟ</button>
+          <button class="sub-btn" data-sub="mock-spec">Spec · ತಾಂತ್ರಿಕ</button>
+          <button class="sub-btn" data-sub="mock-letter">Letter · ಪತ್ರ</button>
         </div>
         <div class="preview-grid print-grid" id="render-print-mockups">
 
           <div class="mock-card ctx-card" id="mock-np">
-            <span class="mock-tag">01 — Newspaper</span>
+            <span class="mock-tag">01 — Newspaper · ದಿನಪತ್ರಿಕೆ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-np" data-fmt="png">PNG</button>
-              <button class="btn export-btn mock-btn" data-target="mock-np" data-fmt="print">Print</button>
+              <button class="btn export-btn mock-btn" data-target="mock-np" data-fmt="print">Print · ಮುದ್ರಣ</button>
             </div>
             <div class="layout-newspaper">
               <div class="np-top">
                 <div class="np-masthead">
-                  <div class="np-name typo-title text-title">ಅಕ್ಷರ ಪತ್ರಿಕೆ</div>
+                  <div class="np-name typo-title text-title">Akshara Patrike · ಅಕ್ಷರ ಪತ್ರಿಕೆ</div>
                 </div>
                 <div class="np-rules">
-                  <span class="np-meta typo-body">ಸೋಮವಾರ, ಜೂನ್ 2026</span>
-                  <span class="np-meta typo-body">ಅಂತಿಮ ಆವೃತ್ತಿ</span>
+                  <span class="np-meta typo-body">Monday, June 2026 · ಸೋಮವಾರ, ಜೂನ್ 2026</span>
+                  <span class="np-meta typo-body">Final Edition · ಅಂತಿಮ ಆವೃತ್ತಿ</span>
                   <span class="np-meta typo-body">₹5.00</span>
                 </div>
               </div>
               <div class="np-body">
                 <div>
-                  <div class="np-lead-hl typo-title text-title">ಅಕ್ಷರ ವಿನ್ಯಾಸ ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುತ್ತದೆ</div>
-                  <div class="np-deck typo-sub text-sub">ಅಕ್ಷರಶಾಸ್ತ್ರದ ಸತ್ಯತೆ ಮತ್ತೆ ಮುನ್ನೆಲೆಗೆ — ಪ್ರೀಮಿಯಂ ಪ್ರಕಾಶನದಲ್ಲಿ ಟೈಪೋಗ್ರಫಿಕ್ ದೃಢೀಕರಣದ ಪುನರಾಗಮನ.</div>
-                  <div class="np-text typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ಗ್ರಿಡ್, ಕ್ರಮಾನುಗತ, ಕಾರ್ಯ — ಈ ಮೂರು ತತ್ವಗಳು ಎಲ್ಲಾ ಪ್ರವೃತ್ತಿಗಳನ್ನು ಮೀರಿ ಉಳಿದಿವೆ. ಪರದೆಗಳು ಹೆಚ್ಚುತ್ತಿರುವಂತೆ ಮತ್ತು ಗಮನ ಕಡಿಮೆಯಾಗುತ್ತಿರುವಂತೆ, ಬೌಹೌಸ್ ಶಾಲೆಯ ಆಧಾರಭೂತ ನಿಯಮಗಳು ಇಂದಿಗೂ ಪ್ರಸ್ತುತ.</div>
+                  <div class="np-lead-hl typo-title text-title">Type Design Shapes Modern Identity · ಅಕ್ಷರ ವಿನ್ಯಾಸ ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುತ್ತದೆ</div>
+                  <div class="np-deck typo-sub text-sub">Typography's truth returns to forefront — typographic reinforcement returns in premium publishing. ಅಕ್ಷರಶಾಸ್ತ್ರದ ಸತ್ಯತೆ ಮತ್ತೆ ಮುನ್ನೆಲೆಗೆ — ಪ್ರೀಮಿಯಂ ಪ್ರಕಾಶನದಲ್ಲಿ ಟೈಪೋಗ್ರಫಿಕ್ ದೃಢೀಕರಣದ ಪುನರಾಗಮನ.</div>
+                  <div class="np-text typo-body text-body">Modern typography principles influence digital design systems. Grid, order, function — these three principles endure beyond all trends. As screens grow and attention shrinks, Bauhaus school's fundamental rules remain relevant. ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ಗ್ರಿಡ್, ಕ್ರಮಾನುಗತ, ಕಾರ್ಯ — ಈ ಮೂರು ತತ್ವಗಳು ಎಲ್ಲಾ ಪ್ರವೃತ್ತಿಗಳನ್ನು ಮೀರಿ ಉಳಿದಿವೆ. ಪರದೆಗಳು ಹೆಚ್ಚುತ್ತಿರುವಂತೆ ಮತ್ತು ಗಮನ ಕಡಿಮೆಯಾಗುತ್ತಿರುವಂತೆ, ಬೌಹೌಸ್ ಶಾಲೆಯ ಆಧಾರಭೂತ ನಿಯಮಗಳು ಇಂದಿಗೂ ಪ್ರಸ್ತುತ.</div>
                 </div>
                 <div class="np-sidebar">
                   <div class="np-sidebar-item">
-                    <div class="np-sidebar-hed typo-heading text-heading">ಹೊಸ ಲಿಪಿ ಬೆಂಬಲ</div>
-                    <div class="np-sidebar-txt typo-body text-body">ಒಡಿಯಾ, ದೇವನಾಗರಿ, ತಮಿಳು ಲಿಪಿಗಳು ಜಾಗತಿಕ ಟೈಪ್ ಸಂಭಾಷಣೆಗೆ ಪ್ರವೇಶಿಸುತ್ತಿವೆ.</div>
+                    <div class="np-sidebar-hed typo-heading text-heading">New Script Support · ಹೊಸ ಲಿಪಿ ಬೆಂಬಲ</div>
+                    <div class="np-sidebar-txt typo-body text-body">Odia, Devanagari, Tamil scripts entering global type conversation. ಒಡಿಯಾ, ದೇವನಾಗರಿ, ತಮಿಳು ಲಿಪಿಗಳು ಜಾಗತಿಕ ಟೈಪ್ ಸಂಭಾಷಣೆಗೆ ಪ್ರವೇಶಿಸುತ್ತಿವೆ.</div>
                   </div>
                   <div class="np-sidebar-item">
-                    <div class="np-sidebar-hed typo-heading text-heading">ವೇರಿಯಬಲ್ ಫಾಂಟ್</div>
-                    <div class="np-sidebar-txt typo-body text-body">ಒಂದು ವೇರಿಯಬಲ್ ಫಾಂಟ್ ಫೈಲ್ ಇಡೀ ಟೈಪ್ ಕುಟುಂಬವನ್ನು ಬದಲಿಸುತ್ತದೆ.</div>
+                    <div class="np-sidebar-hed typo-heading text-heading">Variable Fonts · ವೇರಿಯಬಲ್ ಫಾಂಟ್</div>
+                    <div class="np-sidebar-txt typo-body text-body">Single variable font file transforms entire type family. ಒಂದು ವೇರಿಯಬಲ್ ಫಾಂಟ್ ಫೈಲ್ ಇಡೀ ಟೈಪ್ ಕುಟುಂಬವನ್ನು ಬದಲಿಸುತ್ತದೆ.</div>
                   </div>
                 </div>
               </div>
               <div class="np-footer">
-                <span class="np-footer-txt typo-body text-title">ಅಕ್ಷರ ಪತ್ರಿಕೆ</span>
-                <span class="np-footer-txt typo-body">ಪುಟ A1</span>
+                <span class="np-footer-txt typo-body text-title">Akshara Patrike · ಅಕ್ಷರ ಪತ್ರಿಕೆ</span>
+                <span class="np-footer-txt typo-body">Page A1 · ಪುಟ A1</span>
               </div>
             </div>
           </div>
 
           <div class="mock-card ctx-card" id="mock-mag">
-            <span class="mock-tag">02 — Magazine Editorial</span>
+            <span class="mock-tag">02 — Magazine Editorial · ಪತ್ರಿಕೆ ಸಂಪಾದಕೀಯ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-mag" data-fmt="png">PNG</button>
-              <button class="btn export-btn mock-btn" data-target="mock-mag" data-fmt="print">Print</button>
+              <button class="btn export-btn mock-btn" data-target="mock-mag" data-fmt="print">Print · ಮುದ್ರಣ</button>
             </div>
             <div class="layout-magazine">
               <div class="mag-splash">
-                <div class="mag-issue-tag typo-sub text-sub">ಸಂಚಿಕೆ 24 · ಟೈಪೋಗ್ರಫಿ ವಿಶೇಷ</div>
-                <h2 class="mag-title typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</h2>
-                <p class="mag-deck typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಪ್ರಕಾಶನ ಜಗತ್ತಿನ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</p>
+                <div class="mag-issue-tag typo-sub text-sub">Issue 24 · Typography Special · ಸಂಚಿಕೆ 24 · ಟೈಪೋಗ್ರಫಿ ವಿಶೇಷ</div>
+                <h2 class="mag-title typo-title text-title">Aksharashilpa · ಅಕ್ಷರಶಿಲ್ಪ</h2>
+                <p class="mag-deck typo-body text-body">Modern typography principles influence the publishing world. ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಪ್ರಕಾಶನ ಜಗತ್ತಿನ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ.</p>
               </div>
               <div class="mag-footer">
                 <div>
-                  <div class="mag-footer-info typo-sub text-sub">ಜೂನ್ 2026</div>
-                  <div class="mag-footer-info typo-body text-note">ಅಂತಾರಾಷ್ಟ್ರೀಯ ಆವೃತ್ತಿ</div>
+                  <div class="mag-footer-info typo-sub text-sub">June 2026 · ಜೂನ್ 2026</div>
+                  <div class="mag-footer-info typo-body text-note">International Edition · ಅಂತಾರಾಷ್ಟ್ರೀಯ ಆವೃತ್ತಿ</div>
                 </div>
                 <div class="mag-price typo-title">₹399</div>
               </div>
@@ -1104,110 +1414,110 @@
           </div>
 
           <div class="mock-card ctx-card" id="mock-book">
-            <span class="mock-tag">03 — Book / Dense Body</span>
+            <span class="mock-tag">03 — Book / Dense Body · ಪುಸ್ತಕ / ঘন ಪಠ್ಯ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-book" data-fmt="png">PNG</button>
-              <button class="btn export-btn mock-btn" data-target="mock-book" data-fmt="print">Print</button>
+              <button class="btn export-btn mock-btn" data-target="mock-book" data-fmt="print">Print · ಮುದ್ರಣ</button>
             </div>
             <div class="layout-book">
-              <div class="book-chapter typo-sub text-sub">ಅಧ್ಯಾಯ IV · ಅಂತಾರಾಷ್ಟ್ರೀಯ ಶೈಲಿ</div>
-              <div class="book-title typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</div>
+              <div class="book-chapter typo-sub text-sub">Chapter IV · International Style · ಅಧ್ಯಾಯ IV · ಅಂತಾರಾಷ್ಟ್ರೀಯ ಶೈಲಿ</div>
+              <div class="book-title typo-title text-title">Aksharashilpa · ಅಕ್ಷರಶಿಲ್ಪ</div>
               <div class="book-body typo-body">
-                <span class="book-drop typo-title">ಅ</span><span class="text-body">ಕ್ಷರ ವಿನ್ಯಾಸದ ಸೂಕ್ಷ್ಮ ಅಧ್ಯಯನವು ಅದು ರಚಿತವಾದ ಸಾಂಸ್ಕೃತಿಕ ಕ್ಷಣವನ್ನು ಪ್ರತಿಬಿಂಬಿಸುತ್ತದೆ. ಪ್ರತಿಯೊಂದು ಟೈಪ್ಫೇಸ್ ತನ್ನ ಸೃಷ್ಟಿಯ ನೆನಪು, ಅದರ ಕಾಲದ ಉಪಕರಣಗಳು ಮತ್ತು ವಿನ್ಯಾಸಕಾರನ ಕೈಯ ಛಾಪನ್ನು ಹೊತ್ತುಕೊಂಡಿರುತ್ತದೆ. ಅಕ್ಷರಗಳ ನಡುವಿನ ಅಂತರ, ಒತ್ತಕ್ಷರಗಳ ಹರಿವು, ಗುಣಿತಾಕ್ಷರಗಳ ಸಮತೋಲನ — ಇವೆಲ್ಲವೂ ಓದುಗನ ಅನುಭವವನ್ನು ರೂಪಿಸುತ್ತವೆ.</span>
+                <span class="book-drop typo-title">ಅ</span><span class="text-body">A subtle study of type design reflects its created cultural moment. Every typeface carries memory of its creation, its era's tools and designer's hand imprint. The space between letters, flow of conjuncts, balance of gunitaksharas — all shape the reader's experience. ಅಕ್ಷರ ವಿನ್ಯಾಸದ ಸೂಕ್ಷ್ಮ ಅಧ್ಯಯನವು ಅದು ರಚಿತವಾದ ಸಾಂಸ್ಕೃತಿಕ ಕ್ಷಣವನ್ನು ಪ್ರತಿಬಿಂಬಿಸುತ್ತದೆ. ಪ್ರತಿಯೊಂದು ಟೈಪ್ಫೇಸ್ ತನ್ನ ಸೃಷ್ಟಿಯ ನೆನಪು, ಅದರ ಕಾಲದ ಉಪಕರಣಗಳು ಮತ್ತು ವಿನ್ಯಾಸಕಾರನ ಕೈಯ ಛಾಪನ್ನು ಹೊತ್ತುಕೊಂಡಿರುತ್ತದೆ. ಅಕ್ಷರಗಳ ನಡುವಿನ ಅಂತರ, ಒತ್ತಕ್ಷರಗಳ ಹರಿವು, ಗುಣಿತಾಕ್ಷರಗಳ ಸಮತೋಲನ — ಇವೆಲ್ಲವೂ ಓದುಗನ ಅನುಭವವನ್ನು ರೂಪಿಸುತ್ತವೆ.</span>
               </div>
               <div class="book-folio">
-                <span class="typo-body text-title">ಅಕ್ಷರಶಿಲ್ಪ</span>
+                <span class="typo-body text-title">Aksharashilpa · ಅಕ್ಷರಶಿಲ್ಪ</span>
                 <span class="typo-body">88</span>
               </div>
             </div>
           </div>
 
           <div class="mock-card ctx-card" id="mock-cover">
-            <span class="mock-tag">04 — Book / Monograph Cover</span>
+            <span class="mock-tag">04 — Book / Monograph Cover · ಪುಸ್ತಕ / এক'écriture ಮುಖಪುಟ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-cover" data-fmt="png">PNG</button>
-              <button class="btn export-btn mock-btn" data-target="mock-cover" data-fmt="print">Print</button>
+              <button class="btn export-btn mock-btn" data-target="mock-cover" data-fmt="print">Print · ಮುದ್ರಣ</button>
             </div>
             <div class="layout-cover">
               <div class="cover-grid"></div>
-              <div class="cover-pub typo-sub text-sub">ಅಕ್ಷರ ಪ್ರೆಸ್ · 2026</div>
+              <div class="cover-pub typo-sub text-sub">Akshara Press · 2026 · ಅಕ್ಷರ ಪ್ರೆಸ್ · 2026</div>
               <div class="cover-main">
                 <div class="cover-rule"></div>
-                <div class="cover-title typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</div>
-                <div class="cover-author typo-body text-body">ಲೇಖಕ: <strong>ದಾಸ ಮತ್ತು ಮುಲ್ಲರ್</strong></div>
+                <div class="cover-title typo-title text-title">Aksharashilpa · ಅಕ್ಷರಶಿಲ್ಪ</div>
+                <div class="cover-author typo-body text-body">Author: <strong>Dass & Müller</strong> · ಲೇಖಕ: <strong>ದಾಸ ಮತ್ತು ಮುಲ್ಲರ್</strong></div>
               </div>
               <div class="cover-spine">
-                <div class="cover-spine-txt typo-sub text-sub">ಅಕ್ಷರ ಪ್ರೆಸ್</div>
+                <div class="cover-spine-txt typo-sub text-sub">Akshara Press · ಅಕ್ಷರ ಪ್ರೆಸ್</div>
               </div>
             </div>
           </div>
 
           <div class="mock-card ctx-card" id="mock-spec">
-            <span class="mock-tag">05 — Dense Specification</span>
+            <span class="mock-tag">05 — Dense Specification · ઘನ ತಾಂತ್ರಿಕ ವಿವರಣೆ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-spec" data-fmt="png">PNG</button>
-              <button class="btn export-btn mock-btn" data-target="mock-spec" data-fmt="print">Print</button>
+              <button class="btn export-btn mock-btn" data-target="mock-spec" data-fmt="print">Print · ಮುದ್ರಣ</button>
             </div>
             <div class="layout-spec">
               <div class="spec-header">
                 <div>
-                  <div class="spec-brand typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ</div>
-                  <div class="spec-generic typo-body text-sub">ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುವ ಅಕ್ಷರ ವಿನ್ಯಾಸ</div>
+                  <div class="spec-brand typo-title text-title">Aksharashilpa · ಅಕ್ಷರಶಿಲ್ಪ</div>
+                  <div class="spec-generic typo-body text-sub">Type Design Shaping Modern Identity · ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುವ ಅಕ್ಷರ ವಿನ್ಯಾಸ</div>
                 </div>
                 <div class="spec-rx typo-title">Rx</div>
               </div>
               <div class="spec-section">
-                <div class="spec-section-title typo-sub">ಸೂಚನೆಗಳು</div>
-                <div class="spec-body typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸದ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ನಿಯಂತ್ರಿತ ಟೈಪೋಗ್ರಫಿಕ್ ಪರಿಸರದಲ್ಲಿ ಬಳಸಲು. ಎಲ್ಲಾ ಲಿಪಿ ವ್ಯವಸ್ಥೆಗಳನ್ನು ಒಳಗೊಂಡಿದೆ — ಲ್ಯಾಟಿನ್ ಮತ್ತು ದ್ವಿಮುಖ ಪಠ್ಯ.</div>
+                <div class="spec-section-title typo-sub">Indications · ಸೂಚನೆಗಳು</div>
+                <div class="spec-body typo-body text-body">Modern typography principles influence digital design. Use in controlled typographic environment. Includes all script systems — Latin and bilingual text. ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಡಿಜಿಟಲ್ ವಿನ್ಯಾಸದ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ನಿಯಂತ್ರಿತ ಟೈಪೋಗ್ರಫಿಕ್ ಪರಿಸರದಲ್ಲಿ ಬಳಸಲು. ಎಲ್ಲಾ ಲಿಪಿ ವ್ಯವಸ್ಥೆಗಳನ್ನು ಒಳಗೊಂಡಿದೆ — ಲ್ಯಾಟಿನ್ ಮತ್ತು ದ್ವಿಮುಖ ಪಠ್ಯ.</div>
               </div>
               <div class="spec-section">
-                <div class="spec-section-title typo-sub">ಪ್ರಮಾಣ ಮತ್ತು ನಿಯತಾಂಕಗಳು</div>
+                <div class="spec-section-title typo-sub">Dosage & Specifications · ಪ್ರಮಾಣ ಮತ್ತು ನಿಯತಾಂಕಗಳು</div>
                 <table class="spec-table">
                   <tr>
-                    <th class="typo-heading">ನಿಯತಾಂಕ</th>
-                    <th class="typo-heading">ಶಿಫಾರಸು</th>
-                    <th class="typo-heading">ಘಟಕ</th>
+                    <th class="typo-heading">Parameter · ನಿಯತಾಂಕ</th>
+                    <th class="typo-heading">Recommendation · ಶಿಫಾರಸು</th>
+                    <th class="typo-heading">Unit · ಘಟಕ</th>
                   </tr>
-                  <tr><td class="typo-body">ಅಕ್ಷರ ಗಾತ್ರ</td><td class="typo-body">10–12</td><td class="typo-body">pt</td></tr>
-                  <tr><td class="typo-body">ಸಾಲು ಅಂತರ</td><td class="typo-body">14–16</td><td class="typo-body">pt</td></tr>
-                  <tr><td class="typo-body">ಅಳತೆ</td><td class="typo-body">55–65</td><td class="typo-body">ch</td></tr>
-                  <tr><td class="typo-body">ಟ್ರ್ಯಾಕಿಂಗ್</td><td class="typo-body">0–10</td><td class="typo-body">u/em</td></tr>
+                  <tr><td class="typo-body">Type Size · ಅಕ್ಷರ ಗಾತ್ರ</td><td class="typo-body">10–12</td><td class="typo-body">pt</td></tr>
+                  <tr><td class="typo-body">Leading · ಸಾಲು ಅಂತರ</td><td class="typo-body">14–16</td><td class="typo-body">pt</td></tr>
+                  <tr><td class="typo-body">Measure · ಅಳತೆ</td><td class="typo-body">55–65</td><td class="typo-body">ch</td></tr>
+                  <tr><td class="typo-body">Tracking · ಟ್ರ್ಯಾಕಿಂಗ್</td><td class="typo-body">0–10</td><td class="typo-body">u/em</td></tr>
                 </table>
               </div>
               <div class="spec-warning">
                 <span class="spec-warn-icon">&#9651;</span>
-                <span class="spec-warn-text typo-body text-body">ಎಲ್ಲಾ ಟೈಪ್ಫೇಸ್ಗಳನ್ನು ಸೂಕ್ತ ಆಪ್ಟಿಕಲ್ ಕಾಳಜಿಯಿಂದ ನಿರ್ವಹಿಸಿ. ಅಕ್ಷರ ವಿನ್ಯಾಸ ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುತ್ತದೆ.</span>
+                <span class="spec-warn-text typo-body text-body">Handle all typefaces with appropriate optical care. Type design shapes modern identity. ಎಲ್ಲಾ ಟೈಪ್ಫೇಸ್ಗಳನ್ನು ಸೂಕ್ತ ಆಪ್ಟಿಕಲ್ ಕಾಳಜಿಯಿಂದ ನಿರ್ವಹಿಸಿ. ಅಕ್ಷರ ವಿನ್ಯಾಸ ಆಧುನಿಕ ಗುರುತನ್ನು ರೂಪಿಸುತ್ತದೆ.</span>
               </div>
             </div>
           </div>
 
           <div class="mock-card ctx-card" id="mock-letter">
-            <span class="mock-tag">06 — Corporate Stationery</span>
+            <span class="mock-tag">06 — Corporate Stationery · ಕಾರ್ಪೊರೆಟ್ ಪತ್ರವ್ಯವಹಾರ</span>
             <div class="mock-actions">
               <button class="btn export-btn mock-btn" data-target="mock-letter" data-fmt="png">PNG</button>
-              <button class="btn export-btn mock-btn" data-target="mock-letter" data-fmt="print">Print</button>
+              <button class="btn export-btn mock-btn" data-target="mock-letter" data-fmt="print">Print · ಮುದ್ರಣ</button>
             </div>
             <div class="layout-letter">
               <div class="letter-head">
                 <div>
-                  <div class="letter-co typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ ಲ್ಯಾಬ್ಸ್</div>
-                  <div class="letter-tagline typo-sub text-sub">ಅಕ್ಷರ. ನಿಖರತೆ. ಸ್ಪಷ್ಟತೆ.</div>
+                  <div class="letter-co typo-title text-title">Aksharashilpa Labs · ಅಕ್ಷರಶಿಲ್ಪ ಲ್ಯಾಬ್ಸ್</div>
+                  <div class="letter-tagline typo-sub text-sub">Letters. Precision. Clarity. · ಅಕ್ಷರ. ನಿಖರತೆ. ಸ್ಪಷ್ಟತೆ.</div>
                 </div>
-                <div class="letter-contact typo-body text-note">hello@akshara.press<br>+91 80 0000 0000<br>ಬೆಂಗಳೂರು, ಭಾರತ</div>
+                <div class="letter-contact typo-body text-note">hello@akshara.press<br>+91 80 0000 0000<br>Bengaluru, India · ಬೆಂಗಳೂರು, ಭಾರತ</div>
               </div>
               <div class="letter-stripe"></div>
               <div class="letter-body">
-                <div class="letter-ref typo-heading text-heading">1 ಜೂನ್ 2026 · ಉಲ್ಲೇಖ: ಅಕ್ಷ-2026-001</div>
-                <div class="letter-salutation typo-body text-note">ಆದರಣೀಯ ಅಕ್ಷರ ವಿನ್ಯಾಸಕರೇ,</div>
-                <div class="letter-text typo-body text-body">ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಪ್ರಕಾಶನ ಜಗತ್ತಿನ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ಈ ಪತ್ರವು ನಿಮ್ಮ ಆಯ್ಕೆಯ ಟೈಪ್ಫೇಸ್ ಪತ್ರವ್ಯವಹಾರದ ಪ್ರಮಾಣದಲ್ಲಿ ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ತೋರಿಸುತ್ತದೆ — ಓದುವಿಕೆ, ಬಣ್ಣ ಮತ್ತು ಲಯವನ್ನು ಅತ್ಯಂತ ಕಠಿಣ ಸಂದರ್ಭದಲ್ಲಿ ಪರೀಕ್ಷಿಸಲಾಗುತ್ತದೆ.</div>
+                <div class="letter-ref typo-heading text-heading">1 June 2026 · Ref: AKS-2026-001 · 1 ಜೂನ್ 2026 · ಉಲ್ಲೇಖ: ಅಕ್ಷ-2026-001</div>
+                <div class="letter-salutation typo-body text-note">Dear Type Designer, · ಆದರಣೀಯ ಅಕ್ಷರ ವಿನ್ಯಾಸಕರೇ,</div>
+                <div class="letter-text typo-body text-body">Modern typography principles influence the publishing world. This letter shows how your chosen typeface performs in correspondence at scale — legibility, colour and rhythm tested under extreme conditions. ಆಧುನಿಕ ಟೈಪೋಗ್ರಫಿಯ ತತ್ವಗಳು ಪ್ರಕಾಶನ ಜಗತ್ತಿನ ಮೇಲೆ ಪ್ರಭಾವ ಬೀರುತ್ತಲೇ ಇವೆ. ಈ ಪತ್ರವು ನಿಮ್ಮ ಆಯ್ಕೆಯ ಟೈಪ್ಫೇಸ್ ಪತ್ರವ್ಯವಹಾರದ ಪ್ರಮಾಣದಲ್ಲಿ ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ತೋರಿಸುತ್ತದೆ — ಓದುವಿಕೆ, ಬಣ್ಣ ಮತ್ತು ಲಯವನ್ನು ಅತ್ಯಂತ ಕಠಿಣ ಸಂದರ್ಭದಲ್ಲಿ ಪರೀಕ್ಷಿಸಲಾಗುತ್ತದೆ.</div>
                 <div class="letter-sig">
-                  <div class="letter-sig-name typo-title text-title">ಅಕ್ಷರಶಿಲ್ಪ ಲ್ಯಾಬ್ಸ್</div>
-                  <div class="letter-sig-title typo-sub text-sub">ಕ್ರಿಯೇಟಿವ್ ನಿರ್ದೇಶಕ, ಅಕ್ಷರ ವಿಭಾಗ</div>
+                  <div class="letter-sig-name typo-title text-title">Aksharashilpa Labs · ಅಕ್ಷರಶಿಲ್ಪ ಲ್ಯಾಬ್ಸ್</div>
+                  <div class="letter-sig-title typo-sub text-sub">Creative Director, Type Division · ಕ್ರಿಯೇಟಿವ್ ನಿರ್ದೇಶಕ, ಅಕ್ಷರ ವಿಭಾಗ</div>
                 </div>
               </div>
               <div class="letter-footer">
-                <span class="typo-body text-sub">ಅಕ್ಷರ ಪ್ರೆಸ್ · ಬೆಂಗಳೂರು</span>
-                <span class="typo-body">ಪುಟ 1 of 1</span>
+                <span class="typo-body text-sub">Akshara Press · Bengaluru · ಅಕ್ಷರ ಪ್ರೆಸ್ · ಬೆಂಗಳೂರು</span>
+                <span class="typo-body">Page 1 of 1 · ಪುಟ 1 of 1</span>
               </div>
             </div>
           </div>
@@ -1220,8 +1530,8 @@
     <div class="tab-panel" id="panel-decompose" role="tabpanel" aria-labelledby="tab-decompose" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Conjunct Decomposition</span>
-          <span class="section-desc">How conjuncts break down into half-forms and full forms</span>
+          <span class="section-tag">Conjunct Decomposition · ಒತ್ತಕ್ಷರ ವಿಭಜನೆ</span>
+          <span class="section-desc">How conjuncts break down into half-forms and full forms. ಒತ್ತಕ್ಷರಗಳು ಅರ್ಧ ರೂಪ ಮತ್ತು ಪೂರ್ಣ ರೂಪಗಳಾಗಿ ಹೇಗೆ ವಿಭಜನೆಯಾಗುತ್ತವೆ.</span>
         </div>
         <div class="decompose-grid" id="decompose-grid"></div>
       </div>
@@ -1230,11 +1540,11 @@
     <div class="tab-panel" id="panel-font-rules" role="tabpanel" aria-labelledby="tab-font-rules" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Font Rules</span>
-          <span class="section-desc">OpenType shaping rules, GSUB/GPOS lookups, and feature definitions</span>
+          <span class="section-tag">Font Rules · ಫಾಂಟ್ ನಿಯಮಗಳು</span>
+          <span class="section-desc">OpenType shaping rules, GSUB/GPOS lookups, and feature definitions. ಓಪನ್‌ಟೈಪ್ ಶೇಪಿಂಗ್ ನಿಯಮಗಳು, GSUB/GPOS ಲುಕപ്പ್‌ಗಳು ಮತ್ತು ವೈಶಿಷ್ಟ್ಯ ವ್ಯಾಖ್ಯಾನಗಳು.</span>
         </div>
         <div id="font-rules-content" class="font-rules">
-          <div class="metadata-empty">Load a font to view embedded rules</div>
+          <div class="metadata-empty">Load a font to view embedded rules. ನಿಯಮಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಫಾಂಟ್ ಲೋಡ್ ಮಾಡಿ.</div>
         </div>
       </div>
     </div>
@@ -1242,20 +1552,20 @@
     <div class="tab-panel" id="panel-waterfall" role="tabpanel" aria-labelledby="tab-waterfall" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Waterfall</span>
-          <span class="section-desc">Size progression — drag the range, type a sample, or click any line to edit it</span>
+          <span class="section-tag">Waterfall · ಗಾತ್ರ ಶ್ರೇಣಿ</span>
+          <span class="section-desc">Size progression — drag the range or type a sample. ಗಾತ್ರದ ಮೆಟ್ಟಿಲುಗಳು — ಗಾತ್ರ ಬದಲಿಸಿ ಅಥವಾ ಪಠ್ಯವನ್ನು ಟೈಪ್ ಮಾಡಿ.</span>
         </div>
         <div class="waterfall-toolbar">
-          <label class="wf-ctl">Min <span id="wf-min-val" class="wf-num">8px</span>
+          <label class="wf-ctl">Min · ಕನಿಷ್ಠ <span id="wf-min-val" class="wf-num">8px</span>
             <input type="range" id="wf-min" min="6" max="60" step="1" value="8">
           </label>
-          <label class="wf-ctl">Max <span id="wf-max-val" class="wf-num">96px</span>
+          <label class="wf-ctl">Max · ಗರಿಷ್ಠ <span id="wf-max-val" class="wf-num">96px</span>
             <input type="range" id="wf-max" min="12" max="140" step="1" value="96">
           </label>
-          <label class="wf-ctl wf-text">Sample
+          <label class="wf-ctl wf-text">Sample · ಪಠ್ಯ
             <input type="text" id="wf-text" value="ಕನ್ನಡ ಭಾಷೆ ಕರ್ನಾಟಕ">
           </label>
-          <button class="btn" id="wf-reset" title="Restore edited lines to the shared sample">Reset lines</button>
+          <button class="btn" id="wf-reset" title="Restore edited lines to the shared sample">Reset · ಮೊದಲಿನಂತೆ</button>
         </div>
         <div id="render-waterfall"></div>
       </div>
@@ -1264,8 +1574,8 @@
     <div class="tab-panel" id="panel-hinting" role="tabpanel" aria-labelledby="tab-hinting" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Hinting</span>
-          <span class="section-desc">Fine pixel sizes — where screen rendering is decided</span>
+          <span class="section-tag">Hinting · ಹಿಂಟಿಂಗ್</span>
+          <span class="section-desc">Fine pixel sizes — where screen rendering is decided. ಸೂಕ್ಷ್ಮ ಪಿಕ್ಸೆಲ್ ಗಾತ್ರಗಳು — ಸ್ಕ್ರೀನ್ ರೆಂಡರಿಂಗ್ ಗುಣಮಟ್ಟದ ಪರೀಕ್ಷೆ.</span>
         </div>
         <div id="render-hinting"></div>
         <div class="hinting-ua" id="hinting-ua"></div>
@@ -1275,12 +1585,12 @@
     <div class="tab-panel" id="panel-custom" role="tabpanel" aria-labelledby="tab-custom" tabindex="0">
       <div class="section">
         <div class="section-meta">
-          <span class="section-tag">Custom Text</span>
-          <span class="section-desc">Type your own test string</span>
+          <span class="section-tag">Custom Text · ಸ್ವಂತ ಪಠ್ಯ</span>
+          <span class="section-desc">Type your own test string. ನಿಮ್ಮ ಸ್ವಂತ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ ಪರೀಕ್ಷಿಸಿ.</span>
         </div>
         <div class="custom-input-area">
-          <span class="custom-input-label">Input</span>
-          <textarea class="custom-input" id="custom-input" placeholder="ನಿಮ್ಮ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..."></textarea>
+          <span class="custom-input-label">Input · ನಮೂದಿಸಿ</span>
+          <textarea class="custom-input" id="custom-input" placeholder="Type your text here... ನಿಮ್ಮ ಪಠ್ಯವನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..."></textarea>
           <div class="test-text" id="custom-render" style="margin-top:16px; min-height:40px;"></div>
         </div>
       </div>
@@ -1298,44 +1608,44 @@
 
 <!-- STATUS BAR -->
 <div class="status-bar">
-  <div class="status-item">size <span id="st-size">—</span></div>
-  <div class="status-item">leading <span id="st-lh">—</span></div>
-  <div class="status-item">tracking <span id="st-ls">—</span></div>
-  <div class="status-item">ligatures <span id="st-lig">on</span></div>
+  <div class="status-item">size · ಗಾತ್ರ <span id="st-size">—</span></div>
+  <div class="status-item">leading · ಲೀಡಿಂಗ್ <span id="st-lh">—</span></div>
+  <div class="status-item">tracking · ಟ್ರ್ಯಾಕಿಂಗ್ <span id="st-ls">—</span></div>
+  <div class="status-item">ligatures · ಲಿಗೇಚರ್ಸ್ <span id="st-lig">on</span></div>
   <div class="status-item" style="margin-left:auto;" id="st-font">—</div>
 </div>
 
 <!-- WALKTHROUGH TOUR -->
-<div class="tour-overlay" id="tour-overlay" role="dialog" aria-modal="true" aria-label="Portal walkthrough" hidden>
+<div class="tour-overlay" id="tour-overlay" role="dialog" aria-modal="true" aria-label="Portal walkthrough · ಪೋರ್ಟಲ್ ವಾಕ್‌ಥ್ರು" hidden>
   <div class="tour-deck">
     <div class="tour-head">
-      <span class="tour-brand">Type Test · ಕನ್ನಡ <em>journey</em></span>
-      <button class="tour-skip" id="tour-skip" type="button">Skip walkthrough ✕</button>
+      <span class="tour-brand">Type Test · ಕನ್ನಡ <em>journey · பயண</em></span>
+      <button class="tour-skip" id="tour-skip" type="button">Skip walkthrough ✕ · ವಾಕ್‌ಥ್ರು ತСеಲು ✕</button>
     </div>
     <div class="tour-body">
       <div class="tour-rail" id="tour-rail"></div>
       <div class="tour-stage" id="tour-stage"></div>
     </div>
     <div class="tour-foot">
-      <button class="tour-prev" id="tour-prev" type="button">← Back</button>
+      <button class="tour-prev" id="tour-prev" type="button">← Back · ಹಿಂದೆ</button>
       <span class="tour-count" id="tour-count"></span>
-      <button class="tour-next" id="tour-next" type="button">Continue →</button>
+      <button class="tour-next" id="tour-next" type="button">Continue → · ಮುಂದೆ →</button>
     </div>
   </div>
 </div>
 
 <!-- FEEDBACK DRAWER -->
-<div class="fb-drawer" id="fb-drawer" role="dialog" aria-label="Feedback workflow" hidden>
+<div class="fb-drawer" id="fb-drawer" role="dialog" aria-label="Feedback workflow · ಪ್ರತಿಕ್ರಿಯಾ ಕಾರ್ಯಪ್ರವಾಹ" hidden>
   <div class="fb-head">
     <div>
-      <span class="fb-title">Feedback</span>
-      <span class="fb-sub">Designer → Tester proofing loop</span>
+      <span class="fb-title">Feedback · ಪ್ರತಿಕ್ರಿಯೆ</span>
+      <span class="fb-sub">Designer → Tester proofing loop · ವಿನ್ಯಾಸಕ → ಪರೀಕ್ಷಕ ಪರಿಶೋಧನೆ ಚಕ್ರ</span>
     </div>
     <button class="fb-close" id="fb-close" type="button">✕</button>
   </div>
   <div class="fb-mode">
-    <button class="fb-mode-btn active" id="fb-mode-designer" type="button">Designer</button>
-    <button class="fb-mode-btn" id="fb-mode-tester" type="button">Tester</button>
+    <button class="fb-mode-btn active" id="fb-mode-designer" type="button">Designer · ವಿನ್ಯಾಸಕ</button>
+    <button class="fb-mode-btn" id="fb-mode-tester" type="button">Tester · ಪರೀಕ್ಷಕ</button>
   </div>
   <div class="fb-body" id="fb-body"></div>
   <div class="fb-foot" id="fb-foot"></div>
@@ -1958,6 +2268,122 @@ const allTestTexts = () => {
 function invalidateTestTextCache() { _testTextCache = null; }
 function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 
+// ── Language switcher (EN / KN) ─────────────────────────────
+// The UI strings are bilingual, e.g. "Overview · ಅವಲೋಕನ". This
+// splits every '·'-separated string into lang-en/lang-kn spans based
+// on script, then CSS (html[data-lang]) shows only the active one.
+
+const KN_RE = /[\u0C80-\u0CFF]/;
+const LANG_KEYS = ['placeholder', 'title', 'aria-label'];
+const _origAttrs = new WeakMap();
+const _attrEls = [];
+const _splitSet = new WeakSet();
+
+state.lang = localStorage.getItem('ttk-lang') === 'kn' ? 'kn' : 'en';
+
+function splitLangTextNode(tn) {
+  const raw = String(tn.nodeValue || '');
+  if (!raw.includes('\u00b7')) return false;
+  const frag = document.createDocumentFragment();
+  let any = false;
+  raw.split('\u00b7').forEach(seg => {
+    seg = seg.replace(/^\s+|\s+$/g, '');
+    if (!seg) return;
+    const span = document.createElement('span');
+    span.className = KN_RE.test(seg) ? 'lang-kn' : 'lang-en';
+    span.textContent = seg;
+    frag.appendChild(span);
+    any = true;
+  });
+  if (!any) return false;
+  tn.parentNode.replaceChild(frag, tn);
+  return true;
+}
+
+function collectLangAttrs(root) {
+  if (!root || root.nodeType !== 1) return;
+  root.querySelectorAll('[placeholder],[title],[aria-label]').forEach(el => {
+    if (_origAttrs.has(el)) return;
+    const o = {};
+    LANG_KEYS.forEach(k => { const v = el.getAttribute(k); if (v && v.includes('\u00B7')) o[k] = v; });
+    if (Object.keys(o).length) { _origAttrs.set(el, o); _attrEls.push(el); }
+  });
+}
+
+function applyLangAttrs(lang) {
+  _attrEls.forEach(el => {
+    const o = _origAttrs.get(el);
+    if (!o) return;
+    LANG_KEYS.forEach(k => {
+      if (!o[k]) return;
+      const parts = o[k].split('\u00B7').map(s => s.trim()).filter(Boolean);
+      if (!parts.length) return;
+      const kn = parts.filter(p => KN_RE.test(p));
+      const en = parts.filter(p => !KN_RE.test(p));
+      el.setAttribute(k, (lang === 'kn' ? (kn[0] || en[0]) : (en[0] || kn[0])));
+    });
+  });
+}
+
+function processBilingualRoot(root) {
+  if (!root) return;
+  const r = root.nodeType === 3 ? (root.parentNode || root) : root;
+  if (!r || r.nodeType !== 1) return;
+  collectLangAttrs(r);
+
+  // Snapshot candidate text nodes first — replacing a node during a live
+  // TreeWalker traversal invalidates the iterator mid-walk.
+  const walker = document.createTreeWalker(r, NodeFilter.SHOW_TEXT);
+  const toSplit = [];
+  let tn;
+  while ((tn = walker.nextNode())) {
+    const parent = tn.parentNode;
+    if (!parent) continue;
+    const tag = parent.nodeName;
+    if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TITLE' || tag === 'OPTION' || tag === 'TEXTAREA' || tag === 'SELECT') continue;
+    if (_splitSet.has(tn)) continue;
+    const raw = String(tn.nodeValue || '');
+    if (!raw.includes('\u00B7')) continue;
+    toSplit.push(tn);
+  }
+  toSplit.forEach(tn => { if (splitLangTextNode(tn)) _splitSet.add(tn); });
+}
+
+function applyLang(lang) {
+  state.lang = lang;
+  localStorage.setItem('ttk-lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dataset.lang = lang;
+  document.title = lang === 'kn' ? 'ಟೈಪ್ ಟೆಸ್ಟ್ — ಕನ್ನಡ' : 'Type Test — Kannada';
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.lang === lang);
+  });
+  applyLangAttrs(lang);
+}
+
+function initLangSwitcher() {
+  const root = document.getElementById('body') || document.body;
+  processBilingualRoot(root);
+  applyLang(state.lang);
+
+  document.querySelectorAll('.lang-toggle .lang-btn').forEach(b => {
+    b.addEventListener('click', () => applyLang(b.dataset.lang === 'kn' ? 'kn' : 'en'));
+  });
+
+  // Re-process dynamically-rendered content (panels, grids, waterfall…)
+  let pending = null;
+  const mo = new MutationObserver(muts => {
+    let need = false;
+    for (const m of muts) {
+      for (const node of m.addedNodes) {
+        if (node.nodeType === 1 || node.nodeType === 3) { processBilingualRoot(node); need = true; }
+      }
+    }
+    if (need && !pending) pending = setTimeout(() => { pending = null; applyLangAttrs(state.lang); }, 30);
+  });
+  mo.observe(document.body, { childList: true, subtree: true });
+}
+
 // ── renderer ──────────────────────────────────────────────
 let waterfallItems = [];
 
@@ -2532,23 +2958,23 @@ function profileScores(cov, shape, feat, layout) {
 }
 
 const PROFILE_ROLE_LABELS = {
-  display: { label: 'Display', kn: 'ಶೀರ್ಷಿಕೆ', hint: 'Posters · headers · large sizes' },
-  body: { label: 'Body', kn: 'ಪಠ್ಯ', hint: 'Paragraph text · continuous reading' },
-  ui: { label: 'Interface', kn: 'ಸಂವಹನ', hint: 'Apps · dashboards · data' },
-  print: { label: 'Print', kn: 'ಮುದ್ರಣ', hint: 'Books · newspapers · documents' }
+  display: { label: 'Display', kn: 'ಶೀರ್ಷಿಕೆ', hint: 'Posters · headers · large sizes. ಪೋಸ್ಟರ್‌ಗಳು ಮತ್ತು ದೊಡ್ಡ ಗಾತ್ರದ ಶೀರ್ಷಿಕೆಗಳು.' },
+  body: { label: 'Body', kn: 'ಪಠ್ಯ', hint: 'Paragraph text · continuous reading. ಸಾಲು ಪಠ್ಯ ಮತ್ತು ಸತತ ಓದುವಿಕೆ.' },
+  ui: { label: 'Interface', kn: 'ಸಂವಹನ', hint: 'Apps · dashboards · data. ಅಪ್ಲಿಕೇಶನ್ ಮತ್ತು ದತ್ತಾಂಶ ಪ್ರದರ್ಶನ.' },
+  print: { label: 'Print', kn: 'ಮುದ್ರಣ', hint: 'Books · newspapers · documents. ಪುಸ್ತಕಗಳು ಮತ್ತು ದಿನಪತ್ರಿಕೆಗಳು.' }
 };
 
 function profileMetricCards(m, shape, layout) {
   const cards = [];
   const push = (label, value, sub, hint) => cards.push({ label, value, sub, hint });
-  push('Units per Em', m.upm || '—', 'design grid', 'Coordinate system of the font');
-  push('Glyphs', m.numGlyphs || '—', 'total outlines', 'Number of glyphs in the font');
-  push('Ascender', m.ascender ?? '—', `${m.upm ? ((m.ascender / m.upm) * 100).toFixed(0) + '% em' : ''}`, 'Distance above baseline');
-  push('Descender', m.descender ?? '—', `${m.upm ? ((m.descender / m.upm) * 100).toFixed(0) + '% em' : ''}`, 'Distance below baseline');
-  push('x-height', m.xHeight ?? '—', `${m.upm && m.xHeight ? (m.xHeight / m.upm).toFixed(3) + ' em' : ''}`, 'Height of lowercase x');
-  push('Cap height', m.capHeight ?? '—', `${m.upm && m.capHeight ? (m.capHeight / m.upm).toFixed(3) + ' em' : ''}`, 'Height of capitals');
-  push('Weight class', m.weight ?? '—', 'OS/2 usWeightClass', 'Nominal stroke weight');
-  push('Measure', layout.measureEm + ' em', `${layout.charsPerLine} chars/line`, 'Body measure at 18px / 640px');
+  push('Units per Em · ಯುಪಿಎಂ', m.upm || '—', 'design grid · ವಿನ್ಯಾಸ ಗ್ರಿಡ್', 'Coordinate system of the font. ಫಾಂಟ್‌ನ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆ.');
+  push('Glyphs · ಅಕ್ಷರಗಳು', m.numGlyphs || '—', 'total outlines · ಒಟ್ಟು ವರ್ಣಗಳು', 'Number of glyphs in the font. ಫಾಂಟ್‌ನಲ್ಲಿರುವ ಒಟ್ಟು ಅಕ್ಷರಗಳ ಸಂಖ್ಯೆ.');
+  push('Ascender · ಅಸೆಂಡರ್', m.ascender ?? '—', `${m.upm ? ((m.ascender / m.upm) * 100).toFixed(0) + '% em' : ''}`, 'Distance above baseline. ಬೇಸ್‌ಲೈನ್‌ನ ಮೇಲಿರುವ ಅಂತರ.');
+  push('Descender · ಡಿಸೆಂಡರ್', m.descender ?? '—', `${m.upm ? ((m.descender / m.upm) * 100).toFixed(0) + '% em' : ''}`, 'Distance below baseline. ಬೇಸ್‌ಲೈನ್‌ನ ಕೆಳಗಿರುವ ಅಂತರ.');
+  push('x-height · x-ಗಾತ್ರ', m.xHeight ?? '—', `${m.upm && m.xHeight ? (m.xHeight / m.upm).toFixed(3) + ' em' : ''}`, 'Height of lowercase x. ಇಂಗ್ಲಿಷ್ x ಅಕ್ಷರದ ಗಾತ್ರ.');
+  push('Cap height · ಕ್ಯಾಪ್ ಗಾತ್ರ', m.capHeight ?? '—', `${m.upm && m.capHeight ? (m.capHeight / m.upm).toFixed(3) + ' em' : ''}`, 'Height of capitals. ದೊಡ್ಡ ಅಕ್ಷರಗಳ ಗಾತ್ರ.');
+  push('Weight class · ತೂಕ', m.weight ?? '—', 'OS/2 usWeightClass', 'Nominal stroke weight. ಫಾಂಟ್‌ನ ತೂಕದ ವರ್ಗ.');
+  push('Measure · ಅಳತೆ', layout.measureEm + ' em', `${layout.charsPerLine} chars/line · ಅಕ್ಷರಗಳು/ಸಾಲು`, 'Body measure at 18px. ೧೮ಪಿಎಕ್ಸ್‌ನಲ್ಲಿ ಪಠ್ಯದ ಅಳತೆ.');
   return cards;
 }
 
@@ -2581,9 +3007,9 @@ function profileCompare() {
     rows = rows.filter(Boolean);
     profileState.lastCompare = rows;
     if (!wrap) return;
-    if (!rows.length) { wrap.innerHTML = '<div class="pf-empty">Load fonts to compare metrics across them.</div>'; return; }
+    if (!rows.length) { wrap.innerHTML = '<div class="pf-empty">Load fonts to compare metrics. ಫಾಂಟ್ ಲೋಡ್ ಮಾಡಿ.</div>'; return; }
     const rowHtml = (r) => `<tr class="${r.current ? 'pf-current' : ''}">
-      <td><span class="pf-fname">${esc(r.name)}</span>${r.current ? '<em class="pf-now">active</em>' : ''}</td>
+      <td><span class="pf-fname">${esc(r.name)}</span>${r.current ? '<em class="pf-now">active · ಸಕ್ರಿಯ</em>' : ''}</td>
       <td>${r.upm}</td><td>${r.glyphs}</td>
       <td><b>${r.coverage.toFixed(1)}%</b></td>
       <td>${r.shaping}%</td>
@@ -2591,7 +3017,7 @@ function profileCompare() {
       <td>${r.xRatio ? r.xRatio.toFixed(3) : '—'}</td>
     </tr>`;
     wrap.innerHTML = `<div class="pf-table-scroll"><table class="pf-table">
-      <thead><tr><th>Font</th><th>UPM</th><th>Glyphs</th><th>Coverage</th><th>Shaping</th><th>Features</th><th>x-h / em</th></tr></thead>
+      <thead><tr><th>Font · ಫಾಂಟ್</th><th>UPM</th><th>Glyphs · ಅಕ್ಷರ</th><th>Cov · ವ್ಯಾಪ್ತಿ</th><th>Shape · ರಚನೆ</th><th>Feat · ವೈಶಿಷ್ಟ್ಯ</th><th>x-h / em</th></tr></thead>
       <tbody>${rows.map(rowHtml).join('')}</tbody></table></div>`;
   }).catch(() => {});
 }
@@ -2603,7 +3029,7 @@ function renderProfile(profile) {
   if (nameEl) nameEl.textContent = profileFontLabel(profile.family);
   const metaEl = $('pf-meta');
   if (metaEl) {
-    metaEl.textContent = `${m.numGlyphs} glyphs · ${cov.supported}/${cov.total} Unicode codepoints · ${shape.pct}% conjunct shaping · ${m.features.length} OpenType features`;
+    metaEl.textContent = `${m.numGlyphs} glyphs · ${cov.supported}/${cov.total} Unicode codepoints · ${shape.pct}% conjunct shaping · ${m.features.length} OpenType features. ${m.numGlyphs} ಅಕ್ಷರಗಳು · ${cov.supported} ಯುನಿಕೋಡ್ ಕೋಡ್ ಪಾಯಿಂಟ್‌ಗಳು.`;
   }
   const overallEl = $('pf-overall');
   if (overallEl) overallEl.textContent = scores.overall;
@@ -2623,7 +3049,7 @@ function renderProfile(profile) {
       const r = PROFILE_ROLE_LABELS[role];
       const s = scores[role];
       return `<div class="score-row">
-        <span class="score-role">${r.label}<em>${r.kn}</em></span>
+        <span class="score-role">${r.label} <em>${r.kn}</em></span>
         <span class="score-bar"><span class="score-fill" style="width:${s}%;background:var(--accent)"></span></span>
         <span class="score-val">${s}</span>
       </div>`;
@@ -2633,9 +3059,9 @@ function renderProfile(profile) {
   const covEl = $('pf-coverage');
   if (covEl) {
     const bars = [
-      { label: 'Unicode coverage', kn: 'ಕನ್ನಡ ಕೋಡ್‌ಪಾಯಿಂಟ್‌ಗಳು', pct: cov.pct, txt: `${cov.supported} / ${cov.total} codepoints` },
+      { label: 'Unicode coverage', kn: 'ಲಿಪಿ ವ್ಯಾಪ್ತಿ', pct: cov.pct, txt: `${cov.supported} / ${cov.total} codepoints` },
       { label: 'Conjunct shaping', kn: 'ಒತ್ತಕ್ಷರ ರಚನೆ', pct: shape.pct, txt: `${shape.shaped} / ${shape.total} complex clusters shaped` },
-      { label: 'Indic features', kn: 'ಇಂಡಿಕ್ OpenType', pct: feat.essentialPct, txt: `${feat.indic.present.length} / ${PROFILE_INDIC_FEATURES.length} essential features` }
+      { label: 'Indic features', kn: 'ಇಂಡಿಕ್ ವೈಶಿಷ್ಟ್ಯಗಳು', pct: feat.essentialPct, txt: `${feat.indic.present.length} / ${PROFILE_INDIC_FEATURES.length} essential features` }
     ];
     covEl.innerHTML = bars.map(b =>
       `<div class="prog-block"><div class="prog-head"><span class="prog-label">${b.label} <em>${b.kn}</em></span><span class="prog-val">${b.pct}%</span></div>
@@ -2653,16 +3079,16 @@ function renderProfile(profile) {
     const worst = shape.worst;
     diagEl.innerHTML = `
       <div class="diag-card ${cov.missing.length ? 'warn' : 'ok'}">
-        <span class="diag-title">Tofu risk · ${cov.missing.length}${cov.missing.length ? ' missing' : ' none'}</span>
-        ${cov.missing.length ? `<div class="diag-body">${chips}</div>` : '<div class="diag-body diag-clean">Every assigned Kannada codepoint maps to a real glyph in the cmap.</div>'}
+        <span class="diag-title">Tofu risk · ಟೋಫು ಅಪಾಯ · ${cov.missing.length}${cov.missing.length ? ' missing' : ' none'}</span>
+        ${cov.missing.length ? `<div class="diag-body">${chips}</div>` : '<div class="diag-body diag-clean">Every assigned Kannada codepoint maps to a real glyph. ಎಲ್ಲಾ ಕನ್ನಡ ಅಕ್ಷರಗಳು ಲಭ್ಯವಿವೆ.</div>'}
       </div>
       <div class="diag-card ${shape.pct >= 85 ? 'ok' : 'warn'}">
-        <span class="diag-title">Conjunct integrity · ${shape.pct}% shaped</span>
-        <div class="diag-body">${worst ? `Widest cluster ratio: <b class="pf-mono">${worst.cluster}</b> at ${worst.ratio.toFixed(2)}× the naive advance — clusters should compress well below 1× when the shaper forms conjuncts.` : 'No clusters measured.'}</div>
+        <span class="diag-title">Conjunct integrity · ಒತ್ತಕ್ಷರ ರಚನೆ · ${shape.pct}% shaped</span>
+        <div class="diag-body">${worst ? `Widest cluster ratio: <b class="pf-mono">${worst.cluster}</b> at ${worst.ratio.toFixed(2)}× advance.` : 'No clusters measured.'}</div>
       </div>
       <div class="diag-card ${feat.indic.missing.length ? 'warn' : 'ok'}">
-        <span class="diag-title">Indic features · ${feat.indic.present.length}/${PROFILE_INDIC_FEATURES.length}</span>
-        <div class="diag-body">${indicChips || '<span class="diag-clean">None declared</span>'}</div>
+        <span class="diag-title">Indic features · ಇಂಡಿಕ್ ವೈಶಿಷ್ಟ್ಯಗಳು · ${feat.indic.present.length}/${PROFILE_INDIC_FEATURES.length}</span>
+        <div class="diag-body">${indicChips || '<span class="diag-clean">None declared · ಯಾವುವೂ ಇಲ್ಲ</span>'}</div>
       </div>`;
   }
 
@@ -2671,16 +3097,16 @@ function renderProfile(profile) {
 
 function renderProfileEmpty() {
   const nameEl = $('pf-name');
-  if (nameEl) nameEl.textContent = 'No font loaded';
+  if (nameEl) nameEl.textContent = 'No font loaded · ಫಾಂಟ್ ಲೋಡ್ ಆಗಿಲ್ಲ';
   const metaEl = $('pf-meta');
-  if (metaEl) metaEl.textContent = 'Load a font or pick a default to generate a quantitative typesetting profile.';
+  if (metaEl) metaEl.textContent = 'Load a font or pick a default to generate a typesetting profile. ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಫಾಂಟ್ ಲೋಡ್ ಮಾಡಿ.';
   const overallEl = $('pf-overall');
   if (overallEl) overallEl.textContent = '—';
   const ring = document.querySelector('.score-ring');
   if (ring) ring.style.setProperty('--score', '0deg');
   ['pf-metrics', 'pf-scores', 'pf-coverage', 'pf-diag'].forEach(id => {
     const el = $(id);
-    if (el) el.innerHTML = '<div class="pf-empty">Load a font to populate this profile.</div>';
+    if (el) el.innerHTML = '<div class="pf-empty">Load a font to populate this profile. ಫಾಂಟ್ ಲೋಡ್ ಮಾಡಿ.</div>';
   });
   profileState.lastProfile = null;
 }
@@ -2730,16 +3156,16 @@ function profileReportHTML(profile) {
   const metricCards = profileMetricCards(m, shape, layout).map(c =>
     `<div class="metric-card"><span class="metric-label">${c.label}</span><span class="metric-value">${c.value}</span><span class="metric-sub">${c.sub}</span></div>`
   ).join('');
-  const compareRows = profileState.lastCompare.length ? `<h3 class="pf-r-head">Loaded fonts comparison</h3>
-    <table class="pf-table"><thead><tr><th>Font</th><th>UPM</th><th>Glyphs</th><th>Coverage</th><th>Shaping</th><th>Features</th></tr></thead><tbody>
-    ${profileState.lastCompare.map(r => `<tr><td>${esc(r.name)}${r.current ? ' (active)' : ''}</td><td>${r.upm}</td><td>${r.glyphs}</td><td>${r.coverage.toFixed(1)}%</td><td>${r.shaping}%</td><td>${r.features}</td></tr>`).join('')}
+  const compareRows = profileState.lastCompare.length ? `<h3 class="pf-r-head">Loaded fonts comparison · ಫಾಂಟ್ ಹೋಲಿಕೆ</h3>
+    <table class="pf-table"><thead><tr><th>Font · ಫಾಂಟ್</th><th>UPM</th><th>Glyphs · ಅಕ್ಷರ</th><th>Cov · ವ್ಯಾಪ್ತಿ</th><th>Shape · ರಚನೆ</th><th>Feat · ವೈಶಿಷ್ಟ್ಯ</th></tr></thead><tbody>
+    ${profileState.lastCompare.map(r => `<tr><td>${esc(r.name)}${r.current ? ' (active · ಸಕ್ರಿಯ)' : ''}</td><td>${r.upm}</td><td>${r.glyphs}</td><td>${r.coverage.toFixed(1)}%</td><td>${r.shaping}%</td><td>${r.features}</td></tr>`).join('')}
     </tbody></table>` : '';
   return `<div class="profile-wrap">
     <div class="profile-hero">
       <div class="profile-ident">
         <span class="section-tag">Typesetting Profile · ಲಿಪಿ ವಿಶ್ಲೇಷಣೆ</span>
         <h2 class="profile-name">${esc(profileFontLabel(profile.family))}</h2>
-        <p class="profile-meta">${m.numGlyphs} glyphs · ${cov.supported}/${cov.total} Unicode codepoints · ${shape.pct}% conjunct shaping · ${m.features.length} OpenType features</p>
+        <p class="profile-meta">${m.numGlyphs} glyphs · ${cov.supported}/${cov.total} codepoints · ${shape.pct}% conjunct shaping · ${m.features.length} OpenType features</p>
       </div>
       <div class="profile-score">
         <div class="score-ring"><span class="score-num">${scores.overall}</span><em class="score-unit">/100</em></div>
@@ -2751,16 +3177,16 @@ function profileReportHTML(profile) {
       <div class="score-panel"><div class="profile-sub"><span class="section-tag">Suitability · ಯೋಗ್ಯತೆ</span></div><div class="score-list">${roleRows}</div></div>
       <div class="score-panel"><div class="profile-sub"><span class="section-tag">Coverage &amp; Shaping · ವ್ಯಾಪ್ತಿ</span></div>
         <div class="prog-list">
-          ${[['Unicode coverage', cov.pct, `${cov.supported} / ${cov.total} codepoints`], ['Conjunct shaping', shape.pct, `${shape.shaped} / ${shape.total} clusters`], ['Indic features', feat.essentialPct, `${feat.indic.present.length} / ${PROFILE_INDIC_FEATURES.length}`]].map(b =>
+          ${[['Unicode coverage · ಲಿಪಿ ವ್ಯಾಪ್ತಿ', cov.pct, `${cov.supported} / ${cov.total} codepoints`], ['Conjunct shaping · ಒತ್ತಕ್ಷರ ರಚನೆ', shape.pct, `${shape.shaped} / ${shape.total} complex clusters shaped`], ['Indic features · ಇಂಡಿಕ್ ವೈಶಿಷ್ಟ್ಯಗಳು', feat.essentialPct, `${feat.indic.present.length} / ${PROFILE_INDIC_FEATURES.length} features`]].map(b =>
             `<div class="prog-block"><div class="prog-head"><span class="prog-label">${b[0]}</span><span class="prog-val">${b[1]}%</span></div><span class="prog-bar"><span class="prog-fill" style="width:${b[1]}%"></span></span><span class="prog-sub">${b[2]}</span></div>`).join('')}
         </div>
       </div>
     </div>
     <div class="profile-block"><div class="profile-sub"><span class="section-tag">Diagnostics · ಪರೀಕ್ಷೆ</span></div>
       <div class="diag-grid">
-        <div class="diag-card"><span class="diag-title">Tofu risk · ${cov.missing.length ? cov.missing.length + ' missing' : 'none'}</span>
-          <div class="diag-body">${cov.missing.length ? cov.missing.slice(0, 30).map(x => `<span class="diag-chip miss">${String.fromCodePoint(x.cp)}</span>`).join('') : 'All assigned Kannada codepoints mapped.'}</div></div>
-        <div class="diag-card"><span class="diag-title">Indic features · ${feat.indic.present.length}/${PROFILE_INDIC_FEATURES.length}</span>
+        <div class="diag-card"><span class="diag-title">Tofu risk · ಟೋಫು ಅಪಾಯ · ${cov.missing.length ? cov.missing.length + ' missing' : 'none'}</span>
+          <div class="diag-body">${cov.missing.length ? cov.missing.slice(0, 30).map(x => `<span class="diag-chip miss">${String.fromCodePoint(x.cp)}</span>`).join('') : 'All Kannada codepoints mapped. ಎಲ್ಲಾ ಅಕ್ಷರಗಳು ಲಭ್ಯವಿವೆ.'}</div></div>
+        <div class="diag-card"><span class="diag-title">Indic features · ಇಂಡಿಕ್ ವೈಶಿಷ್ಟ್ಯಗಳು · ${feat.indic.present.length}/${PROFILE_INDIC_FEATURES.length}</span>
           <div class="diag-body">${feat.indic.present.map(f => `<span class="diag-chip ok">${f}</span>`).join('')}${feat.indic.missing.map(f => `<span class="diag-chip no">${f}</span>`).join('')}</div></div>
       </div>
     </div>
@@ -5555,6 +5981,7 @@ window.addEventListener('load', () => {
   updateUrl();
   restorePersistedFonts();
   initContextEngine();
+  initLangSwitcher();
 });
 
 // ── Walkthrough tour ────────────────────────────────────
